@@ -1,0 +1,61 @@
+{% extends 'city/base.html' %}
+
+{% block body %}
+	<div class="alert alert-primary" role="alert">
+	  A simple primary alert—check it out!
+	</div>
+
+	{% if all_city %}
+		<h1>Here are all cities: </h1>
+		<ul>
+			{% for city in all_city %}
+				<li><a href="/linkedhr/{{city.id}}/"> {{city.name}}</a></li>
+			{% endfor %}
+			<h3> Removing hard code</h3>
+			{% for city in all_city %}
+				{% if city.city_logo %}
+					<a href="{% url 'linkedhr:detail' city.id %}"> 
+						<img src = "{{ city.city_logo.url }}" class="img-responsive">
+					</a>
+				{% endif %}
+			
+				<li><a href="{% url 'linkedhr:detail' city.id %}"> {{city.name}}</a></li>
+				
+				<!-- Delete -->
+				<form action=" {% url 'linkedhr:city-delete' city.id %} " method="post" style="display: inline;">
+					{% csrf_token %}
+					<input type="hidden"  name="city_id" value="{{ city.id }}">
+					<button type="submit" class="btn btn-default btn-sm"> 
+						<span class="glyphicon glyphicon-trash"> Delete </span>
+					</button>
+				</form>
+			{% endfor %}
+		</ul>
+		{% if is_paginated %}
+			<ul class="pagination">
+			{% if page_obj.has_previous %}
+			    <li>
+			        <span><a href="?page={{ page_obj.previous_page_number }}">Previous</a></span>
+			    </li>
+			{% endif %}
+			    <li class="">
+			        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
+			    </li>
+			{% if page_obj.has_next %}
+			    <li>
+			        <span><a href="?page={{ page_obj.next_page_number }}">Next</a></span>
+			    </li>
+			{% endif %}
+			</ul>
+			{% else %}
+			    <h3>Your File Exam</h3>
+			    <p>File not yet available</p>
+		{% endif %}
+
+
+
+
+	{% else %}
+		<h1> Don't have any cities </h1>
+	{% endif %}
+{% endblock %}

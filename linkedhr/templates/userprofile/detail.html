@@ -1,0 +1,95 @@
+{% extends 'city/base.html' %}
+
+{% block body %}
+	
+	{% if user.is_authenticated %}
+
+		
+
+		{% if userprofile %}
+			<div class="userprofile">
+				<div class="user_profile">
+
+					<h3> Profile </h3>
+					<ul>
+						
+						{% for i in userprofile.0 %}
+							<li> <span>Full Name :</span>{{ i.user_id.first_name }} {{ i.user_id.last_name }}</li> 
+							<li> <span>Gender: </span>{{ i.sex }}</li>
+							<li> <span>Date of birth: </span>{{ i.date_of_birth }} </li>
+							<li> <span>Present Address: </span>{{ i.city }} </li>
+							<li> <span>Email: </span>{{ i.email }} </li>
+							<li> <span>Phone number: </span>{{ i.phone_number }} </li>
+							<li> <span>Description: </span>{{ i.description }} </li>
+						{% endfor %}
+						
+					</ul>
+					{% for i in userprofile.0 %}
+						<a type="submit" class="btn btn-success" href="{% url 'linkedhr:userprofile-update' i.id  %}"> Edit </a>
+					{% endfor %}
+				</div>
+				<div>
+			
+				<div class="user_ed">
+					<h3> Educations </h3>
+					{% for i in userprofile.1 %}
+						<ul>
+							
+							<li><span class="mb-1">Institute:<span> {{ i.institute }} </li>
+							<li><span class="krotis_span">Majority:</span> {{ i.majority }}</li>
+							<li><span class="krotis_span">Degree:</span> {{ i.degree }}</li>
+							<li><span class="krotis_span">From:</span> {{ i.start_education_at }} To {{ i.graduation_at }} </li>
+							<li><span class="krotis_span">Description:</span> {{ i.description }} </li>
+						</ul>
+						<a type="submit" class="btn btn-success" href="{% url 'linkedhr:education-update' i.id  %}"> Edit </a>
+						<a type="submit" class="btn btn-success" href="{% url 'linkedhr:usereducation' %}"> Add New </a>
+					{% endfor %}
+				</div>
+				<div class="user_ex">
+					<h3> Experiences </h3>
+					{% for i in userprofile.2 %}
+						<ul>
+							<li><span>Position: </span> {{ i.position }} </li>
+							<li><span>Company:</span> {{ i.company }}</li>
+							<li><span>From: </span>{{ i.start_date }} <span>To :</span> {{ i.due_date }}</li>
+						</ul>
+						
+						<div class="form-group">
+							<div>
+								<a type="submit" class="btn btn-success" href="{% url 'linkedhr:experience-update' i.id  %}"> Edit </a>
+								<a type="submit" class="btn btn-success" href="{% url 'linkedhr:userexperience' %}"> Add New </a>
+							</div>
+						</div>
+
+					{% endfor %}
+				</div>				
+			</div>
+
+		{% else %}
+			<h2> Register first !  </h2>
+		{% endif %}
+		{% if error_message %}
+			<p><strong> {{error_message}} </strong></p>
+		{% endif %}
+	{% else %}
+		<a href="{% url 'linkedhr:login'%} " >>>Login </a>
+	{% endif %}
+
+
+{% endblock %}
+
+
+
+	<!-- <form action = " {% url 'locations:blow' city.id %}" method="POST">
+		{% csrf_token %}
+		{%  for district in city.district_set.all %}
+			<input type="radio" id="district{{ forloop.counter }}"" name="district" value="{{ district.id}}">
+			<label for="district{{ forloop.counter }}">
+				{{ district.name }}
+				{% if district.is_status %}
+					<p> True </p>
+				{% endif %}
+			</label>
+		{% endfor %}
+		<input type="submit" value ="False">
+	</form> -->

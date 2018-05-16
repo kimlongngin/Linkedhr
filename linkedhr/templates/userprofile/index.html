@@ -1,0 +1,23 @@
+{% extends 'city/base.html' %}
+
+{% block body %}
+	
+	{% if user.is_authenticated %}
+		<h2> All users:</h2>			
+							
+		{% if all_user_profile %}
+			<ul>
+				{% for user in all_user_profile %}
+
+					<li><a href="{% url 'linkedhr:myuserprofile_with_pk' pk=user.id %} "> {{user.user_id.first_name}}--{{user.user_id.last_name}}</a></li>
+					<li><a href="#"> {{user.created}}</a></li>	
+				{% endfor %}
+			</ul>
+		{% else %}
+			<h1> Don't have any profile </h1>
+		{% endif %}
+	{% else %}
+		<a href="{% url 'linkedhr:login'%} "> >>>Login </a>
+	{% endif %}
+
+{% endblock %}

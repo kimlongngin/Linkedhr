@@ -1,0 +1,34 @@
+{% extends 'city/base.html' %}
+
+{% block body %}
+	
+
+	<ul>
+		{%  for userprofile in userprofile.objects.all %}
+			<li> {{ userprofile.name }} </li>
+		{% endfor %}
+
+	</ul>
+
+	{% if error_message %}
+		<p><strong> {{error_message}} </strong></p>
+	{% endif %}
+	<h2>Form</h2>
+
+{% endblock %}
+
+
+
+	<!-- <form action = " {% url 'locations:blow' city.id %}" method="POST">
+		{% csrf_token %}
+		{%  for district in city.district_set.all %}
+			<input type="radio" id="district{{ forloop.counter }}"" name="district" value="{{ district.id}}">
+			<label for="district{{ forloop.counter }}">
+				{{ district.name }}
+				{% if district.is_status %}
+					<p> True </p>
+				{% endif %}
+			</label>
+		{% endfor %}
+		<input type="submit" value ="False">
+	</form> -->

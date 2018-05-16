@@ -1,0 +1,19 @@
+{% extends 'city/base.html' %}
+
+{% block body %}
+	{% if all_companies %}
+		{% for i in all_companies %}
+
+			<h1>{{ i.name }}</h1>
+			<p> {{ i.description }} </p>
+			<li><a href="{% url 'linkedhr:company-update' i.id %}"> Edit </a></li> 
+		
+		{% endfor %}
+	{% endif %}
+
+	{% if error_message %}
+		<p><strong> {{error_message}} </strong></p>
+	{% endif %}
+
+{% endblock %}
+
