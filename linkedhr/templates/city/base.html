@@ -112,10 +112,13 @@
 
 		</div>
 	</nav>
+	<main class="bd-content p-5" id="content" role="main">
+		<div class="container">
+			{% block body %}
 
-	{% block body %}
 
-
-	{% endblock %}
+			{% endblock %}
+		</div>
+	</main>
 </body>
 </html>

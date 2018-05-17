@@ -277,13 +277,9 @@ class UserProfileView(TemplateView):
 		if userprofiledata :
 			for i in userprofiledata:
 				return redirect('linkedhr:userprofile-update', i.pk) 
-		
-
-			#args = {'form':form, 'branches':branches}
-			#return render(request, self.template_name, args)
 		else:
-			return redirect('linkedhr:login')
-			#return render(request, self.template_name, {'form':form})
+			# return redirect('linkedhr:login')
+			return render(request, self.template_name, {'form':form})
 
 	def post(self, request):
 		if request.user.is_authenticated:
@@ -422,12 +418,14 @@ class UserFormView(View):
 
 	# process form data
 	def post(self, request):
+		print("Hello")
 		form = self.form_class(request.POST)
 		if form.is_valid():
 			user = form.save(commit=False) 
-
 			# Cleaned (Normalize) Data
 			username = form.cleaned_data['username']  
+			data = User.objects.filter(username=username)
+
 			password = form.cleaned_data['password']
 			user.set_password(password)
 			user.save()
