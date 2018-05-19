@@ -83,43 +83,62 @@ class  CompanyUpdateView(UpdateView):
 	model = Company 
 	fields = ['name', 'company_logo', 'email', 'phone_number', 'location', 'address', 'web_site', 'description', 'is_branch', 'is_status'] 
 
+
 # *********** Add Company ***************************
 class CompanyView(TemplateView):
 	template_name = 'company/company_create.html'
 	#form = UserProfileForm
 	
-	def get(self, request):
-		form = CompanyForm()
+	def get(self, request, *args, **kwargs):
+		form = UserProfileForm()
 		company = Company.objects.all()
 		args = {'form':form, 'company':company}
-		return render(request, self.template_name, args)
+
+		userprofiledata = UserProfile.objects.filter(user_id = request.user.id)
+		if userprofiledata :
+			return render(request, self.template_name, args)
+		else:
+			return redirect('linkedhr:login')
+			#return render(request, self.template_name, args)
+
+	#def get(self, request):
+		#form = CompanyForm()
+		#company = Company.objects.all()
+		#args = {'form':form, 'company':company}
+		#return render(request, self.template_name, args)
 		
 	def post(self, request):
 		form = CompanyForm(request.POST, request.FILES)
+		if request.user.is_authenticated():
+			userprofiledata = UserProfile.objects.filter(user_id = request.user.id)
+			if userprofiledata :
 
-		if form.is_valid:
-			post = form.save(commit=False)
-			post.user_id = request.user
-			post.save()
-			name = form.cleaned_data['name']
-			company_logo = form.cleaned_data['company_logo']
-			email = form.cleaned_data['email']
-			phone_number = form.cleaned_data['phone_number']
-			location = form.cleaned_data['location']
-			address = form.cleaned_data['address']
-			web_site = form.cleaned_data['web_site']
-			description = form.cleaned_data['description']
-			is_branch = form.cleaned_data['is_branch']
-			is_status = form.cleaned_data['is_status']
-			
-			if is_branch == True:
-				return redirect('linkedhr:branch')
-			# form = CompanyForm()
-			# return redirect('linkedhr:index')
-		
-		args = {'form':form, 'name':name}
-		return render(request, self.template_name, args)
-
+				if form.is_valid:
+					post = form.save(commit=False)
+					post.user_id = request.user
+					post.save()
+					name = form.cleaned_data['name']
+					company_logo = form.cleaned_data['company_logo']
+					email = form.cleaned_data['email']
+					phone_number = form.cleaned_data['phone_number']
+					location = form.cleaned_data['location']
+					address = form.cleaned_data['address']
+					web_site = form.cleaned_data['web_site']
+					description = form.cleaned_data['description']
+					is_branch = form.cleaned_data['is_branch']
+					is_status = form.cleaned_data['is_status']
+					
+					if is_branch == True:
+						return redirect('linkedhr:branch')
+					# form = CompanyForm()
+					# return redirect('linkedhr:index')
+				
+				args = {'form':form, 'name':name}
+				return render(request, self.template_name, args)
+			else:
+				return redirect('linkedhr:login')
+		else:
+			return redirect('linkedhr:login')
 
 # ***************************************************
 # **************** BLOCK ExPERIENCE *****************
@@ -162,26 +181,27 @@ class ExperienceView(TemplateView):
 
 	def post(self, request):
 		form = ExperienceForm(request.POST)
-		
-		if form.is_valid:
-			post = form.save(commit=False)
-			post.user_id = request.user
-			post.save()
-			position = form.cleaned_data['position']
-			company = form.cleaned_data['company']
-			start_date = form.cleaned_data['start_date']
-			due_date = form.cleaned_data['due_date']
-			description = form.cleaned_data['description']
-			is_status = form.cleaned_data['is_status']
+		if request.user.is_authenticated():
+			if form.is_valid:
+				post = form.save(commit=False)
+				post.user_id = request.user
+				post.save()
+				position = form.cleaned_data['position']
+				company = form.cleaned_data['company']
+				start_date = form.cleaned_data['start_date']
+				due_date = form.cleaned_data['due_date']
+				description = form.cleaned_data['description']
+				is_status = form.cleaned_data['is_status']
+				
+				CreateStage = Stage.objects.create(user_id = request.user, stage=3, description='User profile registration.')
+				UserProfile.objects.filter(user_id=request.user.id).update(authority=True)
+				CreateStage.save()	
+				return redirect('linkedhr:index')
 			
-			CreateStage = Stage.objects.create(user_id = request.user, stage=3, description='User profile registration.')
-			UserProfile.objects.filter(user_id=request.user.id).update(authority=True)
-			CreateStage.save()	
-			return redirect('linkedhr:index')
-		
-		args = {'form':form, 'text':text}
-		return render(request, self.template_name, args)
-
+			args = {'form':form, 'text':text}
+			return render(request, self.template_name, args)
+		else:
+			return redirect('linkedhr:login')
 
 # ************ Update Experience *******************
 # This view is for update the view of the Education
@@ -220,26 +240,27 @@ class EducationView(TemplateView):
 
 	def post(self, request):
 		form = EducationForm(request.POST)
-		
-		if form.is_valid:
-			post = form.save(commit=False)
-			post.user_id = request.user
-			post.save()
-			majority = form.cleaned_data['majority']
-			degree = form.cleaned_data['degree']
-			institute = form.cleaned_data['institute']
-			start_education_at = form.cleaned_data['start_education_at']
-			graduation_at = form.cleaned_data['graduation_at']
-			description = form.cleaned_data['description']
-			
-			CreateStage = Stage.objects.create(user_id = request.user, stage=2, description='User profile registration.')
-			CreateStage.save()	
+		if request.user.is_authenticated():
+			if form.is_valid:
+				post = form.save(commit=False)
+				post.user_id = request.user
+				post.save()
+				majority = form.cleaned_data['majority']
+				degree = form.cleaned_data['degree']
+				institute = form.cleaned_data['institute']
+				start_education_at = form.cleaned_data['start_education_at']
+				graduation_at = form.cleaned_data['graduation_at']
+				description = form.cleaned_data['description']
+				
+				CreateStage = Stage.objects.create(user_id = request.user, stage=2, description='User profile registration.')
+				CreateStage.save()	
 
-			return redirect('linkedhr:userexperience')
-		
-		args = {'form':form, 'text':text}
-		return render(request, self.template_name, args)
- 
+				return redirect('linkedhr:userexperience')
+			
+			args = {'form':form, 'text':text}
+			return render(request, self.template_name, args)
+ 		else:
+ 			return redirect('linkedhr:login')
 
 # This view is for update the view of the Education
 class  EducationUpdate(SuccessMessageMixin, UpdateView):
@@ -273,17 +294,22 @@ class UserProfileView(TemplateView):
 	#form = UserProfileForm
 	def get(self, request, *args, **kwargs):
 		form = UserProfileForm()
-		userprofiledata = UserProfile.objects.filter(user_id = request.user.id)
-		if userprofiledata :
-			for i in userprofiledata:
-				return redirect('linkedhr:userprofile-update', i.pk) 
+		
+		if request.user.is_authenticated():
+
+			userprofiledata = UserProfile.objects.filter(user_id = request.user.id)
+			if userprofiledata:
+				for i in userprofiledata:
+					return redirect('linkedhr:userprofile-update', i.pk) 
+			else:
+				#return redirect('linkedhr:login')
+				return render(request, self.template_name, {'form':form})
 		else:
-			# return redirect('linkedhr:login')
-			return render(request, self.template_name, {'form':form})
+			return redirect('linkedhr:login')
 
 	def post(self, request):
-		if request.user.is_authenticated:
 		
+		if request.user.is_authenticated():
 			form = UserProfileForm(request.POST)
 			if form.is_valid:
 				post = form.save(commit=False)
@@ -299,10 +325,14 @@ class UserProfileView(TemplateView):
 				
 				CreateStage = Stage.objects.create(user_id = request.user, stage=1, description='User profile registration.')
 				CreateStage.save()
+				
+				#user_profile_id=CreateStage.id
+				#request.session['user_profile_id'] =  user_profile_id
+				
 				if is_recruit == '2':
 					return redirect('linkedhr:usereducation')
 				else:
-					return redirect('linkedhr:register')
+					return redirect('linkedhr:company')
 			
 			args = {'form':form, 'text':text}
 			return render(request, self.template_name, args)
@@ -320,7 +350,7 @@ class UserProfileDetailTwoView(generic.ListView):
 	def get_queryset(self):
 		
 		#if self.request.user.is_authenticated:
-		if self.request.user.is_authenticated:
+		if self.request.user.is_authenticated():
 			try:
 				userprofile_data =UserProfile.objects.filter(user_id=self.request.user.id, is_status=True)
 	 			data_education = Education.objects.filter(user_id=self.request.user.id, is_status=True)
@@ -330,7 +360,6 @@ class UserProfileDetailTwoView(generic.ListView):
 	 		except UserProfile.DoesNotExist:
 				raise Http404(" User does not exist")
  		else:
- 			print("Login first !")
  			return redirect('linkedhr:login') 
 	
 
@@ -377,6 +406,8 @@ class  CityDelete(DeleteView):
 	model = City 
 	success_url = reverse_lazy('linkedhr:index')
 
+
+
 # User Login from the browser for the end user 
 class UserLoginView(View):
 	form_class = UserLoginForm
@@ -418,7 +449,7 @@ class UserFormView(View):
 
 	# process form data
 	def post(self, request):
-		print("Hello")
+	
 		form = self.form_class(request.POST)
 		if form.is_valid():
 			user = form.save(commit=False) 

@@ -12,12 +12,13 @@
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+								{% csrf_token %}
+								{% include 'city/form_template.html' %}
 								<input type ="text"  value= "{{ user.id }}" id="user_id" name = "user" hidden="true">
 								<div class="form-group">
 									<input type ="text"  value= "{{ user.id }}" id="user_id" name = "user" hidden="true">
 								</div>
-								{% csrf_token %}
-								{% include 'city/form_template.html' %}
+								
 								<div class="form-group">
 									<div class="col-sm-offset-2 col-sm-10">
 										<button type="submit" class="btn btn-success"> Next</button>

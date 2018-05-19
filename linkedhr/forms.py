@@ -20,11 +20,13 @@ class UserLoginForm(forms.ModelForm):
 
 class UserProfileForm(forms.ModelForm):
 	#user_id = forms.OneToOneField(User, related_name='profile')
-	description = forms.CharField(widget=forms.Textarea)
-
+	
+	description = forms.CharField(widget=forms.Textarea, required=True)
 	class Meta: 
 		model = UserProfile
 		fields = ['sex', 'date_of_birth', 'city', 'email','phone_number', 'is_recruit', 'description']
+		
+		
 
 class EducationForm(forms.ModelForm):
 	description = forms.CharField(widget=forms.Textarea)
@@ -34,8 +36,8 @@ class EducationForm(forms.ModelForm):
 		fields = ['majority','degree', 'institute', 'start_education_at', 'graduation_at', 'description']
 
 class ExperienceForm(forms.ModelForm):
-	position = forms.CharField(required=False)
-	company = forms.CharField(required=False)
+	position = forms.CharField(required=True)
+	company = forms.CharField(required=True)
 	description = forms.CharField(widget=forms.Textarea, required=False)
 
 	class Meta: 

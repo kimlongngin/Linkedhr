@@ -81,8 +81,8 @@ class Stage(models.Model):
 # Userprofile has two basic by one is recruitor and other one is job_applyer 
 
 IS_RECRUITE = (
-    ('1', 'Recruitor'),
-    ('2', 'Job Seeker'),
+    ('1', 'Recruiter'),
+    ('2', 'Seeker'),
 )
 class UserProfile(models.Model):
 

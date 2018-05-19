@@ -3,32 +3,191 @@
 {% block city_active %} Active {% endblock %}
 
 {% block body %}
+	
+	<style type="text/css">
+		#id_is_recruit, #id_phone_number, #id_sex, #id_date_of_birth, #id_city, #id_email{
+		 	display: block;
+			width: 100%;
+			height: 34px;
+			padding: 6px 12px;
+			font-size: 14px;
+			line-height: 1.42857143;
+			color: #555;
+			background-color: #fff;
+			background-image: none;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+			box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+			-webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+			-o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+			transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+		 }
+		#id_description{
+		 	display: block;
+			width: 100%;
+			padding: 6px 12px;
+			font-size: 14px;
+			line-height: 1.42857143;
+			color: #555;
+			background-color: #fff;
+			background-image: none;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+			box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+			-webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+			-o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+			transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+		 }
+		
 
+	</style>
 	
 	{% if user.is_authenticated %}
-	
-		<div class="container-fluid">
+
+
+		<div class="container">
+		<!-- <div class="container-fluid"> -->
+			<div class="row align-items-center">
+				<div class="row">
+					<div class="col-md-12 order-md-12">
+						<div class="panel panel-default">
+							<div class="panel-body">							
+								<h3 class="mb-3">Create user profile </h3> 
+								<hr class="mb-4">
+
+									<form class="needs-validation" action="" method="post" enctype="multipart/form-data">
+							            {% csrf_token %}
+										<div class="row">
+								            <div class="col-md-12 mb-3">
+								            	<div class="input-group-prepend">
+								                	<span class="text-danger small input-group-text"> {{ form.sex.errors }} 
+								                	</span>
+								                </div>
+
+								                <label for="id_sex">Gender: </label>
+								                {{ form.sex }}	
+								                <div class="invalid-feedback">
+								                  Valid sex is required.
+								                </div>
+								             </div>
+
+
+											<div class="col-md-12 mb-3">
+												
+												<div class="input-group-prepend">
+								                	<span class="text-danger small input-group-text"> {{ form.date_of_birth.errors }} 
+								                	</span>
+								                </div>
+								                <label for="lastName">Date of Birth:</label>
+								                {{ form.date_of_birth }}
+								                <div class="invalid-feedback">
+								                  Valid date of birth is required.
+								                </div>
+								            </div>
+
+								            <div class="col-md-12 mb-3">
+								            	<div class="input-group-prepend">
+								                	<span class="text-danger small input-group-text"> {{ form.city.errors }} 
+								                	</span>
+								                </div>
+								                <label for="lastName">City: </label>
+								                {{ form.city }}
+								                <div class="invalid-feedback">
+								                  Valid city is required.
+								                </div>
+								            </div>
+								            <div class="col-md-12 mb-3">
+								            	
+								            	<div class="input-group-prepend">
+								                	<span class="text-danger small input-group-text"> {{ form.email.errors }}
+								                	</span>
+								                </div>
+								                <label for="lastName">Email: </label>
+								                {{ form.email }}
+								                <div class="invalid-feedback">
+								                  Valid last name is required.
+								                </div>
+								            </div>
+											<div class="col-md-12 mb-3">
+								            	
+								            	<div class="input-group-prepend">
+								                	<span class="text-danger small input-group-text"> {{ form.phone_number.errors }}
+								                	</span>
+								                </div>
+								                <label for="lastName">Phone Number (optional): </label>
+								                {{ form.phone_number }}
+								               
+								            </div>
+								            <div class="col-md-12 mb-3">
+								            	
+								            	<div class="input-group-prepend">
+								                	<span class="text-danger small input-group-text"> {{ form.is_recruit.errors }}
+								                	</span>
+								                </div>
+								                <label for="lastName">What will you do ? : </label>
+								                {{ form.is_recruit }}
+								                <div class="invalid-feedback">
+								                  Valid your future plan required.
+								                </div>
+								            </div>	
+
+								            <div class="col-md-12 mb-3">
+								            	
+								            	<div class="input-group-prepend">
+								                	<span class="text-danger small input-group-text"> {{ form.description.errors }}
+								                	</span>
+								                </div>
+								                <label for="lastName">Description: </label>
+								                {{ form.description }}
+								                <div class="invalid-feedback">
+								                  Valid description is required.
+								                </div>
+								            </div>
+
+
+							           	</div>
+
+
+
+							            <hr class="mb-4">
+							            <button class="btn btn-primary btn-lg btn-block" type="submit">Save</button>
+							           
+
+							        </form>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<script type="text/javascript">
+			document.getElementById("id_sex").required = true;
+			document.getElementById("id_email").required = true;
+			document.getElementById("id_date_of_birth").required = true;
+			document.getElementById("id_is_recruit").required = true;
+			document.getElementById("id_city").required = true;
+			document.getElementById("id_description").required = true;
+		</script>
+
+		<!-- <div class="container-fluid">
 			<div class="row">
-				<div class="col-sm-12 col-md-7">
+				<div class="col-sm-12 col-md-12">
 					<div class="panel panel-default">
 						<div class="panel-body">
 						
-							<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+							<form class="form-horizontal needs-validation" action="" method="post" enctype="multipart/form-data">
 								<input type ="text"  value= "{{ user.id }}" id="user_id" name = "user" hidden="true">
-								<div class="form-group">
-									<div class="">
-					
-										<label class="control-label col-sm-2" for="artificial_user_name"> User Name: </label>	
-										<div class="col-sm-10">
-											<input type ="text"  value= "{{ user.username }}" id="user_name" name="user_name" placeholder="">	
-										</div>
-									</div>
-								</div>
+								
 								{% csrf_token %}
 								{% include 'city/form_template.html' %}
 								<div class="form-group">
 									<div class="col-sm-offset-2 col-sm-10">
-										<button type="submit" class="btn btn-success"> Next</button>
+										<button type="submit" class="btn btn-success"> Save >></button>
 									</div>
 								</div>
 							</form>
@@ -37,7 +196,9 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
+
+
 	{% else %}
 		<div>
 			<p> Please login ! </p>
