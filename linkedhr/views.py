@@ -11,10 +11,12 @@ from .models import City, UserProfile, Education, Stage, Experience, Branch, Com
 from .forms import BranchForm, UserForm, UserLoginForm, UserProfileForm, EducationForm, ExperienceForm, CompanyForm
 from django.contrib.auth.views import login, logout
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.utils.decorators import method_decorator
+
 from django.contrib.auth.models import User 
+
 
 
 # ***************************************************
@@ -93,20 +95,19 @@ class CompanyView(TemplateView):
 		form = UserProfileForm()
 		company = Company.objects.all()
 		args = {'form':form, 'company':company}
-
-		userprofiledata = UserProfile.objects.filter(user_id = request.user.id)
-		if userprofiledata :
-			return render(request, self.template_name, args)
+		if request.user.is_authenticated():
+			userprofiledata = UserProfile.objects.filter(user_id = request.user.id)
+			if userprofiledata :
+				for i in userprofiledata:
+					if i.is_recruit=='1':
+						return render(request, self.template_name, args)
+					else:
+						return render(request, 'company/error_company.html')
+			else:
+				return redirect('linkedhr:userprofile')
 		else:
 			return redirect('linkedhr:login')
-			#return render(request, self.template_name, args)
-
-	#def get(self, request):
-		#form = CompanyForm()
-		#company = Company.objects.all()
-		#args = {'form':form, 'company':company}
-		#return render(request, self.template_name, args)
-		
+	
 	def post(self, request):
 		form = CompanyForm(request.POST, request.FILES)
 		if request.user.is_authenticated():
@@ -157,28 +158,19 @@ class ExperienceView(TemplateView):
 	
 	def get(self, request):
 		form = ExperienceForm()
-		StageData= Stage.objects.filter(user_id = request.user.id, stage=2)
-		userprofiledata= UserProfile.objects.filter(user_id = request.user.id)
-		#IsEx = ExperienceCheck.objects.filter(user_id = request.user.id, is_experience=True)
-		
-		#args = {'form':form,'IsEx':IsEx}	
-		if userprofiledata.count()>0:
-			if StageData.count()>0:
+		if request.user.is_authenticated():	
+			StageData= Stage.objects.filter(user_id = request.user.id, stage=2)
+			userprofiledata= UserProfile.objects.filter(user_id = request.user.id)
+			if userprofiledata.count()>0:
 				for i in userprofiledata:
 					if i.is_recruit=='2':
 						return render(request, self.template_name, {'form':form})
-						
-						#if IsEx.count()>0:
-							#return render(request, self.template_name, {'form':form})
-						#else:
-							#return render(request, self.template_name, args)
 					else:
 						return render(request, 'userprofile/error_education_experience.html')
 			else:
-				return redirect('linkedhr:usereducation')			
+				return redirect('linkedhr:userprofile')
 		else:
-			return redirect('linkedhr:userprofile')
-
+			return redirect('linkedhr:login')
 	def post(self, request):
 		form = ExperienceForm(request.POST)
 		if request.user.is_authenticated():
@@ -210,6 +202,23 @@ class  ExperienceUpdate(SuccessMessageMixin, UpdateView):
 	success_message = "Experience was updated successfully"
 	fields = ['position', 'company', 'start_date', 'due_date', 'description'] 
 
+	def get_queryset(self):
+		
+		if self.request.user.is_authenticated():
+			userprofiledata =UserProfile.objects.filter(user_id=self.request.user.id, is_status=True)
+	 		if userprofiledata :
+				for i in userprofiledata:
+					if i.is_recruit=='2':
+						return render(request, self.template_name, {'form':form})
+					else:
+						return render(request, 'userprofile/error_education_experience.html')
+			else:
+				return redirect('linkedhr:userprofile')	 		
+ 		else:
+ 			return redirect('linkedhr:login') 
+	
+
+
 
 # ***************************************************
 # ************* BLOCK EDUCATION PROFILE *************
@@ -226,17 +235,20 @@ class EducationView(TemplateView):
 	
 	def get(self, request):
 		form = EducationForm()
-		userprofiledata = UserProfile.objects.filter(user_id = request.user.id)
-		if userprofiledata :
-			for i in userprofiledata:
-				if i.is_recruit=='2':
-					return render(request, self.template_name, {'form':form})
-				else:
-					#return redirect('linkedhr:error_education');
-					return render(request, 'userprofile/error_education_experience.html')
+		if request.user.is_authenticated():
+			userprofiledata = UserProfile.objects.filter(user_id = request.user.id)
+			if userprofiledata :
+				for i in userprofiledata:
+					if i.is_recruit=='2':
+						return render(request, self.template_name, {'form':form})
+					else:
+						#return redirect('linkedhr:error_education');
+						return render(request, 'userprofile/error_education_experience.html')
 
+			else:
+				return redirect('linkedhr:userprofile')
 		else:
-			return redirect('linkedhr:userprofile')
+			return redirect('linkedhr:login')
 
 	def post(self, request):
 		form = EducationForm(request.POST)
@@ -261,6 +273,10 @@ class EducationView(TemplateView):
 			return render(request, self.template_name, args)
  		else:
  			return redirect('linkedhr:login')
+ 	
+ 	
+    	
+
 
 # This view is for update the view of the Education
 class  EducationUpdate(SuccessMessageMixin, UpdateView):
@@ -337,9 +353,35 @@ class UserProfileView(TemplateView):
 			args = {'form':form, 'text':text}
 			return render(request, self.template_name, args)
  
+
+# *************************************************
+# ************ Update data of user profile ********
+# *************************************************
 class UserProfileUpdate(generic.UpdateView):
+	login_required = True
 	model = UserProfile 
-	fields = ['sex', 'date_of_birth', 'city', 'email', 'phone_number', 'is_recruit', 'description'] 
+	fields = ['sex', 'date_of_birth', 'country','city', 'nationality', 'email', 'phone_number', 'is_recruit', 'present_address','description']
+	
+	#form = UserProfileForm
+	def get_queryset(self):
+		if self.request.user.is_authenticated():
+			userprofiledata = UserProfile.objects.filter(user_id = self.request.user.id)
+			if userprofiledata:
+				for i in userprofiledata:
+					return userprofiledata
+			else:
+				return redirect('linkedhr:userprofile')
+		else:
+			userprofiledata=get_object_or_404(UserProfile, user_id = self.request.user.id)
+			return redirect('linkedhr:login')
+		
+
+	#@method_decorator(login_required)
+	#def dispatch(self, request, *args, **kwargs):
+		#return super(self.__class__, self).dispatch(request, *args, **kwargs)	
+
+
+	
 
 ## view detail of each userprofile by user_id
 class UserProfileDetailTwoView(generic.ListView):
@@ -358,7 +400,8 @@ class UserProfileDetailTwoView(generic.ListView):
 	 			userprofile = userprofile_data,data_education, data_experience
 	 			return userprofile
 	 		except UserProfile.DoesNotExist:
-				raise Http404(" User does not exist")
+				return redirect('linkedhr:userprofile')
+				#raise Http404(" User does not exist")
  		else:
  			return redirect('linkedhr:login') 
 	
@@ -432,6 +475,7 @@ class UserLoginView(View):
 					login(self.request, user)
 					return redirect('linkedhr:index')
 		return render(request, self.template_name, {'form':form})
+
 
 def auth_logout(request):
   logout(request)

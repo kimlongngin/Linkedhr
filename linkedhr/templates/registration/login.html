@@ -7,34 +7,38 @@
 		<p>Your username and password didn't match. Please try again.</p>
 	{% endif %}
 
+	{% if user.is_authenticated %}
+		<div>
+			<h3> User already logged in !!!</h3>
+		</div>
+	{% else %}
+	    <form class="form-signin" method="post" action="{% url 'linkedhr:login' %}">
+	    	{% csrf_token %}
+	      
+		    <div class="text-center mb-4">
+		        <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+		        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+	        </div>
 
-	
-    <form class="form-signin" method="post" action="{% url 'linkedhr:login' %}">
-    	{% csrf_token %}
-      
-	    <div class="text-center mb-4">
-	        <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-	        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        </div>
+	      	<div class="form-label-group">
+		        <input id="id_username" maxlength="254" name="username" class="form-control" placeholder="user name" required="" autofocus="" type="text">
+		        <label for="id_username" class="sr-only">User name</label>
+	      	</div>
 
-      	<div class="form-label-group">
-	        <input id="id_username" maxlength="254" name="username" class="form-control" placeholder="user name" required="" autofocus="" type="text">
-	        <label for="id_username" class="sr-only">User name</label>
-      	</div>
+	      	<div class="form-label-group">
+		    	<input id="id_password" name="password"  class="form-control" placeholder="Password" required="" type="password">
+		        <label for="id_password" >Password</label>
+	      	</div>
 
-      	<div class="form-label-group">
-	    	<input id="id_password" name="password"  class="form-control" placeholder="Password" required="" type="password">
-	        <label for="id_password" >Password</label>
-      	</div>
-
-	    <div class="checkbox mb-3">
-	        <label>
-	          <input value="remember-me" type="checkbox"> Remember me
-	        </label>
-	    </div>
-	    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-	    <p class="mt-5 mb-3 text-muted text-center">© 2017-2018</p>
-    </form>
+		    <div class="checkbox mb-3">
+		        <label>
+		          <input value="remember-me" type="checkbox"> Remember me
+		        </label>
+		    </div>
+		    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+		    <p class="mt-5 mb-3 text-muted text-center">© 2017-2018</p>
+	    </form>
+	{% endif %}
 
 
 	<!-- <form method="post" action="{% url 'linkedhr:login' %}">

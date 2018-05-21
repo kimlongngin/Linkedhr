@@ -5,7 +5,7 @@
 {% block body %}
 	
 	<style type="text/css">
-		#id_is_recruit, #id_phone_number, #id_sex, #id_date_of_birth, #id_city, #id_email{
+		#id_present_address, #id_country, #id_nationality, #id_is_recruit, #id_phone_number, #id_sex, #id_date_of_birth, #id_city, #id_email{
 		 	display: block;
 			width: 100%;
 			height: 34px;
@@ -23,7 +23,7 @@
 			-o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 			transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 		 }
-		#id_description{
+		 #id_description{
 		 	display: block;
 			width: 100%;
 			padding: 6px 12px;
@@ -88,14 +88,40 @@
 								            </div>
 
 								            <div class="col-md-12 mb-3">
-								            	<div class="input-group-prepend">
+												
+												<div class="input-group-prepend">
+								                	<span class="text-danger small input-group-text"> {{ form.country.errors }} 
+								                	</span>
+								                </div>
+								                <label for="lastName">Country:</label>
+								                {{ form.country }}
+								                <div class="invalid-feedback">
+								                  Valid country is required.
+								                </div>
+								            </div>
+
+								            <div class="col-md-12 mb-3">
+												
+												<div class="input-group-prepend">
 								                	<span class="text-danger small input-group-text"> {{ form.city.errors }} 
 								                	</span>
 								                </div>
-								                <label for="lastName">City: </label>
+								                <label for="lastName">City:</label>
 								                {{ form.city }}
 								                <div class="invalid-feedback">
 								                  Valid city is required.
+								                </div>
+								            </div>
+
+								            <div class="col-md-12 mb-3">
+								            	<div class="input-group-prepend">
+								                	<span class="text-danger small input-group-text"> {{ form.nationality.errors }} 
+								                	</span>
+								                </div>
+								                <label for="lastName">Nationality: </label>
+								                {{ form.nationality }}
+								                <div class="invalid-feedback">
+								                  Valid nationality is required.
 								                </div>
 								            </div>
 								            <div class="col-md-12 mb-3">
@@ -118,7 +144,9 @@
 								                </div>
 								                <label for="lastName">Phone Number (optional): </label>
 								                {{ form.phone_number }}
-								               
+								               <div class="invalid-feedback">
+								                  Valid your phone number required.
+								                </div>
 								            </div>
 								            <div class="col-md-12 mb-3">
 								            	
@@ -133,6 +161,21 @@
 								                </div>
 								            </div>	
 
+
+								            <div class="col-md-12 mb-3">
+												
+												<div class="input-group-prepend">
+								                	<span class="text-danger small input-group-text"> {{ form.present_address.errors }} 
+								                	</span>
+								                </div>
+								                <label for="lastName">Present Address:</label>
+								                {{ form.present_address }}
+								                <!-- <div class="invalid-feedback">
+								                  Valid present address is required.
+								                </div> -->
+								            </div>
+
+
 								            <div class="col-md-12 mb-3">
 								            	
 								            	<div class="input-group-prepend">
@@ -141,9 +184,9 @@
 								                </div>
 								                <label for="lastName">Description: </label>
 								                {{ form.description }}
-								                <div class="invalid-feedback">
+								                <!--<div class="invalid-feedback">
 								                  Valid description is required.
-								                </div>
+								                </div> -->
 								            </div>
 
 
@@ -171,7 +214,22 @@
 			document.getElementById("id_date_of_birth").required = true;
 			document.getElementById("id_is_recruit").required = true;
 			document.getElementById("id_city").required = true;
-			document.getElementById("id_description").required = true;
+			document.getElementById("id_phone_number").required = true;
+			document.getElementById("id_country").required = true;
+			document.getElementById("id_nationality").required = true;
+			document.getElementById("id_phone_number").required = true;
+			document.getElementById("id_description").rows="3"
+
+
+			document.getElementById("id_present_address").placeholder="country/city/street No/home No"
+			document.getElementById("id_email").placeholder = "example@mail.com";
+			document.getElementById("id_phone_number").placeholder = "(855)1012345678";
+			document.getElementById("id_country").placeholder = "Cambodia";
+			document.getElementById("id_city").placeholder = "Phnom Penh";
+			document.getElementById("id_nationality").placeholder = "Khmer";
+
+
+
 		</script>
 
 		<!-- <div class="container-fluid">

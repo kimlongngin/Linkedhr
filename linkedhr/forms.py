@@ -21,10 +21,11 @@ class UserLoginForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
 	#user_id = forms.OneToOneField(User, related_name='profile')
 	
-	description = forms.CharField(widget=forms.Textarea, required=True)
+	description = forms.CharField(widget=forms.Textarea, required=False)
+	present_address = forms.CharField(widget=forms.Textarea, required=False)
 	class Meta: 
 		model = UserProfile
-		fields = ['sex', 'date_of_birth', 'city', 'email','phone_number', 'is_recruit', 'description']
+		fields = ['user_id', 'sex', 'date_of_birth', 'country', 'city', 'nationality','email','phone_number','present_address', 'description', 'is_recruit']
 		
 		
 
