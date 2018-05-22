@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
 from django.contrib.messages.views import SuccessMessageMixin
-
+from django.contrib import messages
 from django.contrib.auth.models import User 
 
 
@@ -203,7 +203,7 @@ class  ExperienceUpdate(SuccessMessageMixin, UpdateView):
 	fields = ['position', 'company', 'start_date', 'due_date', 'description'] 
 
 	def get_queryset(self):
-		
+		form = ExperienceForm()
 		if self.request.user.is_authenticated():
 			userprofiledata =UserProfile.objects.filter(user_id=self.request.user.id, is_status=True)
 	 		if userprofiledata :
@@ -273,9 +273,6 @@ class EducationView(TemplateView):
 			return render(request, self.template_name, args)
  		else:
  			return redirect('linkedhr:login')
- 	
- 	
-    	
 
 
 # This view is for update the view of the Education
@@ -305,8 +302,9 @@ class  EducationUpdate(SuccessMessageMixin, UpdateView):
 	#obj = UserProfileSession(user_pk)
 	#obj.StoreUserProfileSess()
 
-class UserProfileView(TemplateView):
+class UserProfileView(SuccessMessageMixin, TemplateView):
 	template_name = 'userprofile/user_create.html'
+	success_message = "User Profile was created successfully"
 	#form = UserProfileForm
 	def get(self, request, *args, **kwargs):
 		form = UserProfileForm()
@@ -357,30 +355,35 @@ class UserProfileView(TemplateView):
 # *************************************************
 # ************ Update data of user profile ********
 # *************************************************
-class UserProfileUpdate(generic.UpdateView):
-	login_required = True
+
+class UserProfileUpdate(SuccessMessageMixin, generic.UpdateView):
 	model = UserProfile 
 	fields = ['sex', 'date_of_birth', 'country','city', 'nationality', 'email', 'phone_number', 'is_recruit', 'present_address','description']
+	success_url = reverse_lazy('linkedhr:myuserprofile_without_pk')
+	success_message = "updated successfully"
 	
-	#form = UserProfileForm
-	def get_queryset(self):
+	#def get_success_url(self):
+		#return redirect('linkedhr:userprofile-update', self.kwargs['pk'])
+
+
+	def dispatch(self, request, *args, **kwargs):
+		if request.user.is_authenticated():
+			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
+		else:
+			return redirect('linkedhr:login')  
+
+	def get_object(self):
 		if self.request.user.is_authenticated():
-			userprofiledata = UserProfile.objects.filter(user_id = self.request.user.id)
-			if userprofiledata:
-				for i in userprofiledata:
-					return userprofiledata
-			else:
-				return redirect('linkedhr:userprofile')
+			obj = UserProfile.objects.get(id=self.kwargs['pk'])
+			#messages.add_message(self.request, messages.SUCCESS, 'Email sent successfully.')
+			return obj
 		else:
 			userprofiledata=get_object_or_404(UserProfile, user_id = self.request.user.id)
-			return redirect('linkedhr:login')
-		
+			return redirect('linkedhr:login') 
 
 	#@method_decorator(login_required)
 	#def dispatch(self, request, *args, **kwargs):
 		#return super(self.__class__, self).dispatch(request, *args, **kwargs)	
-
-
 	
 
 ## view detail of each userprofile by user_id
@@ -389,6 +392,14 @@ class UserProfileDetailTwoView(generic.ListView):
 	context_object_name = 'userprofile'
 	template_name =  'userprofile/detail.html'
 	
+
+	def dispatch(self, request, *args, **kwargs):
+		if self.request.user.is_authenticated():
+			userprofile_data =UserProfile.objects.filter(user_id=self.request.user.id, is_status=True)
+			return userprofile_data 
+		else:
+			return redirect('linkedhr:login')
+
 	def get_queryset(self):
 		
 		#if self.request.user.is_authenticated:
