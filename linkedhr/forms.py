@@ -46,14 +46,14 @@ class ExperienceForm(forms.ModelForm):
 		fields = ['position','company', 'start_date', 'due_date', 'description', 'is_status']
 
 class CompanyForm(forms.ModelForm):
+	company_logo= forms.FileField(required=False)
 	name = forms.CharField()
-	#company_logo = forms.FileField(required=False)
 	address = forms.CharField(widget=forms.Textarea)
 	description = forms.CharField(widget=forms.Textarea)
 
 	class Meta: 
 		model = Company
-		fields = ['name','company_logo','email', 'phone_number','location','web_site','address','description', 'is_branch', 'is_status']
+		fields = ['name','company_logo','email', 'phone_number','location','web_site','address','description', 'is_branch']
 
 class BranchForm(forms.ModelForm):
 	description = forms.CharField(widget=forms.Textarea)

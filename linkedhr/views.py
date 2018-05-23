@@ -31,33 +31,65 @@ class UpdateBranch(UpdateView):
 class BranchView(TemplateView):
 	template_name = 'branch/branch_create.html'
 	
+	def dispatch(self, request, *args, **kwargs):
+		if request.user.is_authenticated():
+			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
+		else:
+			return redirect('linkedhr:login') 
+
 	def get(self, request):
 		form = BranchForm()
-		branches = Branch.objects.all()
-		args = {'form':form, 'branches':branches}
-		return render(request, self.template_name, args)
+		if request.user.is_authenticated():
+			objCom = Company.objects.filter(user_id=request.user.id, is_status=True)
+			if objCom.count()<=0:
+				return redirect('linkedhr:company')
+
+			userprofiledata = UserProfile.objects.filter(user_id = request.user.id)
+			if userprofiledata :
+				for i in userprofiledata:
+					if i.is_recruit=='1':
+						branches = Branch.objects.all()
+						args = {'form':form, 'branches':branches}
+						return render(request, self.template_name, args)
+					else:
+						return render(request, 'company/error_company.html')
+			else:
+				return redirect('linkedhr:userprofile')
+		else:
+			return redirect('linkedhr:login')
 
 	def post(self, request):
 		form = BranchForm(request.POST)
 
-		if form.is_valid:
-			#post = form.save(commit=False)
-			#post.user_id = request.user
-			#post.save()
-			name = form.cleaned_data['name']
-			location = form.cleaned_data['location']
-			address = form.cleaned_data['address']
-			web_site = form.cleaned_data['web_site']
-			email = form.cleaned_data['email']
-			phone_number = form.cleaned_data['phone_number']
-			description = form.cleaned_data['description']
-			is_status = form.cleaned_data['is_status']
+		if request.user.is_authenticated():
+			objCom = Company.objects.filter(user_id=request.user.id, is_status=False)
+			print("Company")
+			print(objCom)
+			if objCom.count()<=0:
+				return direct('linkedhr:company')
 
-			return redirect('linkedhr:index')
-		
-		args = {'form':form, 'text':text}
-		return render(request, self.template_name, args)
-
+			userprofiledata = UserProfile.objects.filter(user_id = request.user.id)
+			if userprofiledata :
+				for i in userprofiledata:
+					if i.is_recruit=='1':
+						if form.is_valid:
+							company_id = objCom
+							name = form.cleaned_data['name']
+							location = form.cleaned_data['location']
+							address = form.cleaned_data['address']
+							web_site = form.cleaned_data['web_site']
+							email = form.cleaned_data['email']
+							phone_number = form.cleaned_data['phone_number']
+							description = form.cleaned_data['description']
+							
+						args = {'form':form, 'name':name}
+						return render(request, self.template_name, args)
+					else:
+						return render(request, 'company/error_company.html')
+			else:
+				return redirect('linkedhr:userprofile')
+		else:
+			return redirect('linkedhr:login') 
 
 
 
@@ -71,32 +103,59 @@ class BranchView(TemplateView):
 	#success_url = reverse_lazy('linkedhr:detailuserprofile')
 	#fields = ['user_id', 'name', 'location', 'company_logo', 'email', 'phone_number','description', 'is_status']
 
-
 # ********* Display of the company branch ***********
+
 class ListCompanyView(generic.ListView):
 	template_name =  'company/list_company.html'
 	context_object_name = 'all_companies'
 	paginate_by = 10
+
 	def get_queryset(self):
 		return Company.objects.filter(user_id=self.request.user.id);
 
+	def dispatch(self, request, *args, **kwargs):
+		if request.user.is_authenticated():
+			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
+		else:
+			return redirect('linkedhr:login') 
+
 # ********* Update Branch of the company ************
+
+def checkCompany(request):
+	return HttpResponse("Data already have")
+
 class  CompanyUpdateView(UpdateView):
 	model = Company 
 	fields = ['name', 'company_logo', 'email', 'phone_number', 'location', 'address', 'web_site', 'description', 'is_branch', 'is_status'] 
+	success_url = reverse_lazy('linkedhr:myuserprofile_without_pk')
+	success_message = "updated successfully"
 
+	def dispatch(self, request, *args, **kwargs):
+		if request.user.is_authenticated():
+			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
+		else:
+			return redirect('linkedhr:login')  
 
 # *********** Add Company ***************************
 class CompanyView(TemplateView):
 	template_name = 'company/company_create.html'
-	#form = UserProfileForm
-	
+	#success_message = "company created successfully"
+	def dispatch(self, request, *args, **kwargs):
+		if request.user.is_authenticated():
+			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
+		else:
+			return redirect('linkedhr:login')
+
 	def get(self, request, *args, **kwargs):
-		form = UserProfileForm()
+		form = CompanyForm()
 		company = Company.objects.all()
 		args = {'form':form, 'company':company}
 		if request.user.is_authenticated():
 			userprofiledata = UserProfile.objects.filter(user_id = request.user.id)
+			companydata = Company.objects.filter(user_id = request.user.id, is_status=True)
+			args = {'form':form, 'data':companydata}
+			if companydata.count()>0:
+				return render(request, self.template_name, args)
 			if userprofiledata :
 				for i in userprofiledata:
 					if i.is_recruit=='1':
@@ -113,31 +172,32 @@ class CompanyView(TemplateView):
 		if request.user.is_authenticated():
 			userprofiledata = UserProfile.objects.filter(user_id = request.user.id)
 			if userprofiledata :
-
-				if form.is_valid:
-					post = form.save(commit=False)
-					post.user_id = request.user
-					post.save()
-					name = form.cleaned_data['name']
-					company_logo = form.cleaned_data['company_logo']
-					email = form.cleaned_data['email']
-					phone_number = form.cleaned_data['phone_number']
-					location = form.cleaned_data['location']
-					address = form.cleaned_data['address']
-					web_site = form.cleaned_data['web_site']
-					description = form.cleaned_data['description']
-					is_branch = form.cleaned_data['is_branch']
-					is_status = form.cleaned_data['is_status']
-					
-					if is_branch == True:
-						return redirect('linkedhr:branch')
-					# form = CompanyForm()
-					# return redirect('linkedhr:index')
-				
-				args = {'form':form, 'name':name}
-				return render(request, self.template_name, args)
+				for i in userprofiledata:
+					if i.is_recruit=='1':
+						if form.is_valid:
+							post = form.save(commit=False)
+							post.user_id = request.user
+							post.save()
+							name = form.cleaned_data['name']
+							company_logo = form.cleaned_data['company_logo']
+							email = form.cleaned_data['email']
+							phone_number = form.cleaned_data['phone_number']
+							location = form.cleaned_data['location']
+							address = form.cleaned_data['address']
+							web_site = form.cleaned_data['web_site']
+							description = form.cleaned_data['description']
+							is_branch = form.cleaned_data['is_branch']
+							
+							if is_branch ==False :
+								return redirect('linkedhr:list_company')
+							else:
+								return redirect('linkedhr:branch')
+						args = {'form':form, 'name':name}
+						return render(request, self.template_name, args)
+					else:
+						return render(request, 'company/error_company.html')
 			else:
-				return redirect('linkedhr:login')
+				return redirect('linkedhr:userprofile')
 		else:
 			return redirect('linkedhr:login')
 
@@ -216,9 +276,6 @@ class  ExperienceUpdate(SuccessMessageMixin, UpdateView):
 				return redirect('linkedhr:userprofile')	 		
  		else:
  			return redirect('linkedhr:login') 
-	
-
-
 
 # ***************************************************
 # ************* BLOCK EDUCATION PROFILE *************
@@ -305,18 +362,21 @@ class  EducationUpdate(SuccessMessageMixin, UpdateView):
 class UserProfileView(SuccessMessageMixin, TemplateView):
 	template_name = 'userprofile/user_create.html'
 	success_message = "User Profile was created successfully"
-	#form = UserProfileForm
+	
+	def dispatch(self, request, *args, **kwargs):
+		if request.user.is_authenticated():
+			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
+		else:
+			return redirect('linkedhr:login')
+
 	def get(self, request, *args, **kwargs):
 		form = UserProfileForm()
-		
 		if request.user.is_authenticated():
-
 			userprofiledata = UserProfile.objects.filter(user_id = request.user.id)
 			if userprofiledata:
 				for i in userprofiledata:
 					return redirect('linkedhr:userprofile-update', i.pk) 
 			else:
-				#return redirect('linkedhr:login')
 				return render(request, self.template_name, {'form':form})
 		else:
 			return redirect('linkedhr:login')
@@ -394,11 +454,10 @@ class UserProfileDetailTwoView(generic.ListView):
 	
 
 	def dispatch(self, request, *args, **kwargs):
-		if self.request.user.is_authenticated():
-			userprofile_data =UserProfile.objects.filter(user_id=self.request.user.id, is_status=True)
-			return userprofile_data 
+		if request.user.is_authenticated():
+			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
 		else:
-			return redirect('linkedhr:login')
+			return redirect('linkedhr:login')  
 
 	def get_queryset(self):
 		
