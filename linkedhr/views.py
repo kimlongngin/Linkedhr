@@ -17,82 +17,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.contrib.auth.models import User 
 
-
-
-# ***************************************************
-# ****************** BLOCK BRANCH *******************
-# ***************************************************
-
-class UpdateBranch(UpdateView):
-	model = Company 
-	fields = ['name', 'location',  'address', 'web_site', 'email', 'phone_number', 'description'] 
-
-# Create branch in case each company has their branch
-class BranchView(TemplateView):
-	template_name = 'branch/branch_create.html'
-	
-	def dispatch(self, request, *args, **kwargs):
-		if request.user.is_authenticated():
-			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
-		else:
-			return redirect('linkedhr:login') 
-
-	def get(self, request):
-		form = BranchForm()
-		if request.user.is_authenticated():
-			objCom = Company.objects.filter(user_id=request.user.id, is_status=True)
-			if objCom.count()<=0:
-				return redirect('linkedhr:company')
-
-			userprofiledata = UserProfile.objects.filter(user_id = request.user.id)
-			if userprofiledata :
-				for i in userprofiledata:
-					if i.is_recruit=='1':
-						branches = Branch.objects.all()
-						args = {'form':form, 'branches':branches}
-						return render(request, self.template_name, args)
-					else:
-						return render(request, 'company/error_company.html')
-			else:
-				return redirect('linkedhr:userprofile')
-		else:
-			return redirect('linkedhr:login')
-
-	def post(self, request):
-		form = BranchForm(request.POST)
-
-		if request.user.is_authenticated():
-			objCom = Company.objects.filter(user_id=request.user.id, is_status=False)
-			print("Company")
-			print(objCom)
-			if objCom.count()<=0:
-				return direct('linkedhr:company')
-
-			userprofiledata = UserProfile.objects.filter(user_id = request.user.id)
-			if userprofiledata :
-				for i in userprofiledata:
-					if i.is_recruit=='1':
-						if form.is_valid:
-							company_id = objCom
-							name = form.cleaned_data['name']
-							location = form.cleaned_data['location']
-							address = form.cleaned_data['address']
-							web_site = form.cleaned_data['web_site']
-							email = form.cleaned_data['email']
-							phone_number = form.cleaned_data['phone_number']
-							description = form.cleaned_data['description']
-							
-						args = {'form':form, 'name':name}
-						return render(request, self.template_name, args)
-					else:
-						return render(request, 'company/error_company.html')
-			else:
-				return redirect('linkedhr:userprofile')
-		else:
-			return redirect('linkedhr:login') 
-
-
-
+from branch.views import BranchView
 
 
 # ***************************************************
@@ -120,9 +45,6 @@ class ListCompanyView(generic.ListView):
 			return redirect('linkedhr:login') 
 
 # ********* Update Branch of the company ************
-
-def checkCompany(request):
-	return HttpResponse("Data already have")
 
 class  CompanyUpdateView(UpdateView):
 	model = Company 

@@ -116,7 +116,7 @@ class Company(models.Model):
 	company_logo = models.FileField()
 	email = models.CharField(max_length=30)
 	phone_number = models.CharField(max_length=30)
-	location = models.ForeignKey(City, on_delete=models.CASCADE)
+	location = models.OneToOneField(City, on_delete=models.CASCADE)
 	address = models.CharField(max_length=150)
 	web_site = models.CharField(max_length=150)
 	description = models.TextField()
@@ -137,7 +137,7 @@ class Company(models.Model):
 
 # Brand has relationship with locations and company table 
 class Branch(models.Model):
-	company_id = models.ForeignKey(Company, on_delete=models.CASCADE)
+	com_id = models.ForeignKey(Company, on_delete=models.CASCADE)
 	name = models.CharField(max_length=30)
 	location = models.ForeignKey(City, on_delete=models.CASCADE)
 	address = models.CharField(max_length=150)
@@ -149,7 +149,9 @@ class Branch(models.Model):
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 	created = models.DateTimeField(auto_now=True, auto_now_add=False)
 	def __str__ (self):
-		return self.is_status
+		return self.name
+	def __unicode__(self):
+		return self.name
 	class Meta:
 		ordering = ["-created", "-updated"]
 

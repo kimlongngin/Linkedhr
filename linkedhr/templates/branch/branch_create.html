@@ -3,11 +3,18 @@
 {% block city_active %} Active {% endblock %}
 
 {% block body %}
-
 	
 	{% if user.is_authenticated %}
-	
-	
+		
+		{% if messages %}
+		  <ul class="messagelist">
+		    {% for message in messages %}
+		      <li class="{{ message.tags }}">{{ message }}</li>
+		    {% endfor %}
+		  </ul>
+		{% endif %}
+		
+
 
 		<div class="container-fluid">
 			<div class="row">

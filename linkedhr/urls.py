@@ -8,7 +8,7 @@ from django.contrib.auth import logout
 app_name = 'linkedhr'
 
 urlpatterns = [
-	
+
 	# /linkedhr/
 	url(r'^$', views.IndexView.as_view(), name='index'),
 	
@@ -18,9 +18,6 @@ urlpatterns = [
 	# /linkedhr/register/userprofile 
 	url(r'^register/userprofile/$', views.UserProfileView.as_view(), name='userprofile'),
 	
-	# /linkedhr/register/userprofile/error_education
-	# url(r'^register/userprofile/error_education$', views.IndexUserProfileView.as_view(), name='error_education'),
-
 	#url(r'^register/myuserprofile/(?P<user_id>\d+)/$', views.UserProfileDetailView.as_view(), name='myuserprofile_with_pk'),
 	url(r'^register/myuserprofile/(?P<pk>[0-9]+)/$', views.UserProfileDetailView, name='myuserprofile_with_pk'),
 
@@ -47,7 +44,8 @@ urlpatterns = [
 
 	# /linkedhr/register/userprofile/company/branch 
 	url(r'^register/userprofile/company/branch/$', views.BranchView.as_view(), name='branch'),
-	
+
+
 	# /linkedhr/register/userprofile/company/1 
 	url(r'register/userprofile/company/(?P<pk>[0-9]+)/$', views.CompanyUpdateView.as_view(), name='company-update'),
 	

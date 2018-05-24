@@ -11,6 +11,8 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 # Application definition
 
 INSTALLED_APPS = (
+    #'branch',
+    'branch.apps.BranchConfig',
     'linkedhr.apps.LinkedHrConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -18,8 +20,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     #'rest_framework',
     #'company.apps.CompanyConfig'
+    
 )
 
 MIDDLEWARE_CLASSES = (

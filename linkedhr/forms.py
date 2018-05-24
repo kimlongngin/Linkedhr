@@ -59,5 +59,5 @@ class BranchForm(forms.ModelForm):
 	description = forms.CharField(widget=forms.Textarea)
 	address = forms.CharField(widget=forms.Textarea)
 	class Meta: 
-		model = Company
+		model = Branch
 		fields = ['name','location','address', 'web_site', 'email','phone_number', 'description']
