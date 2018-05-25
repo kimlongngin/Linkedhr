@@ -50,7 +50,7 @@ urlpatterns = [
 	url(r'register/userprofile/company/(?P<pk>[0-9]+)/$', views.CompanyUpdateView.as_view(), name='company-update'),
 	
 	# /linkedhr/register/userprofile/company/list_company
-	url(r'^register/userprofile/company/list_company$', views.ListCompanyView.as_view(), name='list_company'),
+	url(r'^register/userprofile/company/list_company/(?P<pk>[0-9]+)/$', views.ListCompanyView.as_view(), name='list_company'),
 
 	# /linkedhr/login
 	#url(r'^login/$', auth_views.login, name='login'),

@@ -27,6 +27,13 @@ class UpdateBranch(generic.UpdateView):
 	model = Company 
 	fields = ['name', 'location',  'address', 'web_site', 'email', 'phone_number', 'description'] 
 
+	def dispatch(self, request, *args, **kwargs):
+		if request.user.is_authenticated():
+			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
+		else:
+			return redirect('linkedhr:login') 
+
+
 # Create branch in case each company has their branch
 class BranchView(generic.TemplateView):
 	template_name = 'branch/branch_create.html'

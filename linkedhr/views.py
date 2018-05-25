@@ -35,8 +35,19 @@ class ListCompanyView(generic.ListView):
 	context_object_name = 'all_companies'
 	paginate_by = 10
 
-	def get_queryset(self):
-		return Company.objects.filter(user_id=self.request.user.id);
+
+	def get(self, request, *args, **kwargs):
+		print(self.kwargs['pk'])
+		if self.kwargs['pk']:
+			try:
+				#return Company.objects.filter(user_id=self.request.user.id);
+				data = Company.objects.filter(id=self.kwargs['pk'])
+				return render(request, self.template_name, {'data':data})
+			except UserProfile.DoesNotExist:
+		
+				raise Http404(" User does not exist")
+		else:
+			raise Http404("Please check your data again.")
 
 	def dispatch(self, request, *args, **kwargs):
 		if request.user.is_authenticated():
@@ -387,9 +398,14 @@ class UserProfileDetailTwoView(generic.ListView):
 		if self.request.user.is_authenticated():
 			try:
 				userprofile_data =UserProfile.objects.filter(user_id=self.request.user.id, is_status=True)
-	 			data_education = Education.objects.filter(user_id=self.request.user.id, is_status=True)
-	 			data_experience = Experience.objects.filter(user_id=self.request.user.id, is_status=True)
-	 			userprofile = userprofile_data,data_education, data_experience
+	 			for i in userprofile_data:
+	 				if i.is_recruit=="1":
+	 					company_data = Company.objects.filter(user_id=self.request.user.id)
+	 					userprofile = userprofile_data,company_data
+	 				else: 
+			 			data_education = Education.objects.filter(user_id=self.request.user.id, is_status=True)
+			 			data_experience = Experience.objects.filter(user_id=self.request.user.id, is_status=True)
+			 			userprofile = userprofile_data,data_education, data_experience
 	 			return userprofile
 	 		except UserProfile.DoesNotExist:
 				return redirect('linkedhr:userprofile')
@@ -446,7 +462,8 @@ class  CityDelete(DeleteView):
 # User Login from the browser for the end user 
 class UserLoginView(View):
 	form_class = UserLoginForm
-	template_name = 'userprofile/user_login.html'
+	#template_name = 'userprofile/user_login.html'
+	template_name = 'registration/login.html'
 
 	# display blank form
 	def get(self, request):
@@ -454,6 +471,7 @@ class UserLoginView(View):
 		return render(request, self.template_name, {'form':form})	
 		
 	def post(self, request):
+		redirect_to = request.REQUEST.get('next', '')
 		form = self.form_class(request.POST)
 		if form.is_valid():
 			# Cleaned (Normalize) Data
@@ -466,6 +484,7 @@ class UserLoginView(View):
 				if user.is_active: 
 					login(self.request, user)
 					return redirect('linkedhr:index')
+					#return HttpResponseRedirect(redirect_to)  
 		return render(request, self.template_name, {'form':form})
 
 
