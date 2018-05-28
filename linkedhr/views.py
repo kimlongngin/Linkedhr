@@ -30,6 +30,20 @@ from branch.views import BranchView
 
 # ********* Display of the company branch ***********
 
+class  CompanyDeleteView(SuccessMessageMixin, DeleteView):
+	model = Company 
+	form = CompanyForm()
+	success_url = reverse_lazy('linkedhr:myuserprofile_without_pk')
+	success_message = " Deleted successfully !"
+	template_name ="company/company_delete.html"
+
+	def dispatch(self, request, *args, **kwargs):
+		if request.user.is_authenticated():
+			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
+		else:
+			return redirect('linkedhr:login') 
+
+
 class ListCompanyView(generic.ListView):
 	template_name =  'company/list_company.html'
 	context_object_name = 'all_companies'
@@ -56,11 +70,12 @@ class ListCompanyView(generic.ListView):
 			return redirect('linkedhr:login') 
 
 # ********* Update Branch of the company ************
-
-class  CompanyUpdateView(UpdateView):
+class  CompanyUpdateView(SuccessMessageMixin, UpdateView):
 	model = Company 
-	fields = ['name', 'company_logo', 'email', 'phone_number', 'location', 'address', 'web_site', 'description', 'is_branch', 'is_status'] 
-	success_url = reverse_lazy('linkedhr:myuserprofile_without_pk')
+	form = CompanyForm()
+	template_name = 'company/company_update.html'
+	fields = ['name', 'company_logo', 'email', 'phone_number', 'location', 'address', 'web_site', 'description', 'is_branch'] 
+	#success_url = reverse_lazy('linkedhr:company-update')
 	success_message = "updated successfully"
 
 	def dispatch(self, request, *args, **kwargs):
@@ -68,6 +83,15 @@ class  CompanyUpdateView(UpdateView):
 			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
 		else:
 			return redirect('linkedhr:login')  
+	def get(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		return super(CompanyUpdateView, self).get(request, *args, **kwargs)
+
+	def get_success_url(self):
+
+		if self.kwargs['pk']:
+			return reverse_lazy('linkedhr:company-update',kwargs={'pk':self.kwargs['pk']})
+		return redirect('linkedhr:myuserprofile_without_pk')
 
 # *********** Add Company ***************************
 class CompanyView(TemplateView):

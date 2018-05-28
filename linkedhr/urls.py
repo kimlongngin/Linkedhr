@@ -49,6 +49,10 @@ urlpatterns = [
 	# /linkedhr/register/userprofile/company/1 
 	url(r'register/userprofile/company/(?P<pk>[0-9]+)/$', views.CompanyUpdateView.as_view(), name='company-update'),
 	
+	# /linkedhr/register/userprofile/company/1 
+	url(r'register/userprofile/company/delete/(?P<pk>[0-9]+)/$', views.CompanyDeleteView.as_view(), name='company-delete'),
+
+
 	# /linkedhr/register/userprofile/company/list_company
 	url(r'^register/userprofile/company/list_company/(?P<pk>[0-9]+)/$', views.ListCompanyView.as_view(), name='list_company'),
 

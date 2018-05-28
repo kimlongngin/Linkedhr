@@ -4,56 +4,233 @@
 
 {% block body %}
 
+	<style type="text/css">
+		#id_company_logo{
+		 	display: block;
+			width: 100%;
+			height: 34px;
+			padding-bottom: 34px;
+			font-size: 14px;
+			line-height: 1.42857143;
+			color: #555;
+			background-color: #fff;
+			background-image: none;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+			box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+			-webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+			-o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+			transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+		 }
+		#id_location, #id_address, #id_name,  #id_phone_number, #id_email, #id_web_site{
+		 	display: block;
+			width: 100%;
+			height: 34px;
+			padding: 6px 12px;
+			font-size: 14px;
+			line-height: 1.42857143;
+			color: #555;
+			background-color: #fff;
+			background-image: none;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+			box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+			-webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+			-o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+			transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+		 }
+		 #id_description{
+		 	display: block;
+			width: 100%;
+			padding: 6px 12px;
+			font-size: 14px;
+			line-height: 1.42857143;
+			color: #555;
+			background-color: #fff;
+			background-image: none;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+			box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+			-webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+			-o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+			transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+		 }
+		
+
+	</style>
 	
 	{% if user.is_authenticated %}
-	
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-sm-12 col-md-7">
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
-								<input type ="text"  value= "{{ user.id }}" id="user_id" name = "user" hidden="true">
-								<div class="form-group">
-									<div class="">
-					
-										<label class="control-label col-sm-2" for="artificial_user_name"> User Name: </label>	
-										<div class="col-sm-10">
-											<input type ="text"  value= "{{ user.username }}" id="user_name" name="user_name" placeholder="">	
-										</div>
-									</div>
-								</div>
-								{% csrf_token %}
-								{% include 'city/form_template.html' %}
-								<div class="form-group">
-									<li><a href="{% url 'linkedhr:company' %}"> Cancel </a></li>
-									<div class="col-sm-offset-2 col-sm-10">
-										<button type="submit" class="btn btn-success"> Update </button>
-									</div>
-								</div>
+		
+			<div class="container">
+			<!-- <div class="container-fluid"> -->
+				<div class="row align-items-center">
+					<div class="row">
 						
-							</form>
+						<div class="col-md-12 order-md-12">
+							<div class="panel panel-default">
+								<div class="panel-body">	
+									{% if messages %}
+									    {% for message in messages %}
+									      <p class="bg-success">{{ message }}</p>
+									    {% endfor %}
+									{% endif %}	
 
+
+
+
+									<h3 class="mb-3">Edit company </h3> 
+									<hr class="mb-4">
+
+										<form class="needs-validation" action="" method="post" enctype="multipart/form-data">
+								            {% csrf_token %}
+											<div class="row">
+									            
+									            <div class="col-md-12 mb-3">
+									            	
+									            	<div class="input-group-prepend">
+									                	<span class="text-danger small input-group-text"> {{ form.name.errors }}
+									                	</span>
+									                </div>
+									                <label for="id_name">Name: </label>
+									                {{ form.name }}
+									                <div class="invalid-feedback">
+									                  Valid  name is required.
+									                </div>
+									            </div>
+
+
+									            <div class="col-md-12 mb-3">
+									            	<div class="input-group-prepend">
+									                	<span class="text-danger small input-group-text"> {{ form.company_logo.errors }}
+									                	</span>
+									                </div>
+									                <label for="id_company_logo">Logo: </label>
+									                {{ form.company_logo }}
+									            </div>
+
+
+												<div class="col-md-12 mb-3">
+									            	<div class="input-group-prepend">
+									                	<span class="text-danger small input-group-text"> {{ form.email.errors }}
+									                	</span>
+									                </div>
+									                <label for="id_email">Email: </label>
+									                {{ form.email }}
+									                <div class="invalid-feedback">
+									                  Valid email is required.
+									                </div>
+									            </div>
+									            <div class="col-md-12 mb-3">
+									            	<div class="input-group-prepend">
+									                	<span class="text-danger small input-group-text"> {{ form.phone_number.errors }}
+									                	</span>
+									                </div>
+									                <label for="id_phone_number">Phone number: </label>
+									                {{ form.phone_number }}
+									                <div class="invalid-feedback">
+									                  Valid phone number is required.
+									                </div>
+									            </div>
+												 <div class="col-md-12 mb-3">
+									            	
+									            	<div class="input-group-prepend">
+									                	<span class="text-danger small input-group-text"> {{ form.web_site.errors }}
+									                	</span>
+									                </div>
+									                <label for="lastName">Web site: </label>
+									                {{ form.web_site }}
+									            </div>
+									            <div class="col-md-12 mb-3">
+													<div class="input-group-prepend">
+									                	<span class="text-danger small input-group-text"> {{ form.location.errors }} 
+									                	</span>
+									                </div>
+									                <label for="id_location">Location:</label>
+									                {{ form.location }}
+									                <!-- <div class="invalid-feedback">
+									                  Valid present address is required.
+									                </div> -->
+									            </div>
+
+									            <div class="col-md-12 mb-3">
+									            	<div class="input-group-prepend">
+									                	<span class="text-danger small input-group-text"> {{ form.address.errors }}
+									                	</span>
+									                </div>
+									                <label for="id_address">Address: </label>
+									                {{ form.address }}
+									        	</div>
+
+									        	<div class="col-md-12 mb-3">
+									            	<div class="input-group-prepend">
+									                	<span class="text-danger small input-group-text"> {{ form.description.errors }}
+									                	</span>
+									                </div>
+									                <label for="id_description">description: </label>
+									                {{ form.description }}
+									        	</div>
+
+									        	<div class="col-md-12 mb-3 ">
+									            	<div class="input-group-prepend">
+									                	<span class="text-danger small input-group-text"> {{ form.is_branch.errors }}
+									                	</span>
+									                </div>
+									                
+									                	<label for="id_is_branch">Doese your company has any branch ?: </label>
+									                {{ form.is_branch }}
+									            </div>
+
+
+								           	</div>
+
+								            <hr class="mb-4">
+								            <button class="btn btn-success" type="submit">Save</button>
+								            {% if object %}
+								            	<a href="{% url 'linkedhr:company-delete' object.id %}"  class="btn btn-danger">
+								            		<span class="glyphicon glyphicon-trash"> Delete </span>
+								            	</a>
+								     		{% endif %}
+
+								        </form>
+
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
 
+			</div>
+		
 	{% else %}
 		<div>
 			<p> Please login ! </p>
 		</div>
 	{% endif %}
 
-	<style type="text/css">
-		label[for="id_user_id"] { display:none; }
-	</style>
 	<script type="text/javascript">
-		var user_id = document.getElementById("user_id").value;
-		document.getElementById('id_user_id').value=user_id;
-		document.getElementById('id_user_id').style.display = "none";
+		document.getElementById("id_name").required = true;
+		document.getElementById("id_email").required = true;
+		document.getElementById("id_phone_number").required = true;
+		document.getElementById("id_location").required = true;
+		document.getElementById("id_address").required = true;
+
+
+		document.getElementById("id_description").rows="3"
+		document.getElementById("id_address").rows = "3";
+
+		document.getElementById("id_name").placeholder = "linkedhr";
+		document.getElementById("id_email").placeholder = "example@mail.com";
+		document.getElementById("id_phone_number").placeholder = "(855)10123456";
+		document.getElementById("id_web_site").placeholder = "wwww.example.com";
+		document.getElementById("id_address").placeholder = "country/city/street No/home No";
+
 	</script>
 
+	
 
+
+	
 {% endblock %}
