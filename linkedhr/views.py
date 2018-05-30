@@ -51,7 +51,7 @@ class ListCompanyView(generic.ListView):
 
 
 	def get(self, request, *args, **kwargs):
-		print(self.kwargs['pk'])
+		#print(self.kwargs['pk'])
 		if self.kwargs['pk']:
 			try:
 				#return Company.objects.filter(user_id=self.request.user.id);
@@ -105,14 +105,15 @@ class CompanyView(TemplateView):
 
 	def get(self, request, *args, **kwargs):
 		form = CompanyForm()
-		company = Company.objects.all()
+		company = Company.objects.filter(user_id = request.user.id)
+		success_message ="Created successfully !"
 		args = {'form':form, 'company':company}
 		if request.user.is_authenticated():
 			userprofiledata = UserProfile.objects.filter(user_id = request.user.id)
-			companydata = Company.objects.filter(user_id = request.user.id, is_status=True)
-			args = {'form':form, 'data':companydata}
-			if companydata.count()>0:
-				return render(request, self.template_name, args)
+			#companydata = Company.objects.filter(user_id = request.user.id, is_status=True)
+			#args = {'form':form, 'data':companydata}
+			#if companydata.count()>0:
+				#return render(request, self.template_name, args)
 			if userprofiledata :
 				for i in userprofiledata:
 					if i.is_recruit=='1':
@@ -131,7 +132,8 @@ class CompanyView(TemplateView):
 			if userprofiledata :
 				for i in userprofiledata:
 					if i.is_recruit=='1':
-						if form.is_valid:
+						#if form.is_valid:
+						if request.method == 'POST':
 							post = form.save(commit=False)
 							post.user_id = request.user
 							post.save()
@@ -146,7 +148,7 @@ class CompanyView(TemplateView):
 							is_branch = form.cleaned_data['is_branch']
 							
 							if is_branch ==False :
-								return redirect('linkedhr:list_company')
+								return redirect('linkedhr:myuserprofile_without_pk')
 							else:
 								return redirect('linkedhr:branch')
 						args = {'form':form, 'name':name}
@@ -339,9 +341,8 @@ class UserProfileView(SuccessMessageMixin, TemplateView):
 			return redirect('linkedhr:login')
 
 	def post(self, request):
-		
+		form = UserProfileForm(request.POST)
 		if request.user.is_authenticated():
-			form = UserProfileForm(request.POST)
 			if form.is_valid:
 				post = form.save(commit=False)
 				post.user_id = request.user
@@ -417,20 +418,21 @@ class UserProfileDetailTwoView(generic.ListView):
 			return redirect('linkedhr:login')  
 
 	def get_queryset(self):
-		
-		#if self.request.user.is_authenticated:
 		if self.request.user.is_authenticated():
 			try:
 				userprofile_data =UserProfile.objects.filter(user_id=self.request.user.id, is_status=True)
+	 			
 	 			for i in userprofile_data:
 	 				if i.is_recruit=="1":
 	 					company_data = Company.objects.filter(user_id=self.request.user.id)
 	 					userprofile = userprofile_data,company_data
+	 					return userprofile
 	 				else: 
 			 			data_education = Education.objects.filter(user_id=self.request.user.id, is_status=True)
 			 			data_experience = Experience.objects.filter(user_id=self.request.user.id, is_status=True)
 			 			userprofile = userprofile_data,data_education, data_experience
-	 			return userprofile
+			 			return userprofile
+	 			return userprofile_data
 	 		except UserProfile.DoesNotExist:
 				return redirect('linkedhr:userprofile')
 				#raise Http404(" User does not exist")
@@ -451,9 +453,6 @@ def UserProfileDetailView(request, pk=None):
 		#return redirect('linkedhr:login')
 	args = {'userprofile':userprofile}	
 	return render(request,  template_name, args) 
-
-
-
 
 # ***************************************************
 # ***************** BLOCK HOMEPAGE*******************

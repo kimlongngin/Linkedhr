@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from datetime import date
 from django.conf import settings
-from linkedhr.models import City, Company
+from linkedhr.models import City
 
 class Test(models.Model):
 	

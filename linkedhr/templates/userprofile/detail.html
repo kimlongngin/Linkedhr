@@ -4,8 +4,8 @@
 	
 	{% if user.is_authenticated %}
 
-		<div class="container">
-		<!-- <div class="container-fluid"> -->
+		<!-- <div class="container"> -->
+		<div class="container-fluid">
 			<div class="row align-items-center">
 				<div class="row">
 					<div class="col-md-12 order-md-12">
@@ -19,7 +19,6 @@
 									{% endif %}						
 								
 								{% if userprofile %}
-
 									{% for j in userprofile.0 %}
 										{% if j.is_recruit == "2" %}
 											
@@ -109,26 +108,32 @@
 											<hr class="mb-4">
 											<div>
 												<h3> Company </h3>
-												<ul>
+												
 												 	{% for i in userprofile.1 %}
-													 	<a href="{% url 'linkedhr:list_company' i.id %}"> 
-															<img src = "../../{{ i.company_logo.url }}" class="img-circle" style="width: 140px; height: 140px;" alt = "140 X 140">
-														</a>
-												 		<li> <span></span>{{ i.name }}</li>
-												 		<li> <span></span>{{ i.company_logo.url }}</li>
-												 		<li> <span></span>{{ i.email }}</li>
-												 		<li> <span></span>{{ i.phone_number }}</li>
-												 		<li> <span></span>{{ i.location }}</li>
-												 		<li> <span></span>{{ i.address }}</li>
-												 		<li> <span></span>{{ i.web_site }}</li>
-												 		<li> <span></span>{{ i.description }}</li>
-												 	
+												 		{% if i.company_logo %}
+														 	<a href="{% url 'linkedhr:list_company' i.id %}"> 
+																<img src = "../../{{ i.company_logo.url }}" class="img-circle" style="width: 140px; height: 140px;" alt = "140 X 140">
+															</a>
+														{% else %}
+															<a href="{% url 'linkedhr:list_company' i.id %}"> 
+																<img src = "" class="img-circle" style="width: 140px; height: 140px;" alt = "140 X 140">
+															</a>
+														{% endif %}
+													 		<h5> {{ i.name }}</h5>
+												 			<div>
+												 				<a class="btn btn-success" href="{% url 'linkedhr:company-update' i.id %}"> Edit </a>
+												 				<a href="{% url 'linkedhr:company-delete' i.id %}"  class="btn btn-danger">
+											            			<span class="glyphicon glyphicon-trash"> Delete </span>
+											            		</a>
+
+												 			</div> 
+												 		
+												 			<br>
+
+
 												 	{% endfor %}
-												</ul>
-												{% for i in userprofile.1 %}
-												 	<div><a class="btn btn-success" href="{% url 'linkedhr:company-update' i.id %}"> Edit </a></div> 
-												 
-												 {% endfor %}
+												
+												
 											</div>
 										{% endif %}
 

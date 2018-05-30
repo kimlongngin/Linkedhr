@@ -84,4 +84,8 @@
 	
  }
 
- 
+ .success_text
+ {
+ 	font-weight: bold;
+ 	color:blue;
+ }

@@ -1,18 +1,63 @@
 {% extends 'city/base.html' %}
 
 {% block body %}
-	{% if data %}
-		{% for i in data %}
 
-			<h1>{{ i.name }}</h1>
-			<p> {{ i.description }} </p>
-			<li><a href="{% url 'linkedhr:company-update' i.id %}"> Edit </a></li> 
-		
-		{% endfor %}
-	{% endif %}
+	{% if user.is_authenticated %}
 
-	{% if error_message %}
-		<p><strong> {{error_message}} </strong></p>
+		<!-- <div class="container"> -->
+		<div class="container-fluid">
+			<div class="row align-items-center">
+				<div class="row">
+					<div class="col-md-12 order-md-12">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								{% if data %}
+									{% for i in data %}
+
+										<h1>{{ i.name }}</h1>
+										
+													
+										<a href="{% url 'linkedhr:list_company' i.id %}"> 
+											<img src = "../../../../../{{ i.company_logo.url }}" class="img-circle" style="width: 140px; height: 140px;" alt = "140 X 140">
+										</a>
+								 		<li> <span></span>{{ i.name }}</li>
+								 		<li> <span></span>{{ i.email }}</li>
+								 		<li> <span></span>{{ i.phone_number }}</li>
+								 		<li> <span></span>{{ i.location }}</li>
+								 		<li> <span></span>{{ i.address }}</li>
+								 		<li> <span></span>{{ i.web_site }}</li>
+								 		<li> <span></span>{{ i.description }}</li>
+
+								 		<a class="btn btn-success" href="{% url 'linkedhr:company-update' i.id %}"> Edit </a> 
+
+
+
+								 		<hr class="mb-4">
+										<h1> Branch </h1>
+
+								 		{% for j in i.branch_set.all  %}
+											<p> {{ j.name }} </p> <br>
+
+										{% endfor %}
+
+
+									{% endfor %}
+								{% endif %}
+								
+
+								
+
+								{% if error_message %}
+									<p><strong> {{error_message}} </strong></p>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>
+	{% else %}
+		<a href="{% url 'linkedhr:login'%} " >>>Login </a>
 	{% endif %}
 
 {% endblock %}

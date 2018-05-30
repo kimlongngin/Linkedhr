@@ -25,7 +25,7 @@ from django.contrib.auth.models import User
 
 class UpdateBranch(generic.UpdateView):
 	model = Company 
-	fields = ['name', 'location',  'address', 'web_site', 'email', 'phone_number', 'description'] 
+	fields = ['com_id', 'name', 'location',  'address', 'web_site', 'email', 'phone_number', 'description'] 
 
 	def dispatch(self, request, *args, **kwargs):
 		if request.user.is_authenticated():
@@ -37,7 +37,8 @@ class UpdateBranch(generic.UpdateView):
 # Create branch in case each company has their branch
 class BranchView(generic.TemplateView):
 	template_name = 'branch/branch_create.html'
-	
+	fields = ['com_id', 'name', 'location',  'address', 'web_site', 'email', 'phone_number', 'description'] 
+
 	def dispatch(self, request, *args, **kwargs):
 		if request.user.is_authenticated():
 			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
@@ -48,6 +49,7 @@ class BranchView(generic.TemplateView):
 		form = BranchForm()
 		if request.user.is_authenticated():
 			objCom = Company.objects.filter(user_id=request.user.id, is_status=True)
+			print(objCom)
 			if objCom.count()<=0:
 				return redirect('linkedhr:company')
 
@@ -68,9 +70,12 @@ class BranchView(generic.TemplateView):
 	def post(self, request):
 		form = BranchForm(request.POST)
 		if request.user.is_authenticated():
-			objCom = Company.objects.get(user_id=request.user.id)
+			try:
+				objCom = Company.objects.get(user_id=request.user.id)
+			except Company.DoesNotExist:
+				raise Http404("Please add company first")
 			#objCom= get_object_or_404(Company, user_id = request.user.id)
-			print(objCom)
+			#print(objCom)
 
 
 			userprofiledata = UserProfile.objects.filter(user_id = request.user.id)
@@ -89,8 +94,7 @@ class BranchView(generic.TemplateView):
 							phone_number = form.cleaned_data['phone_number']
 							description = form.cleaned_data['description']
 							messages.success(request, "Created sucessfully !")
-							
-						form = BranchForm()
+						
 						args = {'form':form, 'name':name}
 						#return HttpResponseRedirect(request.get_absolute_url())
 						return render(request, self.template_name, args)

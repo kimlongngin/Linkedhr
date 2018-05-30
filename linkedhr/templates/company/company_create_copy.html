@@ -63,7 +63,21 @@
 	</style>
 	
 	{% if user.is_authenticated %}
-		
+		{% if data %}
+			<div class="container">
+				<div class="row align-items-center">
+					<div class="row">	
+						<div class="col-md-12 order-md-12">
+							<div class="panel panel-default">
+								<div class="panel-body">
+									<h2><span style="color:red;"> Company already registered ! </span></h2>
+								</div>
+							</div>
+						</div>	
+					</div>
+				</div>
+			</div>
+		{% else %}
 			<div class="container">
 			<!-- <div class="container-fluid"> -->
 				<div class="row align-items-center">
@@ -71,19 +85,8 @@
 						
 						<div class="col-md-12 order-md-12">
 							<div class="panel panel-default">
-								<div class="panel-body">	
-									{% if messages %}
-									    {% for message in messages %}
-									      <p class="bg-success success_text">{{ message }}</p>
-									    {% endfor %}
-									{% endif %}	
-										
-									{% if company %}				
-										<h3 class="mb-3">Create company  </h3> 
-										<p>you already had ({{company.count}}) company</p>
-									{% else %}
-										<h3 class="mb-3">Create company  </h3> 
-									{% endif %}
+								<div class="panel-body">							
+									<h3 class="mb-3">Create company profile </h3> 
 									<hr class="mb-4">
 
 										<form class="needs-validation" action="" method="post" enctype="multipart/form-data">
@@ -200,7 +203,7 @@
 				</div>
 
 			</div>
-		
+		{% endif %}
 	{% else %}
 		<div>
 			<p> Please login ! </p>

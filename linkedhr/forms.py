@@ -49,8 +49,8 @@ class CompanyForm(forms.ModelForm):
 	company_logo= forms.FileField(required=False)
 	name = forms.CharField()
 	address = forms.CharField(widget=forms.Textarea)
-	description = forms.CharField(widget=forms.Textarea)
-
+	description = forms.CharField(widget=forms.Textarea, required=False)
+	web_site =forms.CharField(required=False)
 	class Meta: 
 		model = Company
 		fields = ['name','company_logo','email', 'phone_number','location','web_site','address','description', 'is_branch']
@@ -60,4 +60,4 @@ class BranchForm(forms.ModelForm):
 	address = forms.CharField(widget=forms.Textarea)
 	class Meta: 
 		model = Branch
-		fields = ['name','location','address', 'web_site', 'email','phone_number', 'description']
+		fields = ['com_id', 'name','location','address', 'web_site', 'email','phone_number', 'description']
