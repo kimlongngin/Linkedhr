@@ -7,11 +7,7 @@ from django.conf import settings
 
 # Create your models here.
 
-TITLE_CHOICES = (
-    ('MR', 'Mr.'),
-    ('MRS', 'Mrs.'),
-    ('MS', 'Ms.'),
-)
+
 def upload_location(instance, filename):
 	filebase, extension = filename.split(".")
 	return "%s/%s.%s" %(instance.id, instance.id, extension)
@@ -79,6 +75,11 @@ class Stage(models.Model):
 
 
 # Userprofile has two basic by one is recruitor and other one is job_applyer 
+TITLE_CHOICES = (
+    ('MR', 'Mr.'),
+    ('MRS', 'Mrs.'),
+    ('MS', 'Ms.'),
+)
 
 IS_RECRUITE = (
     ('1', 'Recruiter'),
@@ -92,11 +93,12 @@ class UserProfile(models.Model):
 	country = models.CharField(max_length=150)
 	#city = models.ForeignKey(City, on_delete=models.CASCADE)
 	city = models.CharField(max_length=100)
-	nationality = models.CharField(max_length=50)
+	#city= models.OneToOneField(City, on_delete=models.CASCADE)
+	nationality = models.CharField(max_length=50, null=True)
 	email = models.CharField(max_length=100)
 	phone_number = models.CharField(max_length=20)
-	present_address = models.CharField(max_length=100)
-	description= models.TextField()
+	present_address = models.CharField(max_length=100, null=True)
+	description= models.TextField(null=True)
 	is_recruit = models.CharField(max_length=10, choices=IS_RECRUITE, verbose_name='What will you do ?')
 	is_status = models.BooleanField(default=True)
 	authority = models.BooleanField(default=False)

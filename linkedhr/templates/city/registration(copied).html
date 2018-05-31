@@ -1,0 +1,105 @@
+{% extends 'city/base.html' %}
+{% block title %} Registration {% endblock %}
+
+
+{% block body %}
+	{% if user.is_authenticated %}
+		<h1> User already registered !!! </h1>
+	{% else %}
+		<div class="container">
+		<!-- <div class="container-fluid"> -->
+			<div class="row align-items-center">
+				<div class="row">
+					<div class="col-md-12 order-md-12">
+						<div class="panel panel-default">
+							<div class="panel-body">							
+								<h4 class="mb-3">Create new account </h4> 
+									<form class="form-horizontal needs-validation" action="" method="post" enctype="multipart/form-data">
+							            {% csrf_token %}
+										<!-- {% include 'city/form_template.html' %} -->
+									
+							            <div class="mb-3">
+							              <label for="username">User name</label>
+							              <!-- <div class="input-group"> -->
+							                <div>
+								                <div class="input-group-prepend">
+								                  <span class="text-danger small input-group-text"> {{ form.username.errors }} </span>
+								                </div>
+								                
+								                <input class="form-control" id="id_username" maxlength="30" name="username" placeholder="Username" required="" type="text">
+								                <div class="invalid-feedback" style="width: 100%;">
+								                  Your username is required.
+								                </div>
+								            </div>
+							            </div>
+
+							            <div class="row">
+							              <div class="col-md-6 mb-3">
+							                <label for="firstName">First name</label>
+							                <input class="form-control" id="id_first_name" name="first_name" placeholder="" value="" required="" type="text">
+
+							                <div class="invalid-feedback">
+							                  Valid first name is required.
+							                </div>
+							              </div>
+							              <div class="col-md-6 mb-3">
+							                <label for="lastName">Last name</label>
+							                <input class="form-control" id="id_last_name" maxlength="30" name="last_name"  placeholder="" value="" required="" type="text">
+
+							                <div class="invalid-feedback">
+							                  Valid last name is required.
+							                </div>
+							              </div>
+							            </div>
+
+
+							            <div class="mb-3">
+							              <label for="email">Email <span class="text-muted">(Optional)</span></label>
+							              <input class="form-control" id="id_email" maxlength="254" name="email" placeholder="you@example.com" type="email">
+
+							              <div class="invalid-feedback">
+							                Please enter a valid email address for shipping updates.
+							              </div>
+							            </div>
+
+							            <div class="mb-3">
+							              <label for="address">Password</label>
+							              <input class="form-control" id="id_password" name="password" placeholder="123456" required="" type="password">
+							             
+							              <div class="invalid-feedback">
+							                Please enter your password.
+							              </div>
+							            </div>
+
+							           
+							            <hr class="mb-4">
+							            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
+
+							        </form>
+
+
+									<!--  Userform for user to login -->
+									<form class="form-horizontal needs-validation" action="" method="post" enctype="multipart/form-data">
+										{% csrf_token %}
+										{% include 'city/form_template.html' %}
+
+										<div class="form-group">
+											<div class="col-sm-offset-2 col-sm-10">
+												<button type="submit" class="btn btn-success"> Submit</button>
+											</div>
+										</div>
+
+									</form> 
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+
+	{% endif %}
+	
+{% endblock %}

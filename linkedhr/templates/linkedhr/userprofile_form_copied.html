@@ -46,16 +46,14 @@
 	
 	{% if user.is_authenticated %}
 
-
-		<!-- <div class="container"> -->
-		<div class="container-fluid">
+		<div class="container">
+		<!-- <div class="container-fluid"> -->
 			<div class="row align-items-center">
 				<div class="row">
-					
 					<div class="col-md-12 order-md-12">
 						<div class="panel panel-default">
 							<div class="panel-body">							
-								<h3 class="mb-3">Create user profile </h3> 
+								<h3 class="mb-3">Update user profile </h3> 
 								<hr class="mb-4">
 
 									<form class="needs-validation" action="" method="post" enctype="multipart/form-data">
@@ -229,13 +227,37 @@
 			document.getElementById("id_city").placeholder = "Phnom Penh";
 			document.getElementById("id_nationality").placeholder = "Khmer";
 
+
+
 		</script>
+
+		<!-- <div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-12 col-md-12">
+					<div class="panel panel-default">
+						<div class="panel-body">
+						
+							<form class="form-horizontal needs-validation" action="" method="post" enctype="multipart/form-data">
+								<input type ="text"  value= "{{ user.id }}" id="user_id" name = "user" hidden="true">
+								
+								{% csrf_token %}
+								{% include 'city/form_template.html' %}
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10">
+										<button type="submit" class="btn btn-success"> Save >></button>
+									</div>
+								</div>
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> -->
 
 
 	{% else %}
-		<div>
-			<p> Please login ! </p>
-		</div>
+		<a href="{% url 'linkedhr:login'%} " >>>Login </a>
 	{% endif %}
 
 	<style type="text/css">

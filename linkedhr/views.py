@@ -318,6 +318,45 @@ class  EducationUpdate(SuccessMessageMixin, UpdateView):
 	#obj = UserProfileSession(user_pk)
 	#obj.StoreUserProfileSess()
 
+# *************************************************
+# ************ Update data of user profile ********
+# *************************************************
+
+class UserProfileUpdate(SuccessMessageMixin, generic.UpdateView):
+	form = UserProfileForm()
+	model = UserProfile 
+	#template_name = 'userprofile/user_update.html'
+	template_name_suffix = '_form'
+	success_url = reverse_lazy('linkedhr:myuserprofile_without_pk')
+	success_message = "updated successfully"
+	fields = ['sex', 'date_of_birth', 'country','city', 'nationality', 'email', 'phone_number', 'is_recruit', 'present_address','description']
+	
+	def dispatch(self, request, *args, **kwargs):
+		form = UserProfileForm()
+		try:
+			data_u = UserProfile.objects.get(pk = self.kwargs['pk'], user_id= request.user.id)
+			if request.user.is_authenticated():
+				return super(self.__class__, self).dispatch(request, *args, **kwargs)	
+			else:
+				return redirect('linkedhr:login')  
+		except UserProfile.DoesNotExist:
+			raise Http404("Don't try to edit other user data !!!")
+    
+	def get_object(self, queryset=None):
+		form= UserProfileForm()
+		try:
+			data = UserProfile.objects.get(pk=self.kwargs['pk'], user_id = self.request.user.id)
+			if data:
+				if self.request.user.is_authenticated():
+					return data
+			else:
+				return redirect('linkedhr:login') 
+		except UserProfile.DoesNotExist:
+			raise Http404("Don't try to edit other user data !!!")
+	
+
+
+
 class UserProfileView(SuccessMessageMixin, TemplateView):
 	template_name = 'userprofile/user_create.html'
 	success_message = "User Profile was created successfully"
@@ -340,10 +379,11 @@ class UserProfileView(SuccessMessageMixin, TemplateView):
 		else:
 			return redirect('linkedhr:login')
 
+
 	def post(self, request):
 		form = UserProfileForm(request.POST)
 		if request.user.is_authenticated():
-			if form.is_valid:
+			if form.is_valid():
 				post = form.save(commit=False)
 				post.user_id = request.user
 				post.save()
@@ -366,43 +406,11 @@ class UserProfileView(SuccessMessageMixin, TemplateView):
 				else:
 					return redirect('linkedhr:company')
 			
-			args = {'form':form, 'text':text}
+			args = {'form':form}
 			return render(request, self.template_name, args)
  
 
-# *************************************************
-# ************ Update data of user profile ********
-# *************************************************
 
-class UserProfileUpdate(SuccessMessageMixin, generic.UpdateView):
-	model = UserProfile 
-	fields = ['sex', 'date_of_birth', 'country','city', 'nationality', 'email', 'phone_number', 'is_recruit', 'present_address','description']
-	success_url = reverse_lazy('linkedhr:myuserprofile_without_pk')
-	success_message = "updated successfully"
-	
-	#def get_success_url(self):
-		#return redirect('linkedhr:userprofile-update', self.kwargs['pk'])
-
-
-	def dispatch(self, request, *args, **kwargs):
-		if request.user.is_authenticated():
-			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
-		else:
-			return redirect('linkedhr:login')  
-
-	def get_object(self):
-		if self.request.user.is_authenticated():
-			obj = UserProfile.objects.get(id=self.kwargs['pk'])
-			#messages.add_message(self.request, messages.SUCCESS, 'Email sent successfully.')
-			return obj
-		else:
-			userprofiledata=get_object_or_404(UserProfile, user_id = self.request.user.id)
-			return redirect('linkedhr:login') 
-
-	#@method_decorator(login_required)
-	#def dispatch(self, request, *args, **kwargs):
-		#return super(self.__class__, self).dispatch(request, *args, **kwargs)	
-	
 
 ## view detail of each userprofile by user_id
 class UserProfileDetailTwoView(generic.ListView):

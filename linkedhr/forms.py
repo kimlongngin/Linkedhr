@@ -1,15 +1,32 @@
 from django.contrib.auth.models import User
 from django import forms
 from django.forms import ModelForm
-from linkedhr.models import UserProfile, Education, Experience, Company, Branch
+from linkedhr.models import UserProfile, Education, Experience, Company, Branch, City
 from datetime import date
 
 class UserForm(forms.ModelForm):
-	password = forms.CharField(widget = forms.PasswordInput)
+	username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter username'}), required=True)
+	first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter first name'}), required=True)
+	last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter last name'}), required=True)
+	email = forms.CharField(widget=forms.EmailInput(attrs={'class':'form-control', 'placeholder':'example@mail.com'}), required=True)
+	password = forms.CharField(widget = forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Enter password'}), required=True)
+	confirm_password = forms.CharField(widget = forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Enter password'}), required=True)
 
 	class Meta: 
 		model = User
-		fields =['username', 'first_name', 'last_name', 'email', 'password']
+		fields =['username', 'first_name', 'last_name', 'email', 'password', 'confirm_password']
+
+	def clean_confirm_password(self):
+		pas= self.cleaned_data['password']
+		cpas= self.cleaned_data['confirm_password']
+		MIN_LENGHT = 8
+		if pas and cpas:
+			if pas != cpas:
+				raise forms.ValidationError("password and confirm password not matched")
+			else:
+				if len(pas) < MIN_LENGHT:
+					raise forms.ValidationError("password should have atleast 8 character")
+
 
 class UserLoginForm(forms.ModelForm):
 	password = forms.CharField(widget = forms.PasswordInput)
@@ -18,16 +35,42 @@ class UserLoginForm(forms.ModelForm):
 		model = User
 		fields =['username', 'password']
 
+TITLE_CHOICES = (
+	('', '-------------------'),
+    ('MR', 'Mr.'),
+    ('MRS', 'Mrs.'),
+    ('MS', 'Ms.'),
+)
+IS_RECRUITE = (
+	('', '-------------------'),
+    ('1', 'Recruiter'),
+    ('2', 'Seeker'),
+)
+
 class UserProfileForm(forms.ModelForm):
-	#user_id = forms.OneToOneField(User, related_name='profile')
-	
-	description = forms.CharField(widget=forms.Textarea, required=False)
-	present_address = forms.CharField(widget=forms.Textarea, required=False)
+
+	sex = forms.CharField(widget=forms.Select(attrs={'class':'form-control'}, choices=TITLE_CHOICES), required=True)
+	date_of_birth = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'yyyy-mm-dd'}), required=True)
+	country = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter country name'}), required=True)
+	city = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter city name'}), required=True)
+	#city = forms.ModelMultipleChoiceField(queryset=None)
+	#city = forms.ModelChoiceField(widget=forms.Select(attrs={'class':'form-control'}), queryset=None, required=True)
+	nationality = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Kh'}), required=False)
+	email = forms.CharField(widget=forms.EmailInput(attrs={'class':'form-control', 'placeholder':'example@mail.com'}), required=True)
+	phone_number = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'(86)10123456'}), required=True)
+	description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'rows':"3"}), required=False)
+	present_address = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'rows':"3"}), required=False)
+	#is_recruit = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}), required=False)
+	is_recruit = forms.CharField(widget=forms.Select(attrs={'class':'form-control'}, choices=IS_RECRUITE), required=True)
+
 	class Meta: 
 		model = UserProfile
-		fields = ['user_id', 'sex', 'date_of_birth', 'country', 'city', 'nationality','email','phone_number','present_address', 'description', 'is_recruit']
-		
-		
+		fields = ['sex', 'date_of_birth', 'country', 'city', 'nationality','email','phone_number','present_address', 'description', 'is_recruit']
+	
+	#def __init__(self, *args, **kwargs):
+		#super(UserProfileForm, self).__init__(*args, **kwargs)
+		#self.fields['city'].queryset = City.objects.all()
+
 
 class EducationForm(forms.ModelForm):
 	description = forms.CharField(widget=forms.Textarea)
