@@ -109,6 +109,8 @@
 											<div>
 												<h3> Company </h3>
 												
+												{% if userprofile.1 %}
+
 												 	{% for i in userprofile.1 %}
 												 		{% if i.company_logo %}
 														 	<a href="{% url 'linkedhr:list_company' i.id %}"> 
@@ -133,7 +135,9 @@
 
 												 	{% endfor %}
 												
-												
+												{% else %}
+													<a href="{% url 'linkedhr:company' %}" > Add Company</a>
+												{% endif %}
 											</div>
 										{% endif %}
 

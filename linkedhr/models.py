@@ -94,11 +94,11 @@ class UserProfile(models.Model):
 	#city = models.ForeignKey(City, on_delete=models.CASCADE)
 	city = models.CharField(max_length=100)
 	#city= models.OneToOneField(City, on_delete=models.CASCADE)
-	nationality = models.CharField(max_length=50, null=True)
+	nationality = models.CharField(max_length=50, blank=True)
 	email = models.CharField(max_length=100)
 	phone_number = models.CharField(max_length=20)
-	present_address = models.CharField(max_length=100, null=True)
-	description= models.TextField(null=True)
+	present_address = models.CharField(max_length=100, blank=True)
+	description= models.TextField(blank=True)
 	is_recruit = models.CharField(max_length=10, choices=IS_RECRUITE, verbose_name='What will you do ?')
 	is_status = models.BooleanField(default=True)
 	authority = models.BooleanField(default=False)
@@ -111,16 +111,22 @@ class UserProfile(models.Model):
 	class Meta:
 		ordering = ["-created", "-updated"]
 
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return 'user_{0}/{1}'.format(instance.user.id, filename)
+
 # Company that work for upload their jobs, company has relationship with table branch, jobs 
 class Company(models.Model):
 	user_id = models.ForeignKey(User, related_name='user_company', on_delete=models.CASCADE)
 	name = models.CharField(max_length=150)
-	company_logo = models.FileField()
+	#company_logo = models.FileField(upload_to=user_directory_path)
+	company_logo = models.FileField(blank=True)
 	email = models.CharField(max_length=30)
 	phone_number = models.CharField(max_length=30)
-	location = models.OneToOneField(City, on_delete=models.CASCADE)
+	#location = models.OneToOneField(City, on_delete=models.CASCADE)
+	location = models.CharField(max_length=100)
 	address = models.CharField(max_length=150)
-	web_site = models.CharField(max_length=150)
+	web_site = models.CharField(max_length=150, blank=True)
 	description = models.TextField()
 	is_branch = models.BooleanField(default=False, verbose_name='Does your company has more than one branch ?')
 	is_status = models.BooleanField(default=True)

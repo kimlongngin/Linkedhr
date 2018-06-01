@@ -79,10 +79,19 @@ class  CompanyUpdateView(SuccessMessageMixin, UpdateView):
 	success_message = "updated successfully"
 
 	def dispatch(self, request, *args, **kwargs):
-		if request.user.is_authenticated():
-			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
-		else:
-			return redirect('linkedhr:login')  
+		form = CompanyForm()
+		try:
+			com = Company.objects.get(pk = self.kwargs['pk'], user_id= request.user.id)
+			if request.user.is_authenticated():
+				return super(self.__class__, self).dispatch(request, *args, **kwargs)	
+			else:
+				return redirect('linkedhr:login')  
+		except Company.DoesNotExist:
+			raise Http404("Don't try to edit other user data !!!")
+
+	def get_form(self):
+		return CompanyForm(**self.get_form_kwargs())
+
 	def get(self, request, *args, **kwargs):
 		self.object = self.get_object()
 		return super(CompanyUpdateView, self).get(request, *args, **kwargs)
@@ -132,8 +141,7 @@ class CompanyView(TemplateView):
 			if userprofiledata :
 				for i in userprofiledata:
 					if i.is_recruit=='1':
-						#if form.is_valid:
-						if request.method == 'POST':
+						if form.is_valid():
 							post = form.save(commit=False)
 							post.user_id = request.user
 							post.save()
@@ -151,7 +159,7 @@ class CompanyView(TemplateView):
 								return redirect('linkedhr:myuserprofile_without_pk')
 							else:
 								return redirect('linkedhr:branch')
-						args = {'form':form, 'name':name}
+						args = {'form':form}
 						return render(request, self.template_name, args)
 					else:
 						return render(request, 'company/error_company.html')
@@ -342,6 +350,9 @@ class UserProfileUpdate(SuccessMessageMixin, generic.UpdateView):
 		except UserProfile.DoesNotExist:
 			raise Http404("Don't try to edit other user data !!!")
     
+	def get_form(self):
+		return UserProfileForm(**self.get_form_kwargs())
+
 	def get_object(self, queryset=None):
 		form= UserProfileForm()
 		try:

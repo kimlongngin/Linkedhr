@@ -70,7 +70,34 @@ class UserProfileForm(forms.ModelForm):
 	#def __init__(self, *args, **kwargs):
 		#super(UserProfileForm, self).__init__(*args, **kwargs)
 		#self.fields['city'].queryset = City.objects.all()
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return 'user_{0}/{1}'.format(instance.user.id, filename)
 
+class CompanyForm(forms.ModelForm):
+	company_logo= forms.FileField(required=False)
+	name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter country name'}), required=True)
+	web_site =forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}), required=False)
+	email = forms.CharField(widget=forms.EmailInput(attrs={'class':'form-control', 'placeholder':'example@mail.com'}), required=True)
+	address = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'rows':"3"}), required=True)
+	description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'rows':"3"}), required=True)
+	phone_number = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'(86)10123456'}), required=True)
+	location = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter city name'}), required=True)
+	is_branch = forms.BooleanField(required=False)
+	class Meta: 
+		model = Company
+		fields = ['name','company_logo','web_site','email', 'phone_number','location','address','description', 'is_branch']
+
+	def __init__(self, *args, **kwargs):
+		super(CompanyForm, self).__init__(*args, **kwargs)
+		self.fields['is_branch'].label='Doese your company has more branch ?'
+		self.fields['is_branch'].widget.attrs['type']='checkbox'
+		self.fields['is_branch'].widget.attrs['class']='checkbox'
+		self.fields['company_logo'].widget.attrs['type']='file'
+		self.fields['name'].label='Name(*)'
+
+
+	
 
 class EducationForm(forms.ModelForm):
 	description = forms.CharField(widget=forms.Textarea)
@@ -88,15 +115,6 @@ class ExperienceForm(forms.ModelForm):
 		model = Experience
 		fields = ['position','company', 'start_date', 'due_date', 'description', 'is_status']
 
-class CompanyForm(forms.ModelForm):
-	company_logo= forms.FileField(required=False)
-	name = forms.CharField()
-	address = forms.CharField(widget=forms.Textarea)
-	description = forms.CharField(widget=forms.Textarea, required=False)
-	web_site =forms.CharField(required=False)
-	class Meta: 
-		model = Company
-		fields = ['name','company_logo','email', 'phone_number','location','web_site','address','description', 'is_branch']
 
 class BranchForm(forms.ModelForm):
 	description = forms.CharField(widget=forms.Textarea)
