@@ -16,10 +16,16 @@
 
 										<h1>{{ i.name }}</h1>
 										
-													
-										<a href="{% url 'linkedhr:list_company' i.id %}"> 
-											<img src = "../../../../../{{ i.company_logo.url }}" class="img-circle" style="width: 140px; height: 140px;" alt = "140 X 140">
-										</a>
+										{% if i.company_logo %}
+										 	<a href="{% url 'linkedhr:list_company' i.id %}"> 
+												<img src = "../../{{ i.company_logo.url }}" class="img-circle" style="width: 140px; height: 140px;" alt = "140 X 140">
+											</a>
+										{% else %}
+											<a href="{% url 'linkedhr:list_company' i.id %}"> 
+												<img src = "" class="img-circle" style="width: 140px; height: 140px;" alt = "140 X 140">
+											</a>
+										{% endif %}			
+										
 								 		<li> <span></span>{{ i.name }}</li>
 								 		<li> <span></span>{{ i.email }}</li>
 								 		<li> <span></span>{{ i.phone_number }}</li>

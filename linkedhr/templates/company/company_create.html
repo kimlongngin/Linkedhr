@@ -87,7 +87,7 @@
 									    {% endfor %}
 									{% endif %}	
 										
-									{% if company %}				
+									{% if company.count > 0 %}				
 										<h3 class="mb-3">Create company  </h3> 
 										<p>you already had ({{company.count}}) company</p>
 									{% else %}
