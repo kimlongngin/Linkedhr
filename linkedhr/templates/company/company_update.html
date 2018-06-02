@@ -7,8 +7,8 @@
 	
 	{% if user.is_authenticated %}
 		
-			<div class="container">
-			<!-- <div class="container-fluid"> -->
+			<!-- <div class="container"> -->
+			<div class="container-fluid">
 				<div class="row align-items-center">
 					<div class="row">
 						<div class="col-md-12 order-md-12">
@@ -27,7 +27,7 @@
 										{% include 'city/form_template.html' %}
 
 							            <hr class="mb-4">
-							            <button class="btn btn-success" type="submit">Edit</button>
+							            <button class="btn btn-success" type="submit">Update</button>
 							            {% if object %}
 							            	<a href="{% url 'linkedhr:company-delete' object.id %}"  class="btn btn-danger">
 							            		<span class="glyphicon glyphicon-trash"> Delete </span>
@@ -45,13 +45,8 @@
 		
 	{% else %}
 		<div>
-			<p> Please login ! </p>
+			<a href="{% url 'linkedhr:login'%} " >>>Login </a>
 		</div>
 	{% endif %}
-
-	
-	
-
-
 	
 {% endblock %}

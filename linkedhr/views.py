@@ -17,16 +17,8 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.contrib.auth.models import User 
 
-from branch.views import BranchView
+from branch.views import BranchView, UpdateBranchView
 
-
-# ***************************************************
-# **************** BLOCK ExPERIENCE *****************
-# ***************************************************
-#class CompanyView(generic.CreateView)`:
-	#model = Experience 
-	#success_url = reverse_lazy('linkedhr:detailuserprofile')
-	#fields = ['user_id', 'name', 'location', 'company_logo', 'email', 'phone_number','description', 'is_status']
 
 # ********* Display of the company branch ***********
 
@@ -38,17 +30,20 @@ class  CompanyDeleteView(SuccessMessageMixin, DeleteView):
 	template_name ="company/company_delete.html"
 
 	def dispatch(self, request, *args, **kwargs):
-		if request.user.is_authenticated():
-			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
-		else:
-			return redirect('linkedhr:login') 
-
+		form = CompanyForm()
+		try:
+			com = Company.objects.get(pk = self.kwargs['pk'], user_id= request.user.id)
+			if request.user.is_authenticated():
+				return super(self.__class__, self).dispatch(request, *args, **kwargs)	
+			else:
+				return redirect('linkedhr:login')  
+		except Company.DoesNotExist:
+			raise Http404("You don't have permission to edit other user data !!!")
 
 class ListCompanyView(generic.ListView):
 	template_name =  'company/list_company.html'
 	context_object_name = 'all_companies'
 	paginate_by = 10
-
 
 	def get(self, request, *args, **kwargs):
 		#print(self.kwargs['pk'])
@@ -87,7 +82,7 @@ class  CompanyUpdateView(SuccessMessageMixin, UpdateView):
 			else:
 				return redirect('linkedhr:login')  
 		except Company.DoesNotExist:
-			raise Http404("Don't try to edit other user data !!!")
+			raise Http404("You don't have permission to edit other user data !!!")
 
 	def get_form(self):
 		return CompanyForm(**self.get_form_kwargs())
@@ -104,6 +99,7 @@ class  CompanyUpdateView(SuccessMessageMixin, UpdateView):
 
 # *********** Add Company ***************************
 class CompanyView(TemplateView):
+	model = Company
 	template_name = 'company/company_create.html'
 	#success_message = "company created successfully"
 	def dispatch(self, request, *args, **kwargs):
@@ -119,10 +115,6 @@ class CompanyView(TemplateView):
 		args = {'form':form, 'company':company}
 		if request.user.is_authenticated():
 			userprofiledata = UserProfile.objects.filter(user_id = request.user.id)
-			#companydata = Company.objects.filter(user_id = request.user.id, is_status=True)
-			#args = {'form':form, 'data':companydata}
-			#if companydata.count()>0:
-				#return render(request, self.template_name, args)
 			if userprofiledata :
 				for i in userprofiledata:
 					if i.is_recruit=='1':
@@ -155,10 +147,13 @@ class CompanyView(TemplateView):
 							description = form.cleaned_data['description']
 							is_branch = form.cleaned_data['is_branch']
 							
+							save_model=form.save()
 							if is_branch ==False :
 								return redirect('linkedhr:myuserprofile_without_pk')
 							else:
-								return redirect('linkedhr:branch')
+								cur_com_id = save_model.id
+								return redirect('linkedhr:branch', cur_com_id)
+								return redirect('linkedhr:userprofile-update', i.pk)
 						args = {'form':form}
 						return render(request, self.template_name, args)
 					else:
@@ -171,13 +166,6 @@ class CompanyView(TemplateView):
 # ***************************************************
 # **************** BLOCK ExPERIENCE *****************
 # ***************************************************
-
-
-# This view is for update the experience 
-#class ExperienceView(generic.CreateView):
-	#model = Experience 
-	#success_url = reverse_lazy('linkedhr:detailuserprofile')
-	#fields = ['user_id', 'position', 'company', 'start_date', 'due_date', 'description','is_status']
 
 class ExperienceView(TemplateView):
 	template_name = 'experience/experience_create.html'
@@ -306,30 +294,13 @@ class  EducationUpdate(SuccessMessageMixin, UpdateView):
 	fields = ['degree', 'institute', 'start_education_at', 'graduation_at', 'description', 'is_status'] 
 
 
-
-
-
-
 # ***************************************************
 # ************* BLOCK USER PROFILE ******************
 # ***************************************************
 
 ## Clase for registration user_profile (Create User)
 
-#class  UserProfileView(SuccessMessageMixin, CreateView):
-	#model = UserProfile 
-	#success_url = reverse_lazy('linkedhr:usereducation')
-	#success_message = "User Profile was created successfully"
-	#fields = ['user_id', 'sex', 'date_of_birth', 'city', 'phone_number', 'is_recruit', 'is_status']
-	#user_pk = model.pk
-	
-	#obj = UserProfileSession(user_pk)
-	#obj.StoreUserProfileSess()
-
-# *************************************************
-# ************ Update data of user profile ********
-# *************************************************
-
+# User profile udate 
 class UserProfileUpdate(SuccessMessageMixin, generic.UpdateView):
 	form = UserProfileForm()
 	model = UserProfile 
@@ -348,7 +319,7 @@ class UserProfileUpdate(SuccessMessageMixin, generic.UpdateView):
 			else:
 				return redirect('linkedhr:login')  
 		except UserProfile.DoesNotExist:
-			raise Http404("Don't try to edit other user data !!!")
+			raise Http404("You don't have permission to edit other user data !!!")
     
 	def get_form(self):
 		return UserProfileForm(**self.get_form_kwargs())
@@ -366,8 +337,7 @@ class UserProfileUpdate(SuccessMessageMixin, generic.UpdateView):
 			raise Http404("Don't try to edit other user data !!!")
 	
 
-
-
+# User profile create 
 class UserProfileView(SuccessMessageMixin, TemplateView):
 	template_name = 'userprofile/user_create.html'
 	success_message = "User Profile was created successfully"
@@ -408,9 +378,6 @@ class UserProfileView(SuccessMessageMixin, TemplateView):
 				
 				CreateStage = Stage.objects.create(user_id = request.user, stage=1, description='User profile registration.')
 				CreateStage.save()
-				
-				#user_profile_id=CreateStage.id
-				#request.session['user_profile_id'] =  user_profile_id
 				
 				if is_recruit == '2':
 					return redirect('linkedhr:usereducation')
@@ -457,21 +424,7 @@ class UserProfileDetailTwoView(generic.ListView):
 				#raise Http404(" User does not exist")
  		else:
  			return redirect('linkedhr:login') 
-	
 
-def UserProfileDetailView(request, pk=None):
-	template_name =  'userprofile/detail.html'
-	if pk:
-		try:
-			#userprofile =  UserProfile.objects.get(pk=pk, is_status=True)
-			userprofile =  UserProfile.objects.filter(user_id=request.user.id, is_status=True)
-			
-		except UserProfile.DoesNotExist:
-			raise Http404(" User does not exist")
-	#else:
-		#return redirect('linkedhr:login')
-	args = {'userprofile':userprofile}	
-	return render(request,  template_name, args) 
 
 # ***************************************************
 # ***************** BLOCK HOMEPAGE*******************

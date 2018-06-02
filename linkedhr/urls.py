@@ -19,7 +19,7 @@ urlpatterns = [
 	url(r'^register/userprofile/$', views.UserProfileView.as_view(), name='userprofile'),
 	
 	#url(r'^register/myuserprofile/(?P<user_id>\d+)/$', views.UserProfileDetailView.as_view(), name='myuserprofile_with_pk'),
-	url(r'^register/myuserprofile/(?P<pk>[0-9]+)/$', views.UserProfileDetailView, name='myuserprofile_with_pk'),
+	#url(r'^register/myuserprofile/(?P<pk>[0-9]+)/$', views.UserProfileDetailView, name='myuserprofile_with_pk'),
 
 	#url(r'^register/myuserprofile/(?P<user_id>\d+)/$', views.UserProfileDetailView.as_view(), name='myuserprofile_with_pk'),
 	url(r'^register/detailuserprofile/$', views.UserProfileDetailTwoView.as_view(), name='myuserprofile_without_pk'),
@@ -31,7 +31,7 @@ urlpatterns = [
 	url(r'^register/userprofile/usereducation/$', views.EducationView.as_view(), name='usereducation'),
 	
 	# /linkedhr/register/userprofile/usereducation/1
-    url(r'^register/userprofile/updateeducation(?P<pk>[0-9]+)/$', views.EducationUpdate.as_view(), name='education-update'),
+    url(r'^register/userprofile/updateeducation/(?P<pk>[0-9]+)/$', views.EducationUpdate.as_view(), name='education-update'),
 
 	# /linkedhr/register/userprofile/userexperience 
 	url(r'^register/userprofile/userexperience/$', views.ExperienceView.as_view(), name='userexperience'),
@@ -43,7 +43,10 @@ urlpatterns = [
 	url(r'^register/userprofile/company/$', views.CompanyView.as_view(), name='company'),
 
 	# /linkedhr/register/userprofile/company/branch 
-	url(r'^register/userprofile/company/branch/$', views.BranchView.as_view(), name='branch'),
+	url(r'^register/userprofile/company/branch/(?P<pk>[0-9]+)/$', views.BranchView.as_view(), name='branch'),
+
+	# /linkedhr/register/userprofile/company/branch 
+	url(r'^register/userprofile/company/branch/update/(?P<pk>[0-9]+)/$', views.UpdateBranchView.as_view(), name='branch-update'),
 
 
 	# /linkedhr/register/userprofile/company/1 

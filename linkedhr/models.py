@@ -147,7 +147,8 @@ class Company(models.Model):
 class Branch(models.Model):
 	com_id = models.ForeignKey(Company, on_delete=models.CASCADE)
 	name = models.CharField(max_length=30)
-	location = models.ForeignKey(City, on_delete=models.CASCADE)
+	#location = models.ForeignKey(City, on_delete=models.CASCADE)
+	location = models.CharField(max_length=100)
 	address = models.CharField(max_length=150)
 	web_site = models.CharField(max_length=150)
 	email = models.EmailField(max_length=250)

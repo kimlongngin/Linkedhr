@@ -18,7 +18,7 @@
 										
 										{% if i.company_logo %}
 										 	<a href="{% url 'linkedhr:list_company' i.id %}"> 
-												<img src = "../../{{ i.company_logo.url }}" class="img-circle" style="width: 140px; height: 140px;" alt = "140 X 140">
+												<img src = "../../../../../{{ i.company_logo.url }}" class="img-circle" style="width: 140px; height: 140px;" alt = "140 X 140">
 											</a>
 										{% else %}
 											<a href="{% url 'linkedhr:list_company' i.id %}"> 
@@ -34,19 +34,24 @@
 								 		<li> <span></span>{{ i.web_site }}</li>
 								 		<li> <span></span>{{ i.description }}</li>
 
-								 		<a class="btn btn-success" href="{% url 'linkedhr:company-update' i.id %}"> Edit </a> 
+								 		<div style="margin-top: 10px;">
+								 		<a  href="{% url 'linkedhr:company-update' i.id %}"> <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit</span> </a> 
+								 		<div>
 
+								 		
+										<h3> Branch </h3>
+										{% if i.branch_set.all.count > 0 %}
+									 		{% for j in i.branch_set.all  %}
+												<a  href="{% url 'linkedhr:branch-update' j.id %}"> <span class="glyphicon glyphicon-pencil" aria-hidden=true> {{ j.name }}</span> 
+												</a> 
+												<br>
+											{% endfor %}
+										{% else %}
+											<a class="btn btn-success" href="{% url 'linkedhr:branch' i.id %}"> Add </a> 
+										{% endif %}
 
-
-								 		<hr class="mb-4">
-										<h1> Branch </h1>
-
-								 		{% for j in i.branch_set.all  %}
-											<p> {{ j.name }} </p> <br>
-
-										{% endfor %}
-
-
+										<hr class="mb-4">
+								 		
 									{% endfor %}
 								{% endif %}
 								

@@ -96,7 +96,22 @@ class CompanyForm(forms.ModelForm):
 		self.fields['company_logo'].widget.attrs['type']='file'
 		self.fields['name'].label='Name(*)'
 
-
+class BranchForm(forms.ModelForm):
+	#com_id = forms.ModelChoiceField(widget=forms.Select(attrs={'class':'form-control'}), queryset=None, required=True)
+	name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter branch name'}), required=True)
+	location = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter location'}), required=True)
+	email = forms.CharField(widget=forms.EmailInput(attrs={'class':'form-control', 'placeholder':'example@mail.com'}), required=True)
+	phone_number = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'(86)10123456'}), required=True)
+	web_site=forms.CharField(widget=forms.TextInput(attrs={ 'class':'form-control', 'placeholder':'Enter website'}), required=True)
+	address = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'rows':"3"}), required=True)
+	description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'rows':"3"}), required=True)
+	class Meta: 
+		model = Branch
+		fields = ['name','location','address', 'web_site', 'email','phone_number', 'description']
+	
+	#def __init__(self, *args, **kwargs):
+		#super(BranchForm, self).__init__(*args, **kwargs)
+		#self.fields['com_id'].queryset = Company.objects.all()	
 	
 
 class EducationForm(forms.ModelForm):
@@ -116,9 +131,3 @@ class ExperienceForm(forms.ModelForm):
 		fields = ['position','company', 'start_date', 'due_date', 'description', 'is_status']
 
 
-class BranchForm(forms.ModelForm):
-	description = forms.CharField(widget=forms.Textarea)
-	address = forms.CharField(widget=forms.Textarea)
-	class Meta: 
-		model = Branch
-		fields = ['com_id', 'name','location','address', 'web_site', 'email','phone_number', 'description']

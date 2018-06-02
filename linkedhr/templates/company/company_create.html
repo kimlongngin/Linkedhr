@@ -9,70 +9,10 @@
 			height: 34px;
 			padding-bottom: 34px;
 			font-size: 14px;
-			
-			
-		 }
+		}
     </style>
-	<!-- <style type="text/css">
-		#id_company_logo{
-		 	display: block;
-			width: 100%;
-			height: 34px;
-			padding-bottom: 34px;
-			font-size: 14px;
-			line-height: 1.42857143;
-			color: #555;
-			background-color: #fff;
-			background-image: none;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-			-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-			box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-			-webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
-			-o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-			transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-		 }
-		#id_location, #id_address, #id_name,  #id_phone_number, #id_email, #id_web_site{
-		 	display: block;
-			width: 100%;
-			height: 34px;
-			padding: 6px 12px;
-			font-size: 14px;
-			line-height: 1.42857143;
-			color: #555;
-			background-color: #fff;
-			background-image: none;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-			-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-			box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-			-webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
-			-o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-			transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-		 }
-		 #id_description{
-		 	display: block;
-			width: 100%;
-			padding: 6px 12px;
-			font-size: 14px;
-			line-height: 1.42857143;
-			color: #555;
-			background-color: #fff;
-			background-image: none;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-			-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-			box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-			-webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
-			-o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-			transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-		 }
-		
-
-	</style> -->
 	
 	{% if user.is_authenticated %}
-		
 			<div class="container">
 			<!-- <div class="container-fluid"> -->
 				<div class="row align-items-center">
@@ -89,7 +29,7 @@
 										
 									{% if company.count > 0 %}				
 										<h3 class="mb-3">Create company  </h3> 
-										<p>you already had ({{company.count}}) company</p>
+										<p>you added ({{company.count}}) company</p>
 									{% else %}
 										<h3 class="mb-3">Create company  </h3> 
 									{% endif %}
@@ -114,31 +54,8 @@
 		
 	{% else %}
 		<div>
-			<p> Please login ! </p>
+			<a href="{% url 'linkedhr:login'%} " >>>Login </a>
 		</div>
 	{% endif %}
 
-	<!-- <script type="text/javascript">
-		document.getElementById("id_name").required = true;
-		document.getElementById("id_email").required = true;
-		document.getElementById("id_phone_number").required = true;
-		document.getElementById("id_location").required = true;
-		document.getElementById("id_address").required = true;
-
-
-		document.getElementById("id_description").rows="3"
-		document.getElementById("id_address").rows = "3";
-
-		document.getElementById("id_name").placeholder = "linkedhr";
-		document.getElementById("id_email").placeholder = "example@mail.com";
-		document.getElementById("id_phone_number").placeholder = "(855)10123456";
-		document.getElementById("id_web_site").placeholder = "wwww.example.com";
-		document.getElementById("id_address").placeholder = "country/city/street No/home No";
-
-	</script> -->
-
-	
-
-
-	
 {% endblock %}

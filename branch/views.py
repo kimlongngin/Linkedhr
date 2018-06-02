@@ -1,10 +1,8 @@
-
 from django.shortcuts import render, get_object_or_404, Http404
 from django.template import loader 
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView 
 from django.core.urlresolvers import reverse_lazy
-
 from django.shortcuts import render, redirect 
 from django.contrib.auth import authenticate, logout, login
 from django.views.generic import View, TemplateView 
@@ -19,37 +17,62 @@ from django.contrib import messages
 from django.contrib.auth.models import User 
 
 
-# ***************************************************
-# ****************** BLOCK BRANCH *******************
-# ***************************************************
+class UpdateBranchView(SuccessMessageMixin, UpdateView):
+	model = Branch 
+	form = BranchForm()
+	template_name = 'branch/branch_update.html'
+	fields = ['name', 'location',  'address', 'web_site', 'email', 'phone_number', 'description'] 
+	success_message = "Updated successfully"
 
-class UpdateBranch(generic.UpdateView):
-	model = Company 
-	fields = ['com_id', 'name', 'location',  'address', 'web_site', 'email', 'phone_number', 'description'] 
+	def get_form(self):
+		return BranchForm(**self.get_form_kwargs())
 
 	def dispatch(self, request, *args, **kwargs):
-		if request.user.is_authenticated():
-			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
-		else:
-			return redirect('linkedhr:login') 
+		try:
+			#Br = Branch.objects.get(id = self.kwargs['pk'], is_status)
+			#Br = get_object_or_404(Branch, id = self.kwargs['pk'], is_status=True)
+			#com = Company.objects.get(id = Br.com_id, user_id= request.user.id)
+			com = Company.objects.get(branch__id=self.kwargs['pk'], user_id= request.user.id)
+			print(self.kwargs['pk'])
+			print(com)
+			if request.user.is_authenticated():
+				return super(self.__class__, self).dispatch(request, *args, **kwargs)	
+			else:
+				return redirect('linkedhr:login')  
+		except Company.DoesNotExist:
+			raise Http404("You don't have permission to update this branch !") 
+
+	def get(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		return super(UpdateBranchView, self).get(request, *args, **kwargs)
+
+	def get_success_url(self):
+		if self.kwargs['pk']:
+			return reverse_lazy('linkedhr:branch-update',kwargs={'pk':self.kwargs['pk']})
+		return redirect('linkedhr:myuserprofile_without_pk')
 
 
 # Create branch in case each company has their branch
 class BranchView(generic.TemplateView):
+	model = Branch
 	template_name = 'branch/branch_create.html'
-	fields = ['com_id', 'name', 'location',  'address', 'web_site', 'email', 'phone_number', 'description'] 
+	fields = ['name', 'location',  'address', 'web_site', 'email', 'phone_number', 'description'] 
 
 	def dispatch(self, request, *args, **kwargs):
-		if request.user.is_authenticated():
-			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
-		else:
-			return redirect('linkedhr:login') 
-
-	def get(self, request):
+		form = BranchForm()
+		try:
+			com = Company.objects.get(id = self.kwargs['pk'], user_id= request.user.id)
+			if request.user.is_authenticated():
+				return super(self.__class__, self).dispatch(request, *args, **kwargs)	
+			else:
+				return redirect('linkedhr:login')  
+		except Company.DoesNotExist:
+			raise Http404("You don't have permission to create branch !")
+	
+	def get(self, request, pk):
 		form = BranchForm()
 		if request.user.is_authenticated():
-			objCom = Company.objects.filter(user_id=request.user.id, is_status=True)
-			print(objCom)
+			objCom = Company.objects.filter(id = self.kwargs['pk'], user_id=request.user.id, is_status=True)
 			if objCom.count()<=0:
 				return redirect('linkedhr:company')
 
@@ -57,8 +80,8 @@ class BranchView(generic.TemplateView):
 			if userprofiledata :
 				for i in userprofiledata:
 					if i.is_recruit=='1':
-						branches = Branch.objects.all()
-						args = {'form':form, 'branches':branches}
+						#branches = Branch.objects.all()
+						args = {'form':form}
 						return render(request, self.template_name, args)
 					else:
 						return render(request, 'company/error_company.html')
@@ -67,22 +90,18 @@ class BranchView(generic.TemplateView):
 		else:
 			return redirect('linkedhr:login')
 
-	def post(self, request):
+	def post(self, request, pk):
 		form = BranchForm(request.POST)
 		if request.user.is_authenticated():
 			try:
-				objCom = Company.objects.get(user_id=request.user.id)
+				objCom = Company.objects.get(id = self.kwargs['pk'], user_id=request.user.id, is_status=True)
 			except Company.DoesNotExist:
-				raise Http404("Please add company first")
-			#objCom= get_object_or_404(Company, user_id = request.user.id)
-			#print(objCom)
-
-
-			userprofiledata = UserProfile.objects.filter(user_id = request.user.id)
+				raise Http404("You don't have permission to create branch !")
+			userprofiledata = UserProfile.objects.filter(user_id = request.user.id, is_status=True)
 			if userprofiledata :
 				for i in userprofiledata:
 					if i.is_recruit=='1':
-						if form.is_valid:
+						if form.is_valid():
 							branch = form.save(commit = False)
 							branch.com_id = objCom
 							branch.save()
@@ -95,7 +114,8 @@ class BranchView(generic.TemplateView):
 							description = form.cleaned_data['description']
 							messages.success(request, "Created sucessfully !")
 						
-						args = {'form':form, 'name':name}
+						#form = BranchForm()
+						args = {'form':form}
 						#return HttpResponseRedirect(request.get_absolute_url())
 						return render(request, self.template_name, args)
 					else:
