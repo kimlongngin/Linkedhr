@@ -17,7 +17,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.contrib.auth.models import User 
 
-from branch.views import BranchView, UpdateBranchView
+from branch.views import BranchView, UpdateBranchView, BranchDeleteView
 
 
 # ********* Display of the company branch ***********
@@ -42,21 +42,23 @@ class  CompanyDeleteView(SuccessMessageMixin, DeleteView):
 
 class ListCompanyView(generic.ListView):
 	template_name =  'company/list_company.html'
-	context_object_name = 'all_companies'
+	#context_object_name = 'all_companies'
 	paginate_by = 10
 
 	def get(self, request, *args, **kwargs):
 		#print(self.kwargs['pk'])
-		if self.kwargs['pk']:
-			try:
-				#return Company.objects.filter(user_id=self.request.user.id);
-				data = Company.objects.filter(id=self.kwargs['pk'])
-				return render(request, self.template_name, {'data':data})
-			except UserProfile.DoesNotExist:
-		
-				raise Http404(" User does not exist")
+		if request.user.is_authenticated():
+			if self.kwargs['pk']:
+				try:
+					#return Company.objects.filter(user_id=self.request.user.id);
+					data = Company.objects.filter(id=self.kwargs['pk'], user_id=self.request.user.id, is_status=True)
+					return render(request, self.template_name, {'data':data})
+				except Company.DoesNotExist:
+					raise Http404(" User does not exist")
+			else:
+				raise Http404("Please check your data again.")
 		else:
-			raise Http404("Please check your data again.")
+			return redirect('linkedhr:login')  
 
 	def dispatch(self, request, *args, **kwargs):
 		if request.user.is_authenticated():

@@ -1,0 +1,11 @@
+{% extends 'city/base.html' %}
+{% block title %} Add City {% endblock %}
+{% block city_active %} Active {% endblock %}
+
+{% block body %}
+	<div style="text-align: center;width: 80%; padding: auto; margin: auto;">
+		<h2> Please update your company to create branch. </h2>
+		<a href="{% url 'linkedhr:company-update' arg %}">click here</a>
+		
+	</div>
+{% endblock %}
