@@ -46,7 +46,6 @@ class  BranchDeleteView(SuccessMessageMixin, DeleteView):
 		except Company.DoesNotExist:
 			raise Http404("You don't have permission to delete this branch !") 
 
-
 class UpdateBranchView(SuccessMessageMixin, UpdateView):
 	model = Branch 
 	form = BranchForm()

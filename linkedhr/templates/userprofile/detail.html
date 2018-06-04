@@ -56,8 +56,11 @@
 															<li><span class="krotis_span">From:</span> {{ i.start_education_at }} To {{ i.graduation_at }} </li>
 															<li><span class="krotis_span">Description:</span> {{ i.description }} </li>
 														</ul>
+														<!-- <a type="submit" class="btn btn-success" href="{% url 'linkedhr:education-update' i.id  %}"> <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span> </a>
+														<a type="submit" class="btn btn-success" href="{% url 'linkedhr:usereducation' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true> Add new </span> </a> -->
 														<a type="submit" class="btn btn-success" href="{% url 'linkedhr:education-update' i.id  %}"> <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span> </a>
 														<a type="submit" class="btn btn-success" href="{% url 'linkedhr:usereducation' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true> Add new </span> </a>
+
 													{% endfor %}
 												</div>
 												<hr class="mb-4">
@@ -101,7 +104,8 @@
 														
 													</ul>
 													{% for i in userprofile.0 %}
-														<a type="submit" class="btn btn-success" href="{% url 'linkedhr:userprofile-update' i.id  %}"> <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span> </a>
+														<!-- <a type="submit" class="btn btn-success" href="{% url 'linkedhr:userprofile-update' i.id  %}"> <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span> </a> -->
+														<a type="submit"  href="{% url 'linkedhr:userprofile-update' i.id  %}"> <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span> </a>
 													{% endfor %}
 												</div>
 											</div>
@@ -123,13 +127,13 @@
 														{% endif %}
 													 		<h5> {{ i.name }}</h5>
 												 			<div>
-												 				<a class="btn btn-success" href="{% url 'linkedhr:company' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true> Add-New</span> </a>
+												 				<a href="{% url 'linkedhr:company' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true>Add-New |</span></a>
 
-												 				<a class="btn btn-success" href="{% url 'linkedhr:company-update' i.id %}">  <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span>
+												 				<a  href="{% url 'linkedhr:company-update' i.id %}">  <span class="glyphicon glyphicon-pencil" aria-hidden=true>Edit |</span>
 												 				</a>
 
-												 				<a href="{% url 'linkedhr:company-delete' i.id %}"  class="btn btn-danger">
-											            			<span class="glyphicon glyphicon-trash"> Delete </span>
+												 				<a href="{% url 'linkedhr:company-delete' i.id %}">
+											            			<span class="glyphicon glyphicon-trash">Delete</span>
 											            		</a>
 
 												 			</div> 
