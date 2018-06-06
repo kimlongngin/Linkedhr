@@ -18,7 +18,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User 
 
 from branch.views import BranchView, UpdateBranchView, BranchDeleteView
-from education.views import EducationView, EducationUpdate
+from education.views import EducationView, EducationUpdate, EducationDeleteView
 
 
 # ********* Display of the company branch ***********

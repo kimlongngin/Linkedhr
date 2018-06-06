@@ -17,9 +17,38 @@ from django.contrib import messages
 from django.contrib.auth.models import User 
  
 
+class  EducationDeleteView(SuccessMessageMixin, DeleteView):
+	model = Education 
+	form = EducationForm()
+	success_url = reverse_lazy('linkedhr:myuserprofile_without_pk')
+	success_message = " Deleted successfully !"
+	template_name ="delete.html"
+
+	def get(self, request, *args, **kwargs):
+		if request.user.is_authenticated():
+			objEdu = Education.objects.filter(id=self.kwargs['pk'], user_id=request.user.id, is_status=True)
+			if objEdu.count()<=0:
+				return render(request, "error_education_experience.html")
+			self.object = self.get_object()
+			return super(EducationDeleteView, self).get(request, *args, **kwargs)	
+			
+		else:
+			return redirect('linkedhr:login') 
+    
+	def dispatch(self, request, *args, **kwargs):
+		try:
+			#Br = get_object_or_404(Branch, id = self.kwargs['pk'], is_status=True)
+			com = Education.objects.get(id=self.kwargs['pk'], user_id= request.user.id)
+			if request.user.is_authenticated():
+				return super(self.__class__, self).dispatch(request, *args, **kwargs)	
+			else:
+				return redirect('linkedhr:login')  
+		except Education.DoesNotExist:
+			raise Http404("Please check user log in !") 
+
+
 class EducationView(SuccessMessageMixin, generic.TemplateView):
 	template_name = 'create.html'
-	
 	
 	def dispatch(self, request, *args, **kwargs):
 		try:

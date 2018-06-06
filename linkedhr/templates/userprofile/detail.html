@@ -60,7 +60,7 @@
 														<a type="submit" class="btn btn-success" href="{% url 'linkedhr:usereducation' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true> Add new </span> </a> -->
 														<a type="submit" href="{% url 'linkedhr:education-update' i.id  %}"> <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span> </a> |
 														<a type="submit" href="{% url 'linkedhr:usereducation' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true> Add-new </span> </a> |
-														<a href="{% url 'linkedhr:education-update' i.id %}">
+														<a href="{% url 'linkedhr:education-delete' i.id %}">
 											            	<span class="glyphicon glyphicon-trash"> Delete</span>
 											            </a>
 
