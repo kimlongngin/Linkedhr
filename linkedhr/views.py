@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, logout, login
 from django.views.generic import View, TemplateView 
 from .models import City, UserProfile, Education, Stage, Experience, Branch, Company, ExperienceCheck
-from .forms import BranchForm, UserForm, UserLoginForm, UserProfileForm, EducationForm, ExperienceForm, CompanyForm
+from .forms import UserForm, UserLoginForm, UserProfileForm, ExperienceForm, CompanyForm
 from django.contrib.auth.views import login, logout
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -18,6 +18,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User 
 
 from branch.views import BranchView, UpdateBranchView, BranchDeleteView
+from education.views import EducationView, EducationUpdate
 
 
 # ********* Display of the company branch ***********
@@ -233,67 +234,6 @@ class  ExperienceUpdate(SuccessMessageMixin, UpdateView):
 				return redirect('linkedhr:userprofile')	 		
  		else:
  			return redirect('linkedhr:login') 
-
-# ***************************************************
-# ************* BLOCK EDUCATION PROFILE *************
-# ***************************************************
-
-# This view is for create the view and insert data in to table Education
-#class EducationView(generic.CreateView):
-	#model = Education 
-	#success_url = reverse_lazy('linkedhr:userexperience')
-	#fields = ['user_id', 'degree', 'institute', 'start_education_at', 'graduation_at', 'description', 'is_status']
-
-class EducationView(TemplateView):
-	template_name = 'education/education_create.html'
-	
-	def get(self, request):
-		form = EducationForm()
-		if request.user.is_authenticated():
-			userprofiledata = UserProfile.objects.filter(user_id = request.user.id)
-			if userprofiledata :
-				for i in userprofiledata:
-					if i.is_recruit=='2':
-						return render(request, self.template_name, {'form':form})
-					else:
-						#return redirect('linkedhr:error_education');
-						return render(request, 'userprofile/error_education_experience.html')
-
-			else:
-				return redirect('linkedhr:userprofile')
-		else:
-			return redirect('linkedhr:login')
-
-	def post(self, request):
-		form = EducationForm(request.POST)
-		if request.user.is_authenticated():
-			if form.is_valid:
-				post = form.save(commit=False)
-				post.user_id = request.user
-				post.save()
-				majority = form.cleaned_data['majority']
-				degree = form.cleaned_data['degree']
-				institute = form.cleaned_data['institute']
-				start_education_at = form.cleaned_data['start_education_at']
-				graduation_at = form.cleaned_data['graduation_at']
-				description = form.cleaned_data['description']
-				
-				CreateStage = Stage.objects.create(user_id = request.user, stage=2, description='User profile registration.')
-				CreateStage.save()	
-
-				return redirect('linkedhr:userexperience')
-			
-			args = {'form':form, 'text':text}
-			return render(request, self.template_name, args)
- 		else:
- 			return redirect('linkedhr:login')
-
-
-# This view is for update the view of the Education
-class  EducationUpdate(SuccessMessageMixin, UpdateView):
-	model = Education 
-	success_message = "Education was updated successfully"
-	fields = ['degree', 'institute', 'start_education_at', 'graduation_at', 'description', 'is_status'] 
 
 
 # ***************************************************

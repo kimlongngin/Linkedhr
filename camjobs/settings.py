@@ -13,6 +13,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 INSTALLED_APPS = (
     #'branch',
     'branch.apps.BranchConfig',
+    'education.apps.EducationConfig',
     'linkedhr.apps.LinkedHrConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -20,6 +21,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     
     #'rest_framework',
     #'company.apps.CompanyConfig'

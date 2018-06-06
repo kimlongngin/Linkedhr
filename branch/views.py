@@ -7,7 +7,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, logout, login
 from django.views.generic import View, TemplateView 
 from linkedhr.models import City, UserProfile, Stage, Branch, Company, ExperienceCheck
-from linkedhr.forms import BranchForm, UserForm, UserLoginForm, UserProfileForm, EducationForm, ExperienceForm, CompanyForm
+#from linkedhr.forms import BranchForm, UserForm, UserLoginForm, UserProfileForm, ExperienceForm, CompanyForm
+from linkedhr.forms import BranchForm
 from django.contrib.auth.views import login, logout
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator

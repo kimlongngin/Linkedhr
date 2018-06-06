@@ -114,12 +114,6 @@ class BranchForm(forms.ModelForm):
 		#self.fields['com_id'].queryset = Company.objects.all()	
 	
 
-class EducationForm(forms.ModelForm):
-	description = forms.CharField(widget=forms.Textarea)
-
-	class Meta: 
-		model = Education
-		fields = ['majority','degree', 'institute', 'start_education_at', 'graduation_at', 'description']
 
 class ExperienceForm(forms.ModelForm):
 	position = forms.CharField(required=True)
