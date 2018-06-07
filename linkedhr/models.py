@@ -184,8 +184,33 @@ class Education(models.Model):
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 	created = models.DateTimeField(auto_now=True, auto_now_add=False)
 	
+	def __str__(self):
+		return self.majority+","+self.degree	
 	class Meta:
 		ordering = ["-created", "-updated"]
+
+class ExperienceCheck(models.Model):
+	user_id = models.ForeignKey(User, related_name='experience_user')
+	is_experience = models.BooleanField(default=False)
+	
+
+# Experience of student or employee that has work before 
+class Experience(models.Model):
+	user_id = models.ForeignKey(User, related_name='user_experience', on_delete=models.CASCADE)
+	position = models.CharField(max_length=50)
+	company = models.CharField(max_length=50)
+	start_date =models.DateField(auto_now=False, default=date.today, blank=True)
+	due_date = models.DateField(auto_now=False, default=date.today, blank=True)
+	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+	created = models.DateTimeField(auto_now=True, auto_now_add=False)
+	description = models.TextField()
+	is_status = models.BooleanField(default=True)
+	
+	def __str__ (self):
+		return self.position+","+self.company
+	class Meta:
+		ordering = ["-created", "-updated"]
+
 
 # Create model Skill category, has relationship with Skill in many-one
 class SkillList(models.Model):
@@ -220,27 +245,7 @@ class Document(models.Model):
 	description = models.TextField()
 	is_status = models.BooleanField(default=True)
 		
-class ExperienceCheck(models.Model):
-	user_id = models.ForeignKey(User, related_name='experience_user')
-	is_experience = models.BooleanField(default=False)
-	
 
-# Experience of student or employee that has work before 
-class Experience(models.Model):
-	user_id = models.ForeignKey(User, related_name='user_experience', on_delete=models.CASCADE)
-	position = models.CharField(max_length=50)
-	company = models.CharField(max_length=50)
-	start_date =models.DateField(auto_now=False, default=date.today, blank=True)
-	due_date = models.DateField(auto_now=False, default=date.today, blank=True)
-	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
-	created = models.DateTimeField(auto_now=True, auto_now_add=False)
-	description = models.TextField()
-	is_status = models.BooleanField(default=True)
-	
-	def __str__ (self):
-		return self.is_status
-	class Meta:
-		ordering = ["-created", "-updated"]
 
 # Job position for each companies 
 class Position(models.Model):

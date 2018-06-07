@@ -24,7 +24,17 @@ class ExperienceDeleteView(SuccessMessageMixin, DeleteView):
 	success_url = reverse_lazy('linkedhr:myuserprofile_without_pk')
 	success_message = " Deleted successfully !"
 	template_name ="experience/experience_delete.html"
-	
+
+	def get(self, request, *args, **kwargs):
+		if request.user.is_authenticated():
+			objEx= Experience.objects.filter(id=self.kwargs['pk'], user_id=request.user.id, is_status=True)
+			if objEx.count()<=0:
+				return render(request, "error_education_experience.html")
+			self.object = self.get_object()
+			return super(ExperienceDeleteView, self).get(request, *args, **kwargs)	
+		else:
+			return redirect('linkedhr:login') 
+
 	def dispatch(self, request, *args, **kwargs):	
 		if request.user.is_authenticated():
 			userprofiledata= UserProfile.objects.filter(user_id = request.user.id)
@@ -35,17 +45,11 @@ class ExperienceDeleteView(SuccessMessageMixin, DeleteView):
 					else:
 						return render(request, 'error_education_experience.html')
 			else:
-				return redirect('linkedhr:userprofile')
+				raise Http404("Please check user log in !") 
 		else:
 			return redirect('linkedhr:login')
 
-	def get(self, request, *args, **kwargs):
-		form = ExperienceForm()
-		if request.user.is_authenticated():			
-			self.object = self.get_object()
-			return super(ExperienceDeleteView, self).get(request, *args, **kwargs)
-		else:
-			return redirect('linkedhr:login')
+	
 
 class  ExperienceUpdate(SuccessMessageMixin, UpdateView):
 	model = Experience 
