@@ -4,6 +4,7 @@ from django.forms import ModelForm
 from linkedhr.models import UserProfile, Education, Experience, Company, Branch, City
 from datetime import date
 
+
 class UserForm(forms.ModelForm):
 	username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter username'}), required=True)
 	first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter first name'}), required=True)

@@ -36,13 +36,17 @@ urlpatterns = [
     # /linkedhr/register/userprofile/company/branch 
 	url(r'^register/userprofile/company/education/delete/(?P<pk>[0-9]+)/$', views.EducationDeleteView.as_view(), name='education-delete'),
 
-
-
 	# /linkedhr/register/userprofile/userexperience 
 	url(r'^register/userprofile/userexperience/$', views.ExperienceView.as_view(), name='userexperience'),
 
 	# /linkedhr/register/userprofile/usereducation/1
-    url(r'^register/userprofile/experienceupdate(?P<pk>[0-9]+)/$', views.ExperienceUpdate.as_view(), name='experience-update'),
+    url(r'^register/userprofile/userexperience/(?P<pk>[0-9]+)/$', views.ExperienceUpdate.as_view(), name='experience-update'),
+
+    # /linkedhr/register/userprofile/company/branch 
+	url(r'^register/userprofile/userexperience/delete/(?P<pk>[0-9]+)/$', views.ExperienceDeleteView.as_view(), name='experience-delete'),
+
+
+
 
 	# /linkedhr/register/userprofile/company 
 	url(r'^register/userprofile/company/$', views.CompanyView.as_view(), name='company'),

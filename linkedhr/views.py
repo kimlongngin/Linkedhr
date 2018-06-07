@@ -19,6 +19,7 @@ from django.contrib.auth.models import User
 
 from branch.views import BranchView, UpdateBranchView, BranchDeleteView
 from education.views import EducationView, EducationUpdate, EducationDeleteView
+from experience.views import ExperienceUpdate, ExperienceView, ExperienceDeleteView
 
 
 # ********* Display of the company branch ***********
@@ -166,74 +167,6 @@ class CompanyView(TemplateView):
 		else:
 			return redirect('linkedhr:login')
 
-# ***************************************************
-# **************** BLOCK ExPERIENCE *****************
-# ***************************************************
-
-class ExperienceView(TemplateView):
-	template_name = 'experience/experience_create.html'
-	#form = UserProfileForm
-	
-	def get(self, request):
-		form = ExperienceForm()
-		if request.user.is_authenticated():	
-			StageData= Stage.objects.filter(user_id = request.user.id, stage=2)
-			userprofiledata= UserProfile.objects.filter(user_id = request.user.id)
-			if userprofiledata.count()>0:
-				for i in userprofiledata:
-					if i.is_recruit=='2':
-						return render(request, self.template_name, {'form':form})
-					else:
-						return render(request, 'userprofile/error_education_experience.html')
-			else:
-				return redirect('linkedhr:userprofile')
-		else:
-			return redirect('linkedhr:login')
-	def post(self, request):
-		form = ExperienceForm(request.POST)
-		if request.user.is_authenticated():
-			if form.is_valid:
-				post = form.save(commit=False)
-				post.user_id = request.user
-				post.save()
-				position = form.cleaned_data['position']
-				company = form.cleaned_data['company']
-				start_date = form.cleaned_data['start_date']
-				due_date = form.cleaned_data['due_date']
-				description = form.cleaned_data['description']
-				is_status = form.cleaned_data['is_status']
-				
-				CreateStage = Stage.objects.create(user_id = request.user, stage=3, description='User profile registration.')
-				UserProfile.objects.filter(user_id=request.user.id).update(authority=True)
-				CreateStage.save()	
-				return redirect('linkedhr:index')
-			
-			args = {'form':form, 'text':text}
-			return render(request, self.template_name, args)
-		else:
-			return redirect('linkedhr:login')
-
-# ************ Update Experience *******************
-# This view is for update the view of the Education
-class  ExperienceUpdate(SuccessMessageMixin, UpdateView):
-	model = Experience 
-	success_message = "Experience was updated successfully"
-	fields = ['position', 'company', 'start_date', 'due_date', 'description'] 
-
-	def get_queryset(self):
-		form = ExperienceForm()
-		if self.request.user.is_authenticated():
-			userprofiledata =UserProfile.objects.filter(user_id=self.request.user.id, is_status=True)
-	 		if userprofiledata :
-				for i in userprofiledata:
-					if i.is_recruit=='2':
-						return render(request, self.template_name, {'form':form})
-					else:
-						return render(request, 'userprofile/error_education_experience.html')
-			else:
-				return redirect('linkedhr:userprofile')	 		
- 		else:
- 			return redirect('linkedhr:login') 
 
 
 # ***************************************************

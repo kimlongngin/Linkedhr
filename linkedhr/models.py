@@ -235,7 +235,7 @@ class Experience(models.Model):
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 	created = models.DateTimeField(auto_now=True, auto_now_add=False)
 	description = models.TextField()
-	is_status = models.BooleanField(default=False)
+	is_status = models.BooleanField(default=True)
 	
 	class Meta:
 		ordering = ["-created", "-updated"]
@@ -244,10 +244,10 @@ class Experience(models.Model):
 class Position(models.Model):
 	name = models.CharField(max_length=100)
 	description = models.TextField()
-	is_status = models.BooleanField(default=True)
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 	created = models.DateTimeField(auto_now=True, auto_now_add=False)
-	
+	is_status = models.BooleanField(default=True)
+
 	def __str__ (self):
 		return self.name
 	class Meta:
@@ -257,9 +257,9 @@ class Position(models.Model):
 class JobType(models.Model):
 	name = models.CharField(max_length=20)
 	description = models.TextField()
-	is_status = models.BooleanField(default=True)
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 	created = models.DateTimeField(auto_now=True, auto_now_add=False)
+	is_status = models.BooleanField(default=True)
 	def __str__ (self):
 		return self.is_status
 	class Meta:
@@ -271,6 +271,7 @@ class RecruitmentBranch(models.Model):
 	branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 	created = models.DateTimeField(auto_now=True, auto_now_add=False)
+	is_status = models.BooleanField(default=True)
 	def __str__ (self):
 		return self.is_status
 	class Meta:
@@ -297,9 +298,10 @@ class Recruitment(models.Model):
         on_delete=models.CASCADE,
         related_name='jobtype_of',
     )
-	is_status = models.BooleanField(default=False)
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 	created = models.DateTimeField(auto_now=True, auto_now_add=False)
+	is_status = models.BooleanField(default=True)
+
 	def __str__ (self):
 		return self.is_status
 	class Meta:
@@ -312,7 +314,7 @@ class Apply(models.Model):
 	description = models.TextField()	
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 	created = models.DateTimeField(auto_now=True, auto_now_add=False)
-	is_status = models.BooleanField(default=False)
+	is_status = models.BooleanField(default=True)
 	def __str__ (self):
 		return self.is_status
 	class Meta:

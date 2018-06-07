@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render, redirect 
 from django.contrib.auth import authenticate, logout, login
 from django.views.generic import View, TemplateView 
-from linkedhr.models import City, UserProfile, Stage, Branch, Company, ExperienceCheck, Education
+from linkedhr.models import City, UserProfile, Stage, Education
 from .forms import EducationForm
 from django.contrib.auth.views import login, logout
 from django.contrib.auth.decorators import login_required
@@ -22,7 +22,7 @@ class  EducationDeleteView(SuccessMessageMixin, DeleteView):
 	form = EducationForm()
 	success_url = reverse_lazy('linkedhr:myuserprofile_without_pk')
 	success_message = " Deleted successfully !"
-	template_name ="delete.html"
+	template_name ="education/delete.html"
 
 	def get(self, request, *args, **kwargs):
 		if request.user.is_authenticated():
@@ -48,8 +48,9 @@ class  EducationDeleteView(SuccessMessageMixin, DeleteView):
 
 
 class EducationView(SuccessMessageMixin, generic.TemplateView):
-	template_name = 'create.html'
-	
+	model = Education 
+	form = EducationForm()
+	template_name ="education/create.html"
 	def dispatch(self, request, *args, **kwargs):
 		try:
 			userprofiledata = UserProfile.objects.get(user_id = request.user.id, is_status=True)
@@ -109,11 +110,13 @@ class EducationView(SuccessMessageMixin, generic.TemplateView):
 # This view is for update the view of the Education
 class  EducationUpdate(SuccessMessageMixin, UpdateView):
 	model = Education 
-	template_name = 'update.html'
+	template_name = 'education/education_update.html'
 	success_message = "Education was updated successfully"
-	fields = ['degree', 'institute', 'start_education_at', 'graduation_at', 'description', 'is_status'] 
+	fields = ['degree', 'institute', 'start_education_at', 'graduation_at', 'description'] 
+	form = EducationForm()
 	
 	def dispatch(self, request, *args, **kwargs):
+		form = EducationForm()
 		try:
 			if request.user.is_authenticated():
 				objEdu = Education.objects.filter(id=self.kwargs['pk'], user_id=request.user.id, is_status=True)

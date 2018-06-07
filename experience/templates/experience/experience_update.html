@@ -1,0 +1,57 @@
+{% extends '../../linkedhr/templates/city/base.html' %}
+{% block title %} Experience {% endblock %}
+{% block city_active %} Active {% endblock %}
+
+{% block body %}
+	<style type="text/css">
+		#id_company_logo{
+		 	
+			height: 34px;
+			padding-bottom: 34px;
+			font-size: 14px;
+		}
+    </style>
+	
+	{% if user.is_authenticated %}
+			<div class="container">
+			<!-- <div class="container-fluid"> -->
+				<div class="row align-items-center">
+					<div class="row">
+						
+						<div class="col-md-12 order-md-12">
+							<div class="panel panel-default">
+								<div class="panel-body">	
+									{% if messages %}
+									    {% for message in messages %}
+									      <p class="bg-success success_text">{{ message }}</p>
+									    {% endfor %}
+									{% endif %}	
+										
+									<h3 class="mb-3">Update experience  </h3> 
+									
+									<hr class="mb-4">
+									<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+										
+										{% csrf_token %}
+										{% include 'city/form_template.html' %}
+										<div class="form-group">
+											<div class="col-sm-offset-2 col-sm-10">
+												<button type="submit" class="btn btn-success">Update</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		
+	{% else %}
+		<div>
+			<a href="{% url 'linkedhr:login'%} " >>>Login </a>
+		</div>
+	{% endif %}
+
+{% endblock %}

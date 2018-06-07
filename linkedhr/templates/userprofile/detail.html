@@ -69,6 +69,7 @@
 												<hr class="mb-4">
 												<div>
 													<h3> Experiences </h3>
+													{% if userprofile.2.count > 0 %}
 													{% for i in userprofile.2 %}
 														<ul>
 															<li><span>Position: </span> {{ i.position }} </li>
@@ -79,11 +80,21 @@
 														<div class="form-group">
 															<div>
 																<a type="submit" href="{% url 'linkedhr:experience-update' i.id  %}"> <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span> </a> | 
-																<a type="submit"  href="{% url 'linkedhr:userexperience' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span></a>
+																<a type="submit"  href="{% url 'linkedhr:userexperience' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true> Add-new </span></a> | 
+																<a href="{% url 'linkedhr:experience-delete' i.id %}">
+											            	<span class="glyphicon glyphicon-trash"> Delete</span>
+											            </a>
+
 															</div>
 														</div>
 
 													{% endfor %}
+													{% else %}
+														<div>
+															<a type="submit"  href="{% url 'linkedhr:userexperience' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true> Add-Experience </span></a>
+														</div>
+
+													{% endif %}
 												</div>				
 											</div>
 
