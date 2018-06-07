@@ -1,16 +1,8 @@
-{% extends '../../linkedhr/templates/city/base.html' %}
-{% block title %} Add City {% endblock %}
+{% extends 'city/base.html' %}
+{% block title %} Experience {% endblock %}
 {% block city_active %} Active {% endblock %}
 
 {% block body %}
-	<style type="text/css">
-		#id_company_logo{
-		 	
-			height: 34px;
-			padding-bottom: 34px;
-			font-size: 14px;
-		}
-    </style>
 	
 	{% if user.is_authenticated %}
 			<div class="container">
@@ -27,7 +19,7 @@
 									    {% endfor %}
 									{% endif %}	
 										
-									<h3 class="mb-3">Update education  </h3> 
+									<h3 class="mb-3">Update experience  </h3> 
 									
 									<hr class="mb-4">
 									<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
@@ -36,7 +28,7 @@
 										{% include 'city/form_template.html' %}
 										<div class="form-group">
 											<div class="col-sm-offset-2 col-sm-10">
-												<button type="submit" class="btn btn-success">Save</button>
+												<button type="submit" class="btn btn-success">Update</button>
 											</div>
 										</div>
 									</form>

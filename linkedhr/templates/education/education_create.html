@@ -1,20 +1,12 @@
-{% extends '../../linkedhr/templates/city/base.html' %}
+{% extends 'city/base.html' %}
 {% block title %} Add City {% endblock %}
 {% block city_active %} Active {% endblock %}
 
 {% block body %}
-	<style type="text/css">
-		#id_company_logo{
-		 	
-			height: 34px;
-			padding-bottom: 34px;
-			font-size: 14px;
-		}
-    </style>
 	
 	{% if user.is_authenticated %}
-			<div class="container">
-			<!-- <div class="container-fluid"> -->
+			<!--<div class="container"> -->
+			<div class="container-fluid">
 				<div class="row align-items-center">
 					<div class="row">
 						
@@ -31,7 +23,6 @@
 									
 									<hr class="mb-4">
 									<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
-										
 										{% csrf_token %}
 										{% include 'city/form_template.html' %}
 										<div class="form-group">

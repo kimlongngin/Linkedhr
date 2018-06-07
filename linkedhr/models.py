@@ -177,8 +177,8 @@ class Education(models.Model):
 	majority = models.CharField(max_length=150)
 	degree = models.CharField(max_length=10, choices=IS_DEGREE, verbose_name='Degree')
 	institute = models.CharField(max_length=150)
-	start_education_at = models.DateField(auto_now=False, default=date.today, blank=True, verbose_name='Start at')
-	graduation_at = models.DateField(auto_now=False, default=date.today, blank=True, verbose_name='Graduation at')
+	start_education_at = models.DateField(auto_now=False, default=date.today,  verbose_name='Start at')
+	graduation_at = models.DateField(auto_now=False, default=date.today, verbose_name='Graduation at')
 	description = models.TextField()
 	is_status = models.BooleanField(default=True)
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
@@ -237,6 +237,8 @@ class Experience(models.Model):
 	description = models.TextField()
 	is_status = models.BooleanField(default=True)
 	
+	def __str__ (self):
+		return self.is_status
 	class Meta:
 		ordering = ["-created", "-updated"]
 

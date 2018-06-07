@@ -158,9 +158,7 @@ class BranchView(SuccessMessageMixin, generic.TemplateView):
 							description = form.cleaned_data['description']
 							messages.success(request, "Created sucessfully !")
 						
-						#form = BranchForm()
 						args = {'form':form}
-						#return HttpResponseRedirect(request.get_absolute_url())
 						return render(request, self.template_name, args)
 					else:
 						return render(request, 'company/error_company.html')

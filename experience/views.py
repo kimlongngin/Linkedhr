@@ -8,13 +8,14 @@ from django.contrib.auth import authenticate, logout, login
 from django.views.generic import View, TemplateView 
 from linkedhr.models import City, UserProfile, Stage, Experience
 from .forms import ExperienceForm
+#from linkedhr.forms import ExperienceForm
 from django.contrib.auth.views import login, logout
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
-from django.contrib.auth.models import User 
+from django.contrib.auth.models import User  
 
 
 class ExperienceDeleteView(SuccessMessageMixin, DeleteView):
@@ -22,10 +23,9 @@ class ExperienceDeleteView(SuccessMessageMixin, DeleteView):
 	form = ExperienceForm()
 	success_url = reverse_lazy('linkedhr:myuserprofile_without_pk')
 	success_message = " Deleted successfully !"
-	template_name ="experience/delete.html"
+	template_name ="experience/experience_delete.html"
 	
 	def dispatch(self, request, *args, **kwargs):	
-		form = ExperienceForm()	
 		if request.user.is_authenticated():
 			userprofiledata= UserProfile.objects.filter(user_id = request.user.id)
 			if userprofiledata.count()>0:
@@ -53,6 +53,9 @@ class  ExperienceUpdate(SuccessMessageMixin, UpdateView):
 	template_name = 'experience/experience_update.html'
 	success_message = "Experience was updated successfully"
 	fields = ['position', 'company', 'start_date', 'due_date', 'description'] 
+
+	def get_form(self):
+		return ExperienceForm(**self.get_form_kwargs())
 
 	def dispatch(self, request, *args, **kwargs):	
 		form = ExperienceForm()	
@@ -83,13 +86,11 @@ class  ExperienceUpdate(SuccessMessageMixin, UpdateView):
 		return redirect('linkedhr:myuserprofile_without_pk')
 
 class ExperienceView(SuccessMessageMixin, TemplateView):
-	model = Experience
-	template_name = 'experience/create.html'
-	success_message = 'Created successfully !'
+	model = Experience 
 	form = ExperienceForm()
+	template_name ="experience/experience_create.html"
 	
 	def dispatch(self, request, *args, **kwargs):
-		
 		if request.user.is_authenticated():
 			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
 		else:
@@ -126,7 +127,7 @@ class ExperienceView(SuccessMessageMixin, TemplateView):
 				CreateStage.save()	
 				messages.success(request, "Created sucessfully !")
 		
-			form = ExperienceForm()				
+			#form = ExperienceForm()				
 			args = {'form':form}
 			return render(request, self.template_name, args)
 		else:

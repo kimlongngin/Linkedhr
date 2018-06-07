@@ -1,4 +1,4 @@
-{% extends '../../linkedhr/templates/city/base.html' %}
+{% extends 'city/base.html' %}
 {% block title %} Add City {% endblock %}
 {% block city_active %} Active {% endblock %}
 
@@ -27,16 +27,17 @@
 									    {% endfor %}
 									{% endif %}	
 										
-									<h3 class="mb-3">Create experience  </h3> 
+									<h3 class="mb-3">Update education  </h3> 
 									
 									<hr class="mb-4">
 									<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
 										
 										{% csrf_token %}
+										<!-- {{ form.as_p }} -->
 										{% include 'city/form_template.html' %}
 										<div class="form-group">
 											<div class="col-sm-offset-2 col-sm-10">
-												<button type="submit" class="btn btn-success">Save</button>
+												<button type="submit" class="btn btn-success">Update</button>
 											</div>
 										</div>
 									</form>
