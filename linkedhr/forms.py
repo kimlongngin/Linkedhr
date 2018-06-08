@@ -3,6 +3,7 @@ from django import forms
 from django.forms import ModelForm
 from linkedhr.models import UserProfile, Education, Experience, Company, Branch, City
 from datetime import date
+from django.shortcuts import render, get_object_or_404, Http404
 
 
 
@@ -83,7 +84,8 @@ class UserProfileForm(forms.ModelForm):
 	#city = forms.ModelChoiceField(widget=forms.Select(attrs={'class':'form-control'}), queryset=None, required=True)
 	nationality = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Kh'}), required=False)
 	email = forms.CharField(widget=forms.EmailInput(attrs={'class':'form-control', 'placeholder':'example@mail.com'}), required=True)
-	phone_number = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'(86)10123456'}), required=True)
+	phone_number = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'85510123456'}), required=True)
+	zip_code = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'zip code'}), required=True)
 	description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'rows':"3"}), required=False)
 	present_address = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'rows':"3"}), required=False)
 	#is_recruit = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}), required=False)
@@ -91,7 +93,23 @@ class UserProfileForm(forms.ModelForm):
 
 	class Meta: 
 		model = UserProfile
-		fields = ['sex', 'date_of_birth', 'country', 'city', 'nationality','email','phone_number','present_address', 'description', 'is_recruit']
+		fields = ['sex', 'date_of_birth', 'country', 'city', 'nationality','email','phone_number','zip_code','present_address', 'description', 'is_recruit']
+	
+	def clean_zip_code(self):
+		zipc = self.cleaned_data.get('zip_code', None)
+		try:
+			int(zipc)
+		except (ValueError, TypeError):
+			raise forms.ValidationError('Make sure that this field can input only number.')
+		return zipc
+
+	def clean_phone_number(self):
+		phone_no = self.cleaned_data.get('phone_number', None)
+		try:
+			int(phone_no)
+		except (ValueError, TypeError):
+			raise forms.ValidationError('Please enter a valid phone number')
+		return phone_no
 	
 	#def __init__(self, *args, **kwargs):
 		#super(UserProfileForm, self).__init__(*args, **kwargs)

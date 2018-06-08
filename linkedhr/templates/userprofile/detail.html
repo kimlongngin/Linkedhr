@@ -17,7 +17,7 @@
 									      <p class="bg-success">{{ message }}</p>
 									    {% endfor %}
 								{% endif %}						
-								
+								{% if user.is_authenticated %}Hello, {{ user.first_name }} {{ user.last_name }}.{% endif %}
 								{% if userprofile %}
 									{% for j in userprofile.0 %}
 										{% if j.is_recruit == "2" %}
@@ -34,7 +34,9 @@
 															<li> <span>Present Address: </span>{{ i.city }} </li>
 															<li> <span>Email: </span>{{ i.email }} </li>
 															<li> <span>Phone number: </span>{{ i.phone_number }} </li>
+															{% if i.description %}
 															<li> <span>Description: </span>{{ i.description }} </li>
+															{% endif %}
 
 														{% endfor %}
 														
@@ -54,7 +56,9 @@
 															<li><span class="krotis_span">Majority:</span> {{ i.majority }}</li>
 															<li><span class="krotis_span">Degree:</span> {{ i.degree }}</li>
 															<li><span class="krotis_span">From:</span> {{ i.start_education_at }} To {{ i.graduation_at }} </li>
-															<li><span class="krotis_span">Description:</span> {{ i.description }} </li>
+															{% if i.description %}
+																<li><span class="krotis_span">Description:</span> {{ i.description }} </li>
+															{% endif %}
 														</ul>
 														<!-- <a type="submit" class="btn btn-success" href="{% url 'linkedhr:education-update' i.id  %}"> <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span> </a>
 														<a type="submit" class="btn btn-success" href="{% url 'linkedhr:usereducation' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true> Add new </span> </a> -->
@@ -75,6 +79,11 @@
 															<li><span>Position: </span> {{ i.position }} </li>
 															<li><span>Company:</span> {{ i.company }}</li>
 															<li><span>From: </span>{{ i.start_date }} <span>To :</span> {{ i.due_date }}</li>
+															{% if i.description %}
+															<li>
+																<span>Detail: </span>{{ i.description }} 
+															</li>
+															{% endif %}
 														</ul>
 														
 														<div class="form-group">
@@ -112,8 +121,9 @@
 															<li> <span>Present Address: </span>{{ i.city }} </li>
 															<li> <span>Email: </span>{{ i.email }} </li>
 															<li> <span>Phone number: </span>{{ i.phone_number }} </li>
+															{% if i.description %}
 															<li> <span>Description: </span>{{ i.description }} </li>
-
+															{% endif %}
 														{% endfor %}
 														
 													</ul>
@@ -149,12 +159,8 @@
 												 				<a href="{% url 'linkedhr:company-delete' i.id %}">
 											            			<span class="glyphicon glyphicon-trash">Delete</span>
 											            		</a>
-
 												 			</div> 
-												 		
 												 			<br>
-
-
 												 	{% endfor %}
 												
 												{% else %}
@@ -162,10 +168,7 @@
 												{% endif %}
 											</div>
 										{% endif %}
-
 									{% endfor %}
-
-								
 								{% else %}
 									<h2> Register first !  </h2>
 								{% endif %}
@@ -174,9 +177,7 @@
 								{% endif %}
 	{% else %}
 		<a href="{% url 'linkedhr:login'%} " >>>Login </a>
-	{% endif %}
-
-						
+	{% endif %}						
 					</div>
 				</div>
 			</div>

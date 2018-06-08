@@ -181,8 +181,8 @@ class UserProfileUpdate(SuccessMessageMixin, generic.UpdateView):
 	model = UserProfile 
 	#template_name = 'userprofile/user_update.html'
 	template_name_suffix = '_form'
-	success_url = reverse_lazy('linkedhr:myuserprofile_without_pk')
-	success_message = "updated successfully"
+	#success_url = reverse_lazy('linkedhr:myuserprofile_without_pk')
+	success_message = "Userprofile was updated successfully"
 	fields = ['sex', 'date_of_birth', 'country','city', 'nationality', 'email', 'phone_number', 'is_recruit', 'present_address','description']
 	
 	def dispatch(self, request, *args, **kwargs):
@@ -210,6 +210,11 @@ class UserProfileUpdate(SuccessMessageMixin, generic.UpdateView):
 				return redirect('linkedhr:login') 
 		except UserProfile.DoesNotExist:
 			raise Http404("Don't try to edit other user data !!!")
+	
+	def get_success_url(self):
+		if self.kwargs['pk']:
+			return reverse_lazy('linkedhr:userprofile-update',kwargs={'pk':self.kwargs['pk']})
+		return redirect('linkedhr:myuserprofile_without_pk')
 	
 
 # User profile create 

@@ -97,6 +97,7 @@ class UserProfile(models.Model):
 	nationality = models.CharField(max_length=50, blank=True)
 	email = models.CharField(max_length=100)
 	phone_number = models.CharField(max_length=20)
+	zip_code = models.CharField(max_length=10)
 	present_address = models.CharField(max_length=100, blank=True)
 	description= models.TextField(blank=True)
 	is_recruit = models.CharField(max_length=10, choices=IS_RECRUITE, verbose_name='What will you do ?')
