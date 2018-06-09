@@ -1,6 +1,8 @@
 {% extends 'city/base.html' %}
 
 {% block body %}
+	
+	
 
 	{% if user.is_authenticated %}
 		{% if data %}
@@ -26,31 +28,36 @@
 											</a>
 										{% endif %}			
 										
-								 		<li> <span></span>{{ i.name }}</li>
-								 		<li> <span></span>{{ i.email }}</li>
-								 		<li> <span></span>{{ i.phone_number }}</li>
-								 		<li> <span></span>{{ i.location }}</li>
-								 		<li> <span></span>{{ i.address }}</li>
-								 		<li> <span></span>{{ i.web_site }}</li>
-								 		<li> <span></span>{{ i.description }}</li>
-
-								 		<div style="margin-top: 10px;">
-								 		<a  href="{% url 'linkedhr:company-update' i.id %}"> <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit</span> </a> 
-								 		<div>
+										<ul>
+									 		<li> {{ i.name }}</li>
+									 		<li> {{ i.email }}</li>
+									 		<li> {{ i.phone_number }}</li>
+									 		<li> {{ i.location }}</li>
+									 		<li> {{ i.address }}</li>
+									 		<li> {{ i.web_site }}</li>
+									 		<li> {{ i.description }}</li>
+								 		</ul>
+								 		
 
 								 		{% if i.is_branch == True %}
 											<h3> Branch </h3>
 											{% if i.branch_set.all.count > 0 %}
 										 		{% for j in i.branch_set.all  %}
-													<a  href="{% url 'linkedhr:branch-update' j.id %}"> <span class="glyphicon glyphicon-edit" aria-hidden=true> {{ j.name }} {{ j.location }}</span> 
+													<a style="color:black;" href="{% url 'linkedhr:branch-update' j.id %}"> <span class="glyphicon glyphicon-edit" aria-hidden=true> {{ j.name }} {{ j.location }}</span> 
 													</a> 
 													<br>
 												{% endfor %}
 											{% else %}
-												<a class="btn btn-success" href="{% url 'linkedhr:branch' i.id %}"> Add </a> 
+												<a href="{% url 'linkedhr:branch' i.id %}"> Add </a> 
 											{% endif %}
+											<hr class="mb-4">
+											<a href="{% url 'linkedhr:branch' i.id %}"> 
+												<span class="glyphicon glyphicon-plus" aria-hidden=true>													Add-new-branch
+												</span>
+											</a> 
+
 										{% endif %}	
-										<hr class="mb-4">
+										
 								 		
 									{% endfor %}
 								

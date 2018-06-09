@@ -21,7 +21,6 @@
 								{% if userprofile %}
 									{% for j in userprofile.0 %}
 										{% if j.is_recruit == "2" %}
-											
 												<div>
 
 													<h3> Profile </h3>
@@ -42,7 +41,7 @@
 														
 													</ul>
 													{% for i in userprofile.0 %}
-														<a type="submit" class="btn btn-success" href="{% url 'linkedhr:userprofile-update' i.id  %}"> <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span>  </a>
+														<a type="submit"  href="{% url 'linkedhr:userprofile-update' i.id  %}"> <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span>  </a>
 													{% endfor %}
 												</div>
 												<hr class="mb-4">
@@ -100,7 +99,7 @@
 													{% endfor %}
 													{% else %}
 														<div>
-															<a type="submit"  href="{% url 'linkedhr:userexperience' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true> Add-Experience </span></a>
+															<a type="submit"  href="{% url 'linkedhr:userexperience' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true> Add-experience </span></a>
 														</div>
 
 													{% endif %}
@@ -109,9 +108,9 @@
 
 										{% else %}
 											<div >
-												<div >
-
-													<h3> Profile </h3>
+											<h2> Profile </h2>
+												<div class="bs-callout bs-callout-info" id="callout-type-dl-truncate"> 
+													
 													<ul>
 														
 														{% for i in userprofile.0 %}
@@ -135,11 +134,33 @@
 											</div>
 											<hr class="mb-4">
 											<div>
+												
+
 												<h3> Company </h3>
 												
 												{% if userprofile.1 %}
 
 												 	{% for i in userprofile.1 %}
+
+												 	<div class="bs-callout bs-callout-info" id="callout-type-dl-truncate"> 
+														<h4> Name: {{ i.name }} </h4>
+														<p>
+															<code>
+																{% if i.is_branch == True %}
+													 				{% if i.branch_set.all.count > 0 %}
+														 				{% if i.branch_set.all.count == 1 %}
+														 					Has ({{ i.branch_set.all.count }}) branch
+														 				{% else %}
+														 					Has ({{ i.branch_set.all.count }}) branchs
+														 				{% endif %}
+														 			{% endif %}
+														 		{% endif %}
+															</code>
+														</p> 
+													
+												 		
+												 		
+
 												 		{% if i.company_logo %}
 														 	<a href="{% url 'linkedhr:list_company' i.id %}"> 
 																<img src = "../../{{ i.company_logo.url }}" class="img-circle" style="width: 140px; height: 140px;" alt = "140 X 140">
@@ -149,24 +170,30 @@
 																<img alt="140x140" data-src="holder.js/140x140" class="img-circle" style="width: 140px; height: 140px;" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNjNkNTAyMDI1NSB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE2M2Q1MDIwMjU1Ij48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ1LjUiIHk9Ijc0LjUiPjE0MHgxNDA8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" data-holder-rendered="true">
 															</a>
 														{% endif %}
-													 		<h5> {{ i.name }}</h5>
-												 			<div>
-												 				<a href="{% url 'linkedhr:company' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true>Add-New |</span></a>
+													 		
+													 	</div>	
+											 			<div>
+											 				<a href="{% url 'linkedhr:company' %}">  <span class="glyphicon glyphicon-plus" aria-hidden=true> Add-new |</span></a>
 
-												 				<a  href="{% url 'linkedhr:company-update' i.id %}">  <span class="glyphicon glyphicon-pencil" aria-hidden=true>Edit |</span>
-												 				</a>
+											 				<a  href="{% url 'linkedhr:company-update' i.id %}">   <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit |</span>
+											 				</a>
 
-												 				<a href="{% url 'linkedhr:company-delete' i.id %}">
-											            			<span class="glyphicon glyphicon-trash">Delete</span>
-											            		</a>
-												 			</div> 
-												 			<br>
+											 				<a href="{% url 'linkedhr:company-delete' i.id %}">
+										            			<span class="glyphicon glyphicon-trash"> Delete </span>
+										            		</a>
+											 			</div> 
+											 			<br>
 												 	{% endfor %}
-												
+													
+
+
 												{% else %}
 													<a href="{% url 'linkedhr:company' %}" > <span class="glyphicon glyphicon-plus" aria-hidden=true> Add-Company</span></a>
 												{% endif %}
 											</div>
+
+
+
 										{% endif %}
 									{% endfor %}
 								{% else %}

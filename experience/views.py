@@ -49,8 +49,6 @@ class ExperienceDeleteView(SuccessMessageMixin, DeleteView):
 		else:
 			return redirect('linkedhr:login')
 
-	
-
 class  ExperienceUpdate(SuccessMessageMixin, UpdateView):
 	model = Experience 
 	form = ExperienceForm()
@@ -96,7 +94,15 @@ class ExperienceView(SuccessMessageMixin, TemplateView):
 	
 	def dispatch(self, request, *args, **kwargs):
 		if request.user.is_authenticated():
-			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
+			userprofiledata= UserProfile.objects.filter(user_id = request.user.id)
+			if userprofiledata.count()>0:
+				for i in userprofiledata:
+					if i.is_recruit=='2':
+						return super(self.__class__, self).dispatch(request, *args, **kwargs)
+					else:	
+						return render(request, 'userprofile/error_education_experience.html')
+			else:
+				return redirect('linkedhr:userprofile')
 		else:
 			return redirect('linkedhr:login')  
 	def get(self, request):
@@ -130,7 +136,8 @@ class ExperienceView(SuccessMessageMixin, TemplateView):
 				UserProfile.objects.filter(user_id=request.user.id).update(authority=True)
 				CreateStage.save()	
 				messages.success(request, "Created sucessfully !")
-		
+				form.save()
+				form = ExperienceForm()
 			#form = ExperienceForm()				
 			args = {'form':form}
 			return render(request, self.template_name, args)

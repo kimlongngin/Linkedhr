@@ -294,8 +294,8 @@ class UserProfileDetailTwoView(generic.ListView):
 	 					userprofile = userprofile_data,company_data
 	 					return userprofile
 	 				else: 
-			 			data_education = Education.objects.filter(user_id=self.request.user.id, is_status=True)
-			 			data_experience = Experience.objects.filter(user_id=self.request.user.id, is_status=True)
+			 			data_education = Education.objects.filter(user_id=self.request.user.id, is_status=True).order_by('-graduation_at', '-start_education_at')
+			 			data_experience = Experience.objects.filter(user_id=self.request.user.id, is_status=True).order_by('-due_date', '-start_date', )
 			 			userprofile = userprofile_data,data_education, data_experience
 			 			return userprofile
 	 			return userprofile_data
