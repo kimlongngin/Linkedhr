@@ -62,7 +62,7 @@ class DocumentCreateView(SuccessMessageMixin, CreateView):
 					if i.is_recruit=='2':
 						if form.is_valid():
 							document = form.save(commit=False)
-							document.user_id = request.user
+							document.user = request.user
 							document.save()
 							title = form.cleaned_data['title']
 							file = form.cleaned_data['file']

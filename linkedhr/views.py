@@ -76,7 +76,7 @@ class  CompanyUpdateView(SuccessMessageMixin, UpdateView):
 	template_name = 'company/company_update.html'
 	fields = ['name', 'company_logo', 'email', 'phone_number', 'location', 'address', 'web_site', 'description', 'is_branch'] 
 	#success_url = reverse_lazy('linkedhr:company-update')
-	success_message = "Updated successfully"
+	success_message = "updated successfully"
 
 	def dispatch(self, request, *args, **kwargs):
 		form = CompanyForm()

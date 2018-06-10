@@ -13,3 +13,4 @@ class DocumentForm(forms.ModelForm):
 	class Meta: 
 		model = Documents
 		fields = ['title','file', 'description']
+
