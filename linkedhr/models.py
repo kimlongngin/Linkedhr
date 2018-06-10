@@ -54,7 +54,7 @@ class Villege(models.Model):
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 	created = models.DateTimeField(auto_now=True, auto_now_add=False)
 	def __str__ (self):
-			return self.name +' - '+ self.description
+			return self.name +' - '+ self.created
 	class Meta:
 		ordering = ["-created", "-updated"]
 
@@ -70,7 +70,7 @@ class Stage(models.Model):
 		return reverse('stage-detail', kwargw={'pk':self.pk})
 
 	class Meta:
-		ordering = ["-created", "-updated", "-user_id"]
+		ordering = ["-created", "-updated"]
 
 
 

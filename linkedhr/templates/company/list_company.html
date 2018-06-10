@@ -75,11 +75,13 @@
 			</div>	
 		</div>
 	{% else %}
-		<div style="width: 100%; text-align: center;"><p>No data</p></div>
+		<div style="width: 100%; text-align: center;"><code>No data</code></div>
 	{% endif %}
 
 	{% else %}
-		<a href="{% url 'linkedhr:login'%} " >>>Login </a>
+		<div style="text-align: center;">
+			<a href="{% url 'linkedhr:login'%} " >>>Login </a>
+		</div>
 	{% endif %}
 
 {% endblock %}

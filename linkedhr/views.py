@@ -20,6 +20,7 @@ from django.contrib.auth.models import User
 from branch.views import BranchView, UpdateBranchView, BranchDeleteView
 from education.views import EducationView, EducationUpdate, EducationDeleteView
 from experience.views import ExperienceUpdate, ExperienceView, ExperienceDeleteView
+from document.views import DocumentCreateView
 
 
 # ********* Display of the company branch ***********
@@ -75,7 +76,7 @@ class  CompanyUpdateView(SuccessMessageMixin, UpdateView):
 	template_name = 'company/company_update.html'
 	fields = ['name', 'company_logo', 'email', 'phone_number', 'location', 'address', 'web_site', 'description', 'is_branch'] 
 	#success_url = reverse_lazy('linkedhr:company-update')
-	success_message = "updated successfully"
+	success_message = "Updated successfully"
 
 	def dispatch(self, request, *args, **kwargs):
 		form = CompanyForm()

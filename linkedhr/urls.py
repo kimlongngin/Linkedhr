@@ -46,6 +46,9 @@ urlpatterns = [
 	url(r'^register/userprofile/userexperience/delete/(?P<pk>[0-9]+)/$', views.ExperienceDeleteView.as_view(), name='experience-delete'),
 
 
+	 # /linkedhr/register/userprofile/usereducation/1
+    url(r'^register/userprofile/document/$', views.DocumentCreateView.as_view(), name='document-create'),
+
 
 
 	# /linkedhr/register/userprofile/company 
@@ -88,13 +91,8 @@ urlpatterns = [
 	# /linkedhr/city/2/delete
     url(r'city/(?P<pk>[0-9]+)/delete$', views.CityDelete.as_view(), name='city-delete'),
 
-    # /linkedhr/
-    #url(r'^$', views.index, name='index'),
-   	
-   	   	# /linkedhr/<city_id>
-    #url(r'^(?P<location_id>[0-9]+)/$', views.detail, name='detail'),
-    # /linkedhr/<city_id>
-    #url(r'^(?P<location_id>[0-9]+)/blow/$', views.blow, name='blow'),
+   
+
 ]
 if settings.DEBUG:
 	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

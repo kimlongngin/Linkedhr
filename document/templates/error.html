@@ -1,0 +1,21 @@
+{% extends 'city/base.html' %}
+{% block title %} Add City {% endblock %}
+{% block city_active %} Active {% endblock %}
+
+{% block body %}
+	
+	{% if user.is_authenticated %}
+		<div style="text-align: center;">
+			<code> You don't have permission to use document page. </code>
+		</div>
+		
+	{% else %}
+		<div style="text-align: center;">
+			<a href="{% url 'linkedhr:login'%} " >>>Login </a>
+		</div>
+	{% endif %}
+
+	
+
+
+{% endblock %}
