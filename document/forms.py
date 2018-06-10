@@ -14,3 +14,6 @@ class DocumentForm(forms.ModelForm):
 		model = Documents
 		fields = ['title','file', 'description']
 
+	#def __init__(self, *args, **kwargs):
+		#super(DocumentForm, self).__init__(*args, **kwargs)
+		#self.fields['file'].label='File (pdf, png, jpg, jpeg)'
