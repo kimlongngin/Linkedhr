@@ -61,13 +61,13 @@ class DocumentCreateView(SuccessMessageMixin, CreateView):
 				for i in userprofiledata:
 					if i.is_recruit=='2':
 						if form.is_valid():
-							document = form.save(commit=False)
-							document.user = request.user
-							document.save()
+							documents = form.save(commit=False)
+							documents.user = request.user
+							documents.save()
 							title = form.cleaned_data['title']
 							file = form.cleaned_data['file']
 							description = form.cleaned_data['description']
-							form.save()
+							messages.success(request, "Created sucessfully !")
 						args = {'form':form}
 						return render(request, self.template_name, args)
 					else:

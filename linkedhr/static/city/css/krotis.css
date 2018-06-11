@@ -2,6 +2,9 @@
 .bs-callout-info {
 	border-left-color: #1b809e !important;
 }
+.bs-callout-danger {
+    border-left-color: #ce4844 !important;
+}
 .bs-callout {
 	padding: 20px;
 	margin: 20px 0;

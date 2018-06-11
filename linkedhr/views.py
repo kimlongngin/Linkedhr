@@ -106,6 +106,7 @@ class  CompanyUpdateView(SuccessMessageMixin, UpdateView):
 class CompanyView(TemplateView):
 	model = Company
 	template_name = 'company/company_create.html'
+	success_message ="Created successfully !"
 	#success_message = "company created successfully"
 	def dispatch(self, request, *args, **kwargs):
 		if request.user.is_authenticated():
@@ -158,7 +159,7 @@ class CompanyView(TemplateView):
 							else:
 								cur_com_id = save_model.id
 								return redirect('linkedhr:branch', cur_com_id)
-								return redirect('linkedhr:userprofile-update', i.pk)
+								#return redirect('linkedhr:userprofile-update', i.pk)
 						args = {'form':form}
 						return render(request, self.template_name, args)
 					else:

@@ -27,6 +27,9 @@ class Documents(models.Model):
 	created = models.DateTimeField(auto_now=True, auto_now_add=False)
 	is_status = models.BooleanField(default=True)
 
+	def __str__ (self):
+		return self.title
+
 	class Meta:
 		ordering = ["-created", "-updated"]
 

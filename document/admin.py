@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Documents
+# admin.site.site_header='Linkedhr administration'
+
+admin.site.register(Documents)
