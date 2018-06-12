@@ -8,6 +8,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, logout, login
 from django.views.generic import View, TemplateView 
 from .models import City, UserProfile, Education, Stage, Experience, Branch, Company, ExperienceCheck
+from document.models import Documents
 from .forms import UserForm, UserLoginForm, UserProfileForm, CompanyForm
 from django.contrib.auth.views import login, logout
 from django.contrib.auth.decorators import login_required
@@ -20,7 +21,7 @@ from django.contrib.auth.models import User
 from branch.views import BranchView, UpdateBranchView, BranchDeleteView
 from education.views import EducationView, EducationUpdate, EducationDeleteView
 from experience.views import ExperienceUpdate, ExperienceView, ExperienceDeleteView
-from document.views import DocumentCreateView
+from document.views import DocumentCreateView, DocumentUpdate, DocumentDelete
 
 
 # ********* Display of the company branch ***********
@@ -297,8 +298,10 @@ class UserProfileDetailTwoView(generic.ListView):
 	 					return userprofile
 	 				else: 
 			 			data_education = Education.objects.filter(user_id=self.request.user.id, is_status=True).order_by('-graduation_at', '-start_education_at')
-			 			data_experience = Experience.objects.filter(user_id=self.request.user.id, is_status=True).order_by('-due_date', '-start_date', )
-			 			userprofile = userprofile_data,data_education, data_experience
+			 			data_experience = Experience.objects.filter(user_id=self.request.user.id, is_status=True).order_by('-due_date', '-start_date')
+			 			data_documents = Documents.objects.filter(user=self.request.user.id, is_status=True).order_by('-created')
+			 			
+			 			userprofile = userprofile_data,data_education, data_experience, data_documents
 			 			return userprofile
 	 			return userprofile_data
 	 		except UserProfile.DoesNotExist:

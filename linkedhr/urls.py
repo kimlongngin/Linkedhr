@@ -46,10 +46,14 @@ urlpatterns = [
 	url(r'^register/userprofile/userexperience/delete/(?P<pk>[0-9]+)/$', views.ExperienceDeleteView.as_view(), name='experience-delete'),
 
 
-	 # /linkedhr/register/userprofile/usereducation/1
+	# /linkedhr/register/userprofile/usereducation/1
     url(r'^register/userprofile/document/$', views.DocumentCreateView.as_view(), name='document-create'),
+	
+	# /linkedhr/register/userprofile/usereducation/1
+    url(r'^register/userprofile/document/(?P<pk>[0-9]+)/$', views.DocumentUpdate.as_view(), name='document-update'),
 
-
+	# /linkedhr/register/userprofile/usereducation/1
+    url(r'^register/userprofile/document/delete/(?P<pk>[0-9]+)/$', views.DocumentDelete.as_view(), name='document-delete'),
 
 	# /linkedhr/register/userprofile/company 
 	url(r'^register/userprofile/company/$', views.CompanyView.as_view(), name='company'),

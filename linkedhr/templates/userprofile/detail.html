@@ -46,30 +46,36 @@
 												<hr class="mb-4">
 												<div>
 													<h3> Educations </h3>
-													{% for i in userprofile.1 %}
-														<div class="bs-callout bs-callout-info" id="callout-type-dl-truncate"> 
-															<ul>
-																<li><span class="mb-1">Institute:</span> {{ i.institute }} </li>
-																<li><span class="krotis_span">Majority:</span> {{ i.majority }}</li>
-																<li><span class="krotis_span">Degree:</span> {{ i.degree }}</li>
-																<li><span class="krotis_span">From:</span> {{ i.start_education_at }} To {{ i.graduation_at }} </li>
-																{% if i.description %}
-																	<li><span class="krotis_span">Description:</span> {{ i.description }} </li>
-																{% endif %}
-															</ul>
-															<div class="modal-footer">
-																<div class="btn-group" role="group">
-																	<a class="btn btn-default" type="submit" href="{% url 'linkedhr:education-update' i.id  %}"> <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span> </a> 
-																	<a class="btn btn-default" type="submit" href="{% url 'linkedhr:usereducation' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span> </a> 
-																	<a class="btn btn-default" href="{% url 'linkedhr:education-delete' i.id %}">
-														            	<span class="glyphicon glyphicon-trash"> Delete</span>
-														            </a>
+													{% if userprofile.1.count > 0 %}
+														{% for i in userprofile.1 %}
+															<div class="bs-callout bs-callout-info" id="callout-type-dl-truncate"> 
+																<ul>
+																	<li><span class="mb-1">Institute:</span> {{ i.institute }} </li>
+																	<li><span class="krotis_span">Majority:</span> {{ i.majority }}</li>
+																	<li><span class="krotis_span">Degree:</span> {{ i.degree }}</li>
+																	<li><span class="krotis_span">From:</span> {{ i.start_education_at }} To {{ i.graduation_at }} </li>
+																	{% if i.description %}
+																		<li><span class="krotis_span">Description:</span> {{ i.description }} </li>
+																	{% endif %}
+																</ul>
+																<div class="modal-footer">
+																	<div class="btn-group" role="group">
+																		<a class="btn btn-default" type="submit" href="{% url 'linkedhr:education-update' i.id  %}"> <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span> </a> 
+																		<a class="btn btn-default" type="submit" href="{% url 'linkedhr:usereducation' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span> </a> 
+																		<a class="btn btn-default" href="{% url 'linkedhr:education-delete' i.id %}">
+															            	<span class="glyphicon glyphicon-trash"> Delete</span>
+															            </a>
+													            	</div>
 												            	</div>
-											            	</div>
+															</div>
+															
+															
+														{% endfor %}
+													{% else %}
+														<div>
+															<a type="submit"  href="{% url 'linkedhr:usereducation' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true> Add-education </span></a>
 														</div>
-														
-														
-													{% endfor %}
+													{% endif %}
 												</div>
 												<hr class="mb-4">
 												<div>
@@ -111,6 +117,39 @@
 													{% endif %}
 												</div>				
 											
+
+												<!-- ************************** -->
+												<!-- ******** Document********* -->
+												<!-- ************************** -->
+												<hr class="mb-4">
+
+												<h3> Related document </h3>
+												
+												{% if userprofile.3.count > 0 %}
+												 	{% for i in userprofile.3 %}
+
+													 	<div class="bs-callout bs-callout-info" id="callout-type-dl-truncate"> 
+													 		<a href="">{{ i.title }} </a>
+
+													 		<div class="modal-footer" style="margin-top: 10px;">
+															<div class="btn-group" role="group">
+												 				<a class="btn btn-default" href="{% url 'linkedhr:document-create' %}">  <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span></a>
+
+												 				<a class="btn btn-default" href="{% url 'linkedhr:document-update' i.id %}">   <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span>
+												 				</a>
+
+												 				<a class="btn btn-default" href="{% url 'linkedhr:document-delete' i.id %}">
+											            			<span class="glyphicon glyphicon-trash"> Delete </span>
+											            		</a>
+											            	</div>	
+										 				</div>
+										 				
+													 	</div>
+
+													{% endfor %}
+												{% else %}
+													<a href="{% url 'linkedhr:document-create' %}" > <span class="glyphicon glyphicon-plus" aria-hidden=true> Add-document</span></a>
+												{% endif %}
 
 										{% else %}
 											<div>
@@ -195,7 +234,13 @@
 												{% else %}
 													<a href="{% url 'linkedhr:company' %}" > <span class="glyphicon glyphicon-plus" aria-hidden=true> Add-Company</span></a>
 												{% endif %}
+
+
+												
+
 										{% endif %}
+
+
 									{% endfor %}
 								{% else %}
 									<h2> Register first !  </h2>
