@@ -4,7 +4,9 @@
 
 {% block body %}
     {% if user.is_authenticated %}
-    	<div id="content-container" class="container p-none">
+    	<!-- <div class="container"> -->
+        <!--<div class="container-fluid"> -->
+        <div> 
             <div class="side-p">
                 <h3>Are you sure?</h3>
                 <p>You're about to delete {{ object }}. Please confirm.</p>

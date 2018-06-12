@@ -5,7 +5,8 @@
 	{% if user.is_authenticated %}
 
 		<!-- <div class="container"> -->
-		<div class="container-fluid">
+		<!--<div class="container-fluid">-->
+		<div>
 			<div class="row align-items-center">
 				<div class="row">
 					<div class="col-md-12 order-md-12">
@@ -97,7 +98,7 @@
 															<div class="modal-footer">
 																<div class="btn-group" role="group">
 																	<a  class="btn btn-default" type="submit" href="{% url 'linkedhr:experience-update' i.id  %}"> <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span> </a>  
-																	<a  class="btn btn-default" type="submit"  href="{% url 'linkedhr:userexperience' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true> Add-new </span></a> 
+																	<a  class="btn btn-default" type="submit"  href="{% url 'linkedhr:userexperience' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span></a> 
 																	<a  class="btn btn-default" href="{% url 'linkedhr:experience-delete' i.id %}">
 												            		<span class="glyphicon glyphicon-trash"> Delete</span>
 												            		</a>
@@ -123,27 +124,25 @@
 												<!-- ************************** -->
 												<hr class="mb-4">
 
-												<h3> Related document </h3>
+												<h3> Related documents </h3>
 												
 												{% if userprofile.3.count > 0 %}
 												 	{% for i in userprofile.3 %}
 
 													 	<div class="bs-callout bs-callout-info" id="callout-type-dl-truncate"> 
-													 		<a href="">{{ i.title }} </a>
+													 		<a href=""><span class="glyphicon glyphicon-file"> {{ i.title }} </span></a>
 
 													 		<div class="modal-footer" style="margin-top: 10px;">
 															<div class="btn-group" role="group">
-												 				<a class="btn btn-default" href="{% url 'linkedhr:document-create' %}">  <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span></a>
-
 												 				<a class="btn btn-default" href="{% url 'linkedhr:document-update' i.id %}">   <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span>
 												 				</a>
-
+												 				<a class="btn btn-default" href="{% url 'linkedhr:document-create' %}">  <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span></a>
 												 				<a class="btn btn-default" href="{% url 'linkedhr:document-delete' i.id %}">
 											            			<span class="glyphicon glyphicon-trash"> Delete </span>
 											            		</a>
 											            	</div>	
 										 				</div>
-										 				
+
 													 	</div>
 
 													{% endfor %}

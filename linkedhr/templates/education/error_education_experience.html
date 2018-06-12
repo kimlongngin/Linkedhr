@@ -1,10 +1,16 @@
-{% extends '../../linkedhr/templates/city/base.html' %}
-{% block title %} Add City {% endblock %}
+{% extends 'city/base.html' %}
+{% block title %} Error {% endblock %}
 {% block city_active %} Active {% endblock %}
-
-
 {% block body %}
-	<div style="text-align: center;">
-		<h2> Restriction user  !!! </h2>
-	</div>
+	
+	{% if user.is_authenticated %}
+		<div style="text-align: center;">
+			<code> You don't have permission to use this page. </code>
+		</div>
+	{% else %}
+		<div style="text-align: center;">
+			<a href="{% url 'linkedhr:login'%} " >>>Login </a>
+		</div>
+	{% endif %}
+
 {% endblock %}

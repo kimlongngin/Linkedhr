@@ -45,9 +45,9 @@ class DocumentDelete(SuccessMessageMixin, generic.DeleteView):
 				return super(self.__class__, self).dispatch(request, *args, **kwargs)	
 			else:
 				return redirect('linkedhr:login')  
-		except Education.DoesNotExist:
-			raise Http404("Please check user log in !") 
-
+		except Documents.DoesNotExist:
+			#raise Http404("Please check user log in !") 
+			return render(request, "error.html")
 
 
 

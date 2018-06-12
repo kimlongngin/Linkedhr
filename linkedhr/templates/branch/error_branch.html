@@ -1,9 +1,17 @@
 {% extends 'city/base.html' %}
-{% block title %} Add City {% endblock %}
+{% block title %} Error {% endblock %}
 {% block city_active %} Active {% endblock %}
 
 {% block body %}
-	<div style="text-align: center;">
-		<code> Please update your company to create branch. </code>
-	</div>
+	
+	{% if user.is_authenticated %}
+		<div style="text-align: center;">
+			<code> You don't have permission to use this page. </code>
+		</div>
+	{% else %}
+		<div style="text-align: center;">
+			<a href="{% url 'linkedhr:login'%} " >>>Login </a>
+		</div>
+	{% endif %}
+
 {% endblock %}
