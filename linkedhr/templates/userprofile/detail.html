@@ -2,6 +2,20 @@
 
 {% block body %}
 	
+	<style type="text/css">
+            @page {
+                size: {{ pagesize }};
+                margin: 1cm;
+                @frame footer {
+                    -pdf-frame-content: footerContent;
+                    bottom: 0cm;
+                    margin-left: 9cm;
+                    margin-right: 9cm;
+                    height: 1cm;
+                }
+            }
+        </style>
+
 	{% if user.is_authenticated %}
 
 		<!-- <div class="container"> -->
@@ -130,8 +144,9 @@
 												 	{% for i in userprofile.3 %}
 
 													 	<div class="bs-callout bs-callout-info" id="callout-type-dl-truncate"> 
-													 		<a href=""><span class="glyphicon glyphicon-file"> {{ i.title }} </span></a>
-
+													 		<div>
+													 			<a href=""><span class="glyphicon glyphicon-file"> {{ i.title }} </span></a>
+													 		</div>
 													 		<div class="modal-footer" style="margin-top: 10px;">
 															<div class="btn-group" role="group">
 												 				<a class="btn btn-default" href="{% url 'linkedhr:document-update' i.id %}">   <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span>
@@ -188,6 +203,8 @@
 
 													 	<div class="bs-callout bs-callout-info" id="callout-type-dl-truncate"> 
 															<h4> Name: {{ i.name }} </h4>
+															
+
 															<p>
 																<code>
 																	{% if i.is_branch == True %}
