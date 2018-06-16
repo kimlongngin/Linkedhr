@@ -21,7 +21,7 @@
 		<!-- <div class="container"> -->
 		<!--<div class="container-fluid">-->
 		<div>
-			<div class="row align-items-center">
+			<div class="align-items-center">
 				<div class="row">
 					<div class="col-md-12 order-md-12">
 						<div class="panel panel-default">
@@ -60,7 +60,15 @@
 												</div>
 												<hr class="mb-4">
 												<div>
-													<h3> Educations </h3>
+												    <div class ="row">
+                                                        <div class="col-xs-12 col-md-8"><span class="head_title glyphicon glyphicon-education"> Educations | </span>
+                                                            <a  href="{% url 'linkedhr:usereducation' %}">
+                                                                <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span>
+                                                            </a>
+                                                        </div>
+
+                                                    </div>
+
 													{% if userprofile.1.count > 0 %}
 														{% for i in userprofile.1 %}
 															<div class="bs-callout bs-callout-info" id="callout-type-dl-truncate"> 
@@ -73,14 +81,31 @@
 																		<li><span class="krotis_span">Description:</span> {{ i.description }} </li>
 																	{% endif %}
 																</ul>
-																<div class="modal-footer">
-																	<div class="btn-group" role="group">
+																<div>
+																	<!--<div class="btn-group" role="group">
 																		<a class="btn btn-default" type="submit" href="{% url 'linkedhr:education-update' i.id  %}"> <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span> </a> 
-																		<a class="btn btn-default" type="submit" href="{% url 'linkedhr:usereducation' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span> </a> 
+
 																		<a class="btn btn-default" href="{% url 'linkedhr:education-delete' i.id %}">
 															            	<span class="glyphicon glyphicon-trash"> Delete</span>
 															            </a>
-													            	</div>
+													            	</div>  -->
+
+                                                                    <div class="" style="text-align: right;">
+                                                                        <ol class="breadcrumb">
+                                                                        <li>
+                                                                            <a type="submit" href="{% url 'linkedhr:education-update' i.id  %}">
+                                                                                <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a  href="{% url 'linkedhr:education-delete' i.id %}">
+															            	<span class="glyphicon glyphicon-trash"> Delete</span>
+															                </a>
+                                                                        </li>
+                                                                        </ol>
+                                                                    </div>
+
+
 												            	</div>
 															</div>
 															
@@ -94,7 +119,20 @@
 												</div>
 												<hr class="mb-4">
 												<div>
-													<h3> Experiences </h3>
+													 <div class ="row">
+                                                        <!--<div class="col-xs-12 col-md-8"><span class="head_title"> Experiences </span></div>
+                                                        <div class="col-xs-6 col-md-4" style="text-align: right;"><a  href="{% url 'linkedhr:userexperience' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span> </a> </div>
+                                                        -->
+                                                         <div class="col-xs-12 col-md-8">
+                                                             <span class="head_title glyphicon glyphicon-briefcase"> Experiences | </span>
+                                                             <a  href="{% url 'linkedhr:userexperience' %}">
+                                                             <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span>
+                                                             </a>
+                                                         </div>
+
+
+                                                    </div>
+
 													{% if userprofile.2.count > 0 %}
 													{% for i in userprofile.2 %}
 														<div class="bs-callout bs-callout-info" id="callout-type-dl-truncate"> 
@@ -109,14 +147,32 @@
 																{% endif %}
 															</ul>
 
-															<div class="modal-footer">
-																<div class="btn-group" role="group">
+															<div>
+																<!-- <div class="btn-group" role="group">
 																	<a  class="btn btn-default" type="submit" href="{% url 'linkedhr:experience-update' i.id  %}"> <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span> </a>  
 																	<a  class="btn btn-default" type="submit"  href="{% url 'linkedhr:userexperience' %}"> <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span></a> 
 																	<a  class="btn btn-default" href="{% url 'linkedhr:experience-delete' i.id %}">
 												            		<span class="glyphicon glyphicon-trash"> Delete</span>
 												            		</a>
-																</div>
+																</div> -->
+
+                                                                <div class="" style="text-align: right;">
+                                                                    <ol class="breadcrumb">
+                                                                        <li>
+                                                                            <a type="submit" href="{% url 'linkedhr:experience-update' i.id  %}">
+                                                                                <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span>
+                                                                            </a>
+
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="{% url 'linkedhr:experience-delete' i.id %}">
+                                                                                <span class="glyphicon glyphicon-trash"> Delete</span>
+                                                                            </a>
+                                                                        </li>
+                                                                    </ol>
+                                                                </div>
+
+
 															</div>
 
 														</div>
@@ -138,25 +194,51 @@
 												<!-- ************************** -->
 												<hr class="mb-4">
 
-												<h3> Related documents </h3>
-												
+
+												<div class ="row">
+                                                        <div class="col-xs-12 col-md-8">
+                                                            <span class="head_title glyphicon glyphicon-book"> Related documntes | </span>
+                                                            <a  href="{% url 'linkedhr:document-create' %}">
+                                                                <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span>
+                                                            </a>
+                                                        </div>
+
+                                                    </div>
 												{% if userprofile.3.count > 0 %}
 												 	{% for i in userprofile.3 %}
 
 													 	<div class="bs-callout bs-callout-info" id="callout-type-dl-truncate"> 
-													 		<div>
-													 			<a href=""><span class="glyphicon glyphicon-file"> {{ i.title }} </span></a>
+													 		<div class="row">
+                                                                <div class="col-md-6">
+                                                                    <a href=""><span class="glyphicon glyphicon-leaf" > {{ i.title }} </span></a>
+                                                                </div>
+													 			<div class="col-md-6" style="text-align: right;">
+                                                                    <object data="{{ i.file }}" type="application/pdf" width="100%" height="100%">
+                                                                        <ol class="breadcrumb">
+                                                                        <li><a href="{% url 'linkedhr:pdf' i.id %}"><span class="glyphicon glyphicon-eye-open"  data-toggle="tooltip" data-placement="left" title="View PDF"></span></a> </li>
+                                                                        <li><a href="{% url 'linkedhr:download_pdf' i.id %}"><span class="glyphicon glyphicon-save" data-toggle="tooltip" data-placement="left" title="Downloa"></span></a></li>
+                                                                        </ol>
+                                                                    </object>
+                                                                </div>
+
 													 		</div>
-													 		<div class="modal-footer" style="margin-top: 10px;">
-															<div class="btn-group" role="group">
-												 				<a class="btn btn-default" href="{% url 'linkedhr:document-update' i.id %}">   <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span>
-												 				</a>
-												 				<a class="btn btn-default" href="{% url 'linkedhr:document-create' %}">  <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span></a>
-												 				<a class="btn btn-default" href="{% url 'linkedhr:document-delete' i.id %}">
-											            			<span class="glyphicon glyphicon-trash"> Delete </span>
-											            		</a>
-											            	</div>	
-										 				</div>
+													 		<div style="margin-top: 10px;">
+
+                                                                <div  style="text-align: right;">
+                                                                    <ol class="breadcrumb">
+                                                                        <li>
+                                                                            <a href="{% url 'linkedhr:document-update' i.id %}">
+                                                                                <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="{% url 'linkedhr:document-delete' i.id %}">
+                                                                                <span class="glyphicon glyphicon-trash"> Delete </span>
+                                                                            </a>
+                                                                        </li>
+                                                                    </ol>
+                                                                </div>
+                                                            </div >
 
 													 	</div>
 
@@ -170,9 +252,7 @@
 												<h2> Profile </h2>
 												<!--<div class="bs-callout bs-callout-danger" id="callout-type-dl-truncate"> -->
 												<div> 
-													
 													<ul>
-														
 														{% for i in userprofile.0 %}
 															<li> <span>Full Name :</span>{{ i.user_id.first_name }} {{ i.user_id.last_name }}</li> 
 															<li> <span>Gender: </span>{{ i.sex }}</li>
@@ -184,10 +264,8 @@
 															<li> <span>Description: </span>{{ i.description }} </li>
 															{% endif %}
 														{% endfor %}
-														
 													</ul>
 													{% for i in userprofile.0 %}
-														
 														<a type="submit"  href="{% url 'linkedhr:userprofile-update' i.id  %}"> <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span> </a>
 													{% endfor %}
 												</div>
@@ -195,12 +273,17 @@
 
 											<hr class="mb-4">
 											
-												<h3> Company </h3>
-												
+												<div class ="row">
+                                                    <div class="col-xs-12 col-md-8"><span class="head_title glyphicon glyphicon-modal-window"> Company | </span>
+                                                        <a  href="{% url 'linkedhr:company' %}">
+                                                            <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span>
+                                                        </a>
+                                                    </div>
+
+                                                </div>
+
 												{% if userprofile.1 %}
-
 												 	{% for i in userprofile.1 %}
-
 													 	<div class="bs-callout bs-callout-info" id="callout-type-dl-truncate"> 
 															<h4> Name: {{ i.name }} </h4>
 															
@@ -231,28 +314,28 @@
 																	<img alt="140x140" data-src="holder.js/140x140" class="img-circle" style="width: 140px; height: 140px;" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNjNkNTAyMDI1NSB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE2M2Q1MDIwMjU1Ij48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ1LjUiIHk9Ijc0LjUiPjE0MHgxNDA8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" data-holder-rendered="true">
 																</a>
 															{% endif %}
-																
-														 		<div class="modal-footer" style="margin-top: 10px;">
-																	<div class="btn-group" role="group">
-														 				<a class="btn btn-default" href="{% url 'linkedhr:company' %}">  <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span></a>
 
-														 				<a class="btn btn-default" href="{% url 'linkedhr:company-update' i.id %}">   <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span>
-														 				</a>
 
-														 				<a class="btn btn-default" href="{% url 'linkedhr:company-delete' i.id %}">
-													            			<span class="glyphicon glyphicon-trash"> Delete </span>
-													            		</a>
-													            	</div>	
-												 				</div>
+                                                            <div  style="text-align: right;">
+                                                                <ol class="breadcrumb">
+                                                                    <li>
+                                                                       <a href="{% url 'linkedhr:company' %}">
+                                                                           <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span>
+                                                                       </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="{% url 'linkedhr:company-delete' i.id %}">
+                                                                            <span class="glyphicon glyphicon-trash"> Delete </span>
+                                                                        </a>
+                                                                    </li>
+                                                                </ol>
+                                                            </div>
+
 												 		</div>
 												 	{% endfor %}
-
 												{% else %}
 													<a href="{% url 'linkedhr:company' %}" > <span class="glyphicon glyphicon-plus" aria-hidden=true> Add-Company</span></a>
 												{% endif %}
-
-
-												
 
 										{% endif %}
 

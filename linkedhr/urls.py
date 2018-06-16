@@ -9,6 +9,10 @@ app_name = 'linkedhr'
 
 urlpatterns = [
 
+	#url(r'^pdf/$', PDFTemplateView.as_view(), name='pdf'),
+
+
+
 	# /linkedhr/
 	url(r'^$', views.IndexView.as_view(), name='index'),
 	
@@ -24,6 +28,11 @@ urlpatterns = [
 	#url(r'^register/myuserprofile/(?P<user_id>\d+)/$', views.UserProfileDetailView.as_view(), name='myuserprofile_with_pk'),
 	url(r'^register/detailuserprofile/$', views.UserProfileDetailTwoView.as_view(), name='myuserprofile_without_pk'),
 	
+	url(r'^register/detailuserprofile/pdf/(?P<pk>[0-9]+)/$', views.PDFTemplateView.as_view(), name='pdf'),
+
+	url(r'^register/detailuserprofile/download/(?P<pk>[0-9]+)/$', views.PDFTdownloadView.as_view(), name='download_pdf'),
+
+
 	# /linkedhr/register/userprofile/userprofileupdate/1
     url(r'register/userprofile/userprofileupdate/(?P<pk>[0-9]+)/$', views.UserProfileUpdate.as_view(), name='userprofile-update'),
 

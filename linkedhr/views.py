@@ -17,11 +17,69 @@ from django.views.generic.list import ListView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.contrib.auth.models import User 
-
+from django.http import HttpResponse
 from branch.views import BranchView, UpdateBranchView, BranchDeleteView
 from education.views import EducationView, EducationUpdate, EducationDeleteView
 from experience.views import ExperienceUpdate, ExperienceView, ExperienceDeleteView
 from document.views import DocumentCreateView, DocumentUpdate, DocumentDelete
+
+class PDFTdownloadView(View):
+
+	def get(self, request, *args, **kwargs):
+		if self.request.user.is_authenticated():
+			try:
+				userprofile_data = UserProfile.objects.filter(user_id=self.request.user.id, is_status=True)
+				for i in userprofile_data:
+					# if i.is_recruit=="2":
+					try:
+						data_documents = Documents.objects.get(id=self.kwargs['pk'], user=self.request.user.id, is_status=True)
+						if i.is_recruit == "1" or data_documents:
+							try:
+								with open('media/' + str(data_documents.file), 'rw') as pdf:
+									response = HttpResponse('media/' + str(data_documents.file), content_type='application/pdf')
+									response['Content-Disposition'] = 'attachment; filename='+ data_documents.title + '.pdf'
+									return response
+								pdf.closed
+							except IOError:
+								raise Http404()
+
+					except Documents.DoesNotExist:
+						raise Http404("Documents doesn't exist.")
+			except UserProfile.DoesNotExist:
+				raise Http404("Check user login.")
+		else:
+			return redirect('linkedhr:login')
+
+class PDFTemplateView(View):
+    template='userprofile/template.html'
+    context= {'title': 'Hello World!'}
+
+    def get(self, request, *args, **kwargs):
+		if self.request.user.is_authenticated():
+			try:
+				userprofile_data =UserProfile.objects.filter(user_id=self.request.user.id, is_status=True)
+	 			for i in userprofile_data:
+	 				#if i.is_recruit=="2":
+					try:
+						data_documents = Documents.objects.get(id = self.kwargs['pk'], user=self.request.user.id, is_status=True)
+						if i.is_recruit=="1" or data_documents:
+							try:
+								with open('media/'+str(data_documents.file), 'r') as pdf:
+									response = HttpResponse(pdf.read(), content_type='application/pdf')
+									response['Content-Disposition'] = 'filename='+data_documents.title+'.pdf'
+									return response
+								pdf.closed
+							except IOError:
+								raise Http404()
+
+					except Documents.DoesNotExist:
+						raise Http404("Documents doesn't exist.")
+
+	 		except UserProfile.DoesNotExist:
+				#return redirect('linkedhr:userprofile')
+				raise Http404("Check user login.")
+ 		else:
+ 			return redirect('linkedhr:login')
 
 
 # ********* Display of the company branch ***********

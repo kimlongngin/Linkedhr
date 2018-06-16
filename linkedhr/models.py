@@ -14,14 +14,14 @@ def upload_location(instance, filename):
 
 class City(models.Model):
 	name = models.CharField(max_length=100)
-	city_logo = models.FileField()
-	#city_logo = models.ImageField(upload_to = upload_location,
-				#null=True, blank=True,
-				#width_field="width_field",
-				#height_field="height_field"
-				#)
-	#width_field = models.IntegerField(default=0)
-	#height_field = models.IntegerField(default=0)
+	#city_logo = models.FileField()
+	city_logo = models.ImageField(upload_to = upload_location,
+				null=True, blank=True,
+				width_field="width_field",
+				height_field="height_field"
+				)
+	width_field = models.IntegerField(default=0)
+	height_field = models.IntegerField(default=0)
 	description = models.TextField(null=True)
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 	created = models.DateTimeField(auto_now=True, auto_now_add=False)
