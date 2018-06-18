@@ -20,7 +20,7 @@ class EducationForm(forms.ModelForm):
 	    ('5', 'Other'),
 	)
 
-	majority = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter your majority'}), required=True)
+	majority = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter your majority'}), required=False)
 	degree = forms.CharField(widget=forms.Select(attrs={'class':'form-control'}, choices=IS_DEGREE), required=True)
 	institute = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter your majority'}), required=True)
 	start_education_at= forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'yyyy-mm-dd'}), required=True)
@@ -31,20 +31,61 @@ class EducationForm(forms.ModelForm):
 		model = Education
 		fields = ['institute', 'majority','degree', 'start_education_at', 'graduation_at', 'description']
 
+	def clean_majority(self):
+		if self.cleaned_data['majority'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['majority']	
+	def clean_degree(self):
+		if self.cleaned_data['degree'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['degree']		
+	def clean_institute(self):
+		if self.cleaned_data['institute'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['institute']
+	def clean_start_education_at(self):
+		if self.cleaned_data['start_education_at'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['start_education_at']
+	def clean_graduation_at(self):
+		if self.cleaned_data['graduation_at'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['start_education_at']
+
 
 class UserForm(forms.ModelForm):
-	username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter username'}), required=True)
-	first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter first name'}), required=True)
-	last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter last name'}), required=True)
-	email = forms.CharField(widget=forms.EmailInput(attrs={'class':'form-control', 'placeholder':'example@mail.com'}), required=True)
-	password = forms.CharField(widget = forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Enter password'}), required=True)
-	confirm_password = forms.CharField(widget = forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Enter password'}), required=True)
+	username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter username'}), required=False)
+	first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter first name'}), required=False)
+	last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter last name'}), required=False)
+	email = forms.CharField(widget=forms.EmailInput(attrs={'class':'form-control', 'placeholder':'example@mail.com'}), required=False)
+	password = forms.CharField(widget = forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Enter password'}), required=False)
+	confirm_password = forms.CharField(widget = forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Enter password'}), required=False)
 
 	class Meta: 
 		model = User
 		fields =['username', 'first_name', 'last_name', 'email', 'password', 'confirm_password']
 
+	def clean_username(self):
+		if self.cleaned_data['username'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['username']
+	def clean_first_name(self):
+		if self.cleaned_data['first_name'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['first_name']
+	def clean_last_name(self):
+		if self.cleaned_data['last_name'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['last_name']
+	
+	def clean_password(self):
+		if self.cleaned_data['password'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['password']
+		
 	def clean_confirm_password(self):
+		if self.cleaned_data['confirm_password'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
 		pas= self.cleaned_data['password']
 		cpas= self.cleaned_data['confirm_password']
 		MIN_LENGHT = 8
@@ -55,6 +96,8 @@ class UserForm(forms.ModelForm):
 				if len(pas) < MIN_LENGHT:
 					raise forms.ValidationError("password should have atleast 8 character")
 	def clean_email(self):
+		if self.cleaned_data['email'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
 		email = self.cleaned_data['email']
 		try:
 			mt = validate_email(email)
@@ -152,6 +195,7 @@ class CompanyForm(forms.ModelForm):
 		self.fields['is_branch'].widget.attrs['class']='checkbox'
 		self.fields['company_logo'].widget.attrs['type']='file'
 		self.fields['name'].label='Name(*)'
+	
 	def clean_email(self):
 		email = self.cleaned_data['email']
 		try:

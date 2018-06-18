@@ -9,7 +9,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect 
 from django.contrib.auth import authenticate, logout, login
 from django.views.generic import View, TemplateView 
-from .models import City, UserProfile, Education, Stage, Experience, Branch, Company, ExperienceCheck
+from .models import City, UserProfile, Education, Stage, Experience, Branch, Company, ExperienceCheck, Skill
 from document.models import Documents
 from .forms import UserForm, UserLoginForm, UserProfileForm, CompanyForm
 from django.contrib.auth.views import login, logout
@@ -24,7 +24,7 @@ from branch.views import BranchView, UpdateBranchView, BranchDeleteView
 from education.views import EducationView, EducationUpdate, EducationDeleteView
 from experience.views import ExperienceUpdate, ExperienceView, ExperienceDeleteView
 from document.views import DocumentCreateView, DocumentUpdate, DocumentDelete
-from skill.views import SkillCreateView
+from skill.views import SkillCreateView, SkillDeleteView
 
 class PDFTdownloadView(View):
 
@@ -304,7 +304,6 @@ class UserProfileView(SuccessMessageMixin, TemplateView):
 		else:
 			return redirect('linkedhr:login')
 
-
 	def post(self, request):
 		form = UserProfileForm(request.POST)
 		if request.user.is_authenticated():
@@ -361,8 +360,9 @@ class UserProfileDetailTwoView(generic.ListView):
 			 			data_education = Education.objects.filter(user_id=self.request.user.id, is_status=True).order_by('-graduation_at', '-start_education_at')
 			 			data_experience = Experience.objects.filter(user_id=self.request.user.id, is_status=True).order_by('-due_date', '-start_date')
 			 			data_documents = Documents.objects.filter(user=self.request.user.id, is_status=True).order_by('-created')
-			 			
-			 			userprofile = userprofile_data,data_education, data_experience, data_documents
+			 			data_skill = Skill.objects.filter(user_id=self.request.user.id, is_status=True).order_by('-created')
+
+			 			userprofile = userprofile_data,data_education, data_experience, data_documents, data_skill
 			 			return userprofile
 	 			return userprofile_data
 	 		except UserProfile.DoesNotExist:
@@ -449,10 +449,8 @@ class UserFormView(View):
 		form = self.form_class(request.POST)
 		if form.is_valid():
 			user = form.save(commit=False) 
-			# Cleaned (Normalize) Data
 			username = form.cleaned_data['username']  
 			data = User.objects.filter(username=username)
-
 			password = form.cleaned_data['password']
 			user.set_password(password)
 			user.save()

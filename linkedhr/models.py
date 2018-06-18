@@ -220,10 +220,13 @@ class SkillList(models.Model):
 	is_status = models.BooleanField(default=True)	
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 	created = models.DateTimeField(auto_now=True, auto_now_add=False)
+
 	def __str__ (self):
-		return self.is_status
+		return self.title
+
 	class Meta:
 		ordering = ["-created", "-updated"]
+
 
 # Skill has relationship with SkillList in one-many
 class Skill(models.Model):
@@ -235,7 +238,7 @@ class Skill(models.Model):
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 	created = models.DateTimeField(auto_now=True, auto_now_add=False)
 	def __str__ (self):
-		return self.is_status
+		return self.title
 	class Meta:
 		ordering = ["-created", "-updated"]
 

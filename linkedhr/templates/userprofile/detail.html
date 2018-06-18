@@ -246,7 +246,33 @@
 												{% else %}
 													<!--<a href="{% url 'linkedhr:document-create' %}" > <span class="glyphicon glyphicon-plus" aria-hidden=true> Add-document</span></a> -->
                                                     <code>Please add your document.</code>
+                                                    <br/>
 												{% endif %}
+
+                                            <div class ="row">
+                                                <div class="col-xs-12 col-md-8">
+                                                    <span class="head_title glyphicon glyphicon-book"> Skill | </span>
+                                                    <a  href="{% url 'linkedhr:skill-create' %}">
+                                                        <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            <div class="bs-callout bs-callout-info" id="callout-type-dl-truncate">
+                                            {% if userprofile.4.count > 0 %}
+												 	{% for i in userprofile.4 %}
+                                                       <a href="{% url 'linkedhr:skill-delete' i.id %}" style="btn success">
+                                                            {{ i.title }}
+                                                       </a>
+                                                        <br/>
+													{% endfor %}
+
+												{% else %}
+													<!--<a href="{% url 'linkedhr:skill-create' %}" > <span class="glyphicon glyphicon-plus" aria-hidden=true> Add-document</span></a> -->
+                                                    <code>Please add your document.</code>
+												{% endif %}
+
+                                            </div>
 
 										{% else %}
 											<div>

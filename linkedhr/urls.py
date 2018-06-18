@@ -30,7 +30,6 @@ urlpatterns = [
 
 	url(r'^register/detailuserprofile/download/(?P<pk>[0-9]+)/$', views.PDFTdownloadView.as_view(), name='download_pdf'),
 
-
 	# /linkedhr/register/userprofile/userprofileupdate/1
     url(r'register/userprofile/userprofileupdate/(?P<pk>[0-9]+)/$', views.UserProfileUpdate.as_view(), name='userprofile-update'),
 
@@ -51,7 +50,6 @@ urlpatterns = [
 
     # /linkedhr/register/userprofile/company/branch 
 	url(r'^register/userprofile/userexperience/delete/(?P<pk>[0-9]+)/$', views.ExperienceDeleteView.as_view(), name='experience-delete'),
-
 
 	# /linkedhr/register/userprofile/usereducation/1
     url(r'^register/userprofile/document/$', views.DocumentCreateView.as_view(), name='document-create'),
@@ -85,6 +83,10 @@ urlpatterns = [
 
 	# /linkedhr/register/userprofile/skill
 	url(r'^register/userprofile/skill/$', views.SkillCreateView.as_view(), name='skill-create'),
+	# /linkedhr/register/userprofile/skill/delete/1
+	url(r'register/userprofile/skill/delete/(?P<pk>[0-9]+)/$', views.SkillDeleteView.as_view(), name='skill-delete'),
+
+
 
 	# /linkedhr/login
 	#url(r'^login/$', auth_views.login, name='login'),
