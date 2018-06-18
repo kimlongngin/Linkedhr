@@ -1,4 +1,5 @@
 {% extends 'city/base.html' %}
+{% block title %} Company-list {% endblock %}
 
 {% block body %}
 	
@@ -73,14 +74,13 @@
                                                      </div>
                                                    <hr class="mb-4">
 												{% endfor %}
-											{% else %}
-												<a href="{% url 'linkedhr:branch' i.id %}"> Add </a> 
 											{% endif %}
 
-											<a href="{% url 'linkedhr:branch' i.id %}"> 
-												<span class="glyphicon glyphicon-plus" aria-hidden=true>													Add-new-branch
+											<a href="{% url 'linkedhr:branch' i.id %}">
+												<span class="glyphicon glyphicon-plus" aria-hidden=true>
+                                                    Add branch
 												</span>
-											</a> 
+											</a>
 
 										{% endif %}	
 										

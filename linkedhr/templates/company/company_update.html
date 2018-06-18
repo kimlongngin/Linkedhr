@@ -1,5 +1,5 @@
 {% extends 'city/base.html' %}
-{% block title %} Add City {% endblock %}
+{% block title %} Company-update {% endblock %}
 {% block city_active %} Active {% endblock %}
 
 {% block body %}
@@ -33,11 +33,6 @@
 
 							            <hr class="mb-4">
 							            <button class="btn btn-success" type="submit">Update</button>
-							            {% if object %}
-							            	<a href="{% url 'linkedhr:company-delete' object.id %}"  class="btn btn-danger">
-							            		<span class="glyphicon glyphicon-trash"> Delete </span>
-							            	</a>
-							     		{% endif %}
 
 							        </form>
 								</div>

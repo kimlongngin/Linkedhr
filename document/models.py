@@ -20,7 +20,7 @@ def content_file_name(instance, filename):
     
 class Documents(models.Model):
 	user = models.ForeignKey(User, related_name='documentuser', on_delete=models.CASCADE)
-	title = models.CharField(max_length=50)
+	title = models.CharField(max_length=25)
 	file = models.FileField(upload_to=content_file_name, validators=[validate_file_extension])
 	description = models.TextField()
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False)

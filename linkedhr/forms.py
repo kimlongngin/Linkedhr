@@ -21,10 +21,10 @@ class EducationForm(forms.ModelForm):
 	)
 
 	majority = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter your majority'}), required=False)
-	degree = forms.CharField(widget=forms.Select(attrs={'class':'form-control'}, choices=IS_DEGREE), required=True)
-	institute = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter your majority'}), required=True)
-	start_education_at= forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'yyyy-mm-dd'}), required=True)
-	graduation_at= forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'yyyy-mm-dd'}), required=True)
+	degree = forms.CharField(widget=forms.Select(attrs={'class':'form-control'}, choices=IS_DEGREE), required=False)
+	institute = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter your majority'}), required=False)
+	start_education_at= forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'yyyy-mm-dd'}), required=False)
+	graduation_at= forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'yyyy-mm-dd'}), required=False)
 	description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'rows':"3"}), required=False)
 
 	class Meta: 
@@ -170,52 +170,53 @@ class UserProfileForm(forms.ModelForm):
 	#def __init__(self, *args, **kwargs):
 		#super(UserProfileForm, self).__init__(*args, **kwargs)
 		#self.fields['city'].queryset = City.objects.all()
-def user_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-    return 'user_{0}/{1}'.format(instance.user.id, filename)
 
-class CompanyForm(forms.ModelForm):
-	company_logo= forms.FileField(required=False)
-	name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter country name'}), required=True)
-	web_site =forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}), required=False)
-	email = forms.CharField(widget=forms.EmailInput(attrs={'class':'form-control', 'placeholder':'example@mail.com'}), required=True)
-	address = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'rows':"3"}), required=True)
-	description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'rows':"3"}), required=True)
-	phone_number = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'(86)10123456'}), required=True)
-	location = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter city name'}), required=True)
-	is_branch = forms.BooleanField(required=False)
-	class Meta: 
-		model = Company
-		fields = ['name','company_logo','web_site','email', 'phone_number','location','address','description', 'is_branch']
-
-	def __init__(self, *args, **kwargs):
-		super(CompanyForm, self).__init__(*args, **kwargs)
-		self.fields['is_branch'].label='Doese your company has more branch ?'
-		self.fields['is_branch'].widget.attrs['type']='checkbox'
-		self.fields['is_branch'].widget.attrs['class']='checkbox'
-		self.fields['company_logo'].widget.attrs['type']='file'
-		self.fields['name'].label='Name(*)'
-	
-	def clean_email(self):
-		email = self.cleaned_data['email']
-		try:
-			mt = validate_email(email)
-		except:
-			return forms.ValidationError("Email is not in correct format")
-		return email
 
 class BranchForm(forms.ModelForm):
 	#com_id = forms.ModelChoiceField(widget=forms.Select(attrs={'class':'form-control'}), queryset=None, required=True)
-	name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter branch name'}), required=True)
-	location = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter location'}), required=True)
-	email = forms.CharField(widget=forms.EmailInput(attrs={'class':'form-control', 'placeholder':'example@mail.com'}), required=True)
-	phone_number = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'(86)10123456'}), required=True)
-	web_site=forms.CharField(widget=forms.TextInput(attrs={ 'class':'form-control', 'placeholder':'Enter website'}), required=True)
-	address = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'rows':"3"}), required=True)
-	description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'rows':"3"}), required=True)
+	name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter branch name'}), required=False)
+	location = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter location'}), required=False)
+	email = forms.CharField(widget=forms.EmailInput(attrs={'class':'form-control', 'placeholder':'example@mail.com'}), required=False)
+	phone_number = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'(86)10123456'}), required=False)
+	web_site=forms.CharField(widget=forms.TextInput(attrs={ 'class':'form-control', 'placeholder':'Enter website'}), required=False)
+	address = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'rows':"3"}), required=False)
+	description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'rows':"3"}), required=False)
 	class Meta: 
 		model = Branch
 		fields = ['name','location','address', 'web_site', 'email','phone_number', 'description']
+	def clean_name(self):
+		if self.cleaned_data['name'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['name']
+	def clean_location(self):
+		if self.cleaned_data['location'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['location']
+
+	def clean_email(self):
+		if self.cleaned_data['email'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['email']
+
+	def clean_phone_number(self):
+		if self.cleaned_data['phone_number'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['phone_number']
+
+	def clean_web_site(self):
+		if self.cleaned_data['web_site'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['web_site']
+	def clean_address(self):
+		if self.cleaned_data['address'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['address']
+	def clean_description(self):
+		if self.cleaned_data['description'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['description']
+
+
 	def clean_email(self):
 		email = self.cleaned_data['email']
 		try:
@@ -237,5 +238,76 @@ class ExperienceForm(forms.ModelForm):
 	class Meta: 
 		model = Experience
 		fields = ['position','company', 'start_date', 'due_date', 'description', 'is_status']
+
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return 'user_{0}/{1}'.format(instance.user.id, filename)
+
+class CompanyForm(forms.ModelForm):
+    company_logo = forms.FileField(required=False)
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter country name'}),
+                           required=False)
+    web_site = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=False)
+    email = forms.CharField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'example@mail.com'}),
+                            required=False)
+    address = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': "3"}), required=False)
+    description = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': "3"}), required=False)
+    phone_number = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '(86)10123456'}), required=False)
+    location = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter city name'}), required=False)
+    is_branch = forms.BooleanField(required=False)
+
+    class Meta:
+        model = Company
+        fields = ['name', 'company_logo', 'web_site', 'email', 'address', 'phone_number', 'location', 'is_branch', 'description']
+
+    def clean_phone_location(self):
+        if self.cleaned_data['location'].strip() == '':
+            raise forms.ValidationError('This field cannot be blank!')
+        return self.cleaned_data['location']
+
+    def clean_phone_location(self):
+        if self.cleaned_data['location'].strip() == '':
+            raise forms.ValidationError('This field cannot be blank!')
+        return self.cleaned_data['location']
+
+    def clean_phone_number(self):
+        if self.cleaned_data['phone_number'].strip() == '':
+            raise forms.ValidationError('This field cannot be blank!')
+        return self.cleaned_data['phone_number']
+
+    def clean_address(self):
+        if self.cleaned_data['address'].strip() == '':
+            raise forms.ValidationError('This field cannot be blank!')
+        return self.cleaned_data['address']
+
+    def clean_email(self):
+        if self.cleaned_data['email'].strip() == '':
+            raise forms.ValidationError('This field cannot be blank!')
+        return self.cleaned_data['email']
+
+    def clean_name(self):
+        if self.cleaned_data['name'].strip() == '':
+            raise forms.ValidationError('This field cannot be blank!')
+        return self.cleaned_data['name']
+
+    def __init__(self, *args, **kwargs):
+        super(CompanyForm, self).__init__(*args, **kwargs)
+        self.fields['is_branch'].label = 'Doese your company has more branch ?'
+        self.fields['is_branch'].widget.attrs['type'] = 'checkbox'
+        self.fields['is_branch'].widget.attrs['class'] = 'checkbox'
+        self.fields['company_logo'].widget.attrs['type'] = 'file'
+        self.fields['name'].label = 'Name(*)'
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        try:
+            mt = validate_email(email)
+        except:
+            return forms.ValidationError("Email is not in correct format")
+        return email
+
+
 
 

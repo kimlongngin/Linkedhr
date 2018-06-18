@@ -1,3 +1,23 @@
+.skill_item
+{
+	background-color: #ce4b45;
+	height: 25px;
+	padding-left: 5px;
+	padding-right: 5px;
+	color: #eeeeee;
+	margin-right: 5px;
+	padding-top: 4px;
+	text-align: center;
+	margin-bottom: 11px;
+	font-size: 13px;
+	font-weight: lighter;
+	border-bottom-right-radius: 17px;
+	border-top-right-radius: 17px
+}
+.breadcrumb
+{
+	margin-bottom: 0px !important;
+}
 .list_branch_first
 {
 	background-color: #eeeeee

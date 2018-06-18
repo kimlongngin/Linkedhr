@@ -20,7 +20,7 @@
 								<hr class="mb-4">
 								<form method="POST" class="needs-validation form-horizontal" action=""  enctype="multipart/form-data">
                                     {% csrf_token %}
-									{% include 'city/form_template.html' %}
+                                    {% include 'city/form_template.html' %}
 
                                     <div class="form-group">
 										<div class="col-sm-offset-2 col-sm-10">
@@ -30,13 +30,15 @@
 
 								</form>
 
-                                <div>Title</div>
+                                <div><b>Title</b></div>
 
                                 <hr class="mb-4">
 
                                 {% if data_skill.count > 0 %}
                                     {% for i in data_skill %}
-                                        <span class="">  {{ i.title }} &nbsp; </span>
+                                        <a href="{% url 'linkedhr:skill-delete' i.id %}" >
+                                           <span class="skill_item  glyphicon glyphicon-remove-sign"> {{ i.title }} </span>
+                                       </a>
                                     {% endfor %}
                                 {% endif %}
 

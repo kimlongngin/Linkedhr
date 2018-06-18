@@ -222,38 +222,37 @@
                                                                 </div>
 
 													 		</div>
-													 		<div style="margin-top: 10px;">
+                                                            <div  class="break-breadcrumb" style="text-align: right;">
+                                                                <ol class="breadcrumb">
+                                                                    <li>
+                                                                        <a href="{% url 'linkedhr:document-update' i.id %}">
+                                                                            <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="{% url 'linkedhr:document-delete' i.id %}">
+                                                                            <span class="glyphicon glyphicon-trash"> Delete </span>
+                                                                        </a>
+                                                                    </li>
+                                                                </ol>
+                                                            </div>
 
-                                                                <div  style="text-align: right;">
-                                                                    <ol class="breadcrumb">
-                                                                        <li>
-                                                                            <a href="{% url 'linkedhr:document-update' i.id %}">
-                                                                                <span class="glyphicon glyphicon-pencil" aria-hidden=true> Edit </span>
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="{% url 'linkedhr:document-delete' i.id %}">
-                                                                                <span class="glyphicon glyphicon-trash"> Delete </span>
-                                                                            </a>
-                                                                        </li>
-                                                                    </ol>
-                                                                </div>
-                                                            </div >
 
 													 	</div>
 
 													{% endfor %}
 												{% else %}
 													<!--<a href="{% url 'linkedhr:document-create' %}" > <span class="glyphicon glyphicon-plus" aria-hidden=true> Add-document</span></a> -->
-                                                    <code>Please add your document.</code>
-                                                    <br/>
+                                                    <div style="margin-bottom: 15px;">
+                                                        <code>Please add your document.</code>
+                                                    </div>
 												{% endif %}
 
                                             <div class ="row">
-                                                <div class="col-xs-12 col-md-8">
-                                                    <span class="head_title glyphicon glyphicon-book"> Skill | </span>
+                                                <div class="col-xs-12 col-md-12">
+                                                    <span class="head_title glyphicon glyphicon-pushpin"> Skill |/span>
                                                     <a  href="{% url 'linkedhr:skill-create' %}">
-                                                        <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span>
+                                                        <span class="glyphicon glyphicon-plus " aria-hidden=true > Add </span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -261,15 +260,14 @@
                                             <div class="bs-callout bs-callout-info" id="callout-type-dl-truncate">
                                             {% if userprofile.4.count > 0 %}
 												 	{% for i in userprofile.4 %}
-                                                       <a href="{% url 'linkedhr:skill-delete' i.id %}" style="btn success">
-                                                            {{ i.title }}
+                                                       <a href="{% url 'linkedhr:skill-delete' i.id %}" >
+                                                           <span class="skill_item  glyphicon glyphicon-remove-sign"> {{ i.title }} </span>
                                                        </a>
-                                                        <br/>
 													{% endfor %}
 
 												{% else %}
 													<!--<a href="{% url 'linkedhr:skill-create' %}" > <span class="glyphicon glyphicon-plus" aria-hidden=true> Add-document</span></a> -->
-                                                    <code>Please add your document.</code>
+                                                    <code>Please add your skill.</code>
 												{% endif %}
 
                                             </div>
@@ -319,12 +317,16 @@
 																	{% if i.is_branch == True %}
 														 				{% if i.branch_set.all.count > 0 %}
 															 				{% if i.branch_set.all.count == 1 %}
-															 					Has ({{ i.branch_set.all.count }}) branch
+                                                                                Has ({{ i.branch_set.all.count }}) <a href ="{% url 'linkedhr:branch' i.id %} ">branch</a>
 															 				{% else %}
-															 					Has ({{ i.branch_set.all.count }}) branchs
+                                                                                Has ({{ i.branch_set.all.count }}) <a href ="{% url 'linkedhr:branch' i.id %} ">Branchs</a>
 															 				{% endif %}
-															 			{% endif %}
-															 		{% endif %}
+                                                                        {% else %}
+															 			    Has ({{ i.branch_set.all.count }}) <a href ="{% url 'linkedhr:branch' i.id %} ">branch</a>
+                                                                        {% endif %}
+                                                                    {% else %}
+															 		    Your company doesn't any branchs.
+                                                                    {% endif %}
 																</code>
 															</p> 
 

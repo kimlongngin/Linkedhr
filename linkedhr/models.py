@@ -1,11 +1,12 @@
 from django.db import models
 from django.utils import timezone
-from django.core.urlresolvers import reverse 
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from datetime import date
 from django.conf import settings
+import os
+from django.core.exceptions import ValidationError
 
-# Create your models here.
 
 
 def upload_location(instance, filename):
@@ -112,16 +113,25 @@ class UserProfile(models.Model):
 	class Meta:
 		ordering = ["-created", "-updated"]
 
+def validate_file_extension(value):
+    ext = os.path.splitext(value.name)[1]  # [0] returns path+filename
+    valid_extensions = ['.png', '.jpg', '.jpeg']
+    if not ext.lower() in valid_extensions:
+        raise ValidationError(u'Unsupported file extension.')
+
+
 def user_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-    return 'user_{0}/{1}'.format(instance.user.id, filename)
+	#return "files/users/%s/%s" % (request.user.id, filename)
+    return '/'.join(['content', instance.user_id.username, filename])
+
 
 # Company that work for upload their jobs, company has relationship with table branch, jobs 
 class Company(models.Model):
 	user_id = models.ForeignKey(User, related_name='user_company', on_delete=models.CASCADE)
 	name = models.CharField(max_length=150)
 	#company_logo = models.FileField(upload_to=user_directory_path)
-	company_logo = models.FileField(blank=True)
+	company_logo = models.FileField(blank=True, upload_to=user_directory_path,  validators=[validate_file_extension])
+
 	email = models.CharField(max_length=30)
 	phone_number = models.CharField(max_length=30)
 	#location = models.OneToOneField(City, on_delete=models.CASCADE)
