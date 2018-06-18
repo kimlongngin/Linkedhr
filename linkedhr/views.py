@@ -3,6 +3,8 @@ from django.template import loader
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView 
 from django.core.urlresolvers import reverse_lazy
+
+from django.http import HttpResponse
 # For user registration
 from django.shortcuts import render, redirect 
 from django.contrib.auth import authenticate, logout, login
@@ -16,12 +18,13 @@ from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
-from django.contrib.auth.models import User 
-from django.http import HttpResponse
+from django.contrib.auth.models import User
+
 from branch.views import BranchView, UpdateBranchView, BranchDeleteView
 from education.views import EducationView, EducationUpdate, EducationDeleteView
 from experience.views import ExperienceUpdate, ExperienceView, ExperienceDeleteView
 from document.views import DocumentCreateView, DocumentUpdate, DocumentDelete
+from skill.views import SkillCreateView
 
 class PDFTdownloadView(View):
 

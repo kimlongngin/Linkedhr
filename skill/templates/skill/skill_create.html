@@ -1,0 +1,57 @@
+{% extends 'city/base.html' %}
+{% block title %} Skill create {% endblock %}
+
+{% block body %}
+
+	{% if user.is_authenticated %}
+		<div>
+			<div class="align-items-center">
+				<div class="row">
+					<div class="col-md-12 order-md-12">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								{% if messages %}
+								    {% for message in messages %}
+								      <p class="bg-success success_text">{{ message }}</p>
+								    {% endfor %}
+								{% endif %}
+
+								<h4 class="mb-3">Create skill </h4>
+								<hr class="mb-4">
+								<form class="needs-validation form-horizontal" action="" method="POST" enctype="multipart/form-data">
+
+                                    {% csrf_token %}
+									{% include 'city/form_template.html' %}
+
+                                    <div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10">
+											<button type="submit" class="btn btn-success"> Save</button>
+										</div>
+									</div>
+
+								</form>
+
+                                <div>Title</div>
+
+                                <hr class="mb-4">
+
+                                {% if data_skill.count > 0 %}
+                                    {% for i in data_skill %}
+                                        <span class="">  {{ i.title }} &nbsp; </span>
+                                    {% endfor %}
+                                {% endif %}
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% else %}
+		<div>
+			<a href="{% url 'linkedhr:login'%} " >>>Login </a>
+		</div>
+	{% endif %}
+
+{% endblock %}

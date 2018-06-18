@@ -1,5 +1,5 @@
 {% extends 'city/base.html' %}
-{% block title %} Add City {% endblock %}
+{% block title %} Company {% endblock %}
 {% block city_active %} Active {% endblock %}
 
 {% block body %}
@@ -30,14 +30,18 @@
 									{% endif %}	
 										
 									{% if company.count > 0 %}				
-										<h3 class="mb-3">Create company  </h3> 
-										<p>you added ({{company.count}}) company</p>
+										<h3 class="mb-3">Create company  </h3>
+                                        {% if company.count > 1 %}
+										    <p>you have ({{company.count}}) companies</p>
+                                        {% else %}
+                                            <p>you have ({{company.count}}) company</p>
+                                        {% endif %}
 									{% else %}
 										<h3 class="mb-3">Create company  </h3> 
 									{% endif %}
 									<hr class="mb-4">
 									<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
-										
+
 										{% csrf_token %}
 										{% include 'city/form_template.html' %}
 										<div class="form-group">

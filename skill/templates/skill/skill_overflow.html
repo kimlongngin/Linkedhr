@@ -1,0 +1,21 @@
+{% extends 'city/base.html' %}
+{% block title %} Error {% endblock %}
+{% block city_active %} Active {% endblock %}
+
+{% block body %}
+
+	{% if user.is_authenticated %}
+		<div style="text-align: center;">
+			<code> You cannot add more than 25 skills. </code>
+		</div>
+
+	{% else %}
+		<div style="text-align: center;">
+			<a href="{% url 'linkedhr:login'%} " >>>Login </a>
+		</div>
+	{% endif %}
+
+
+
+
+{% endblock %}

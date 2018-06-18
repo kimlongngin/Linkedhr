@@ -22,7 +22,7 @@ from django.contrib.auth.models import User
 class DocumentDelete(SuccessMessageMixin, generic.DeleteView):
 	model = Documents
 	form = DocumentForm()
-	template_name = 'document_delete.html'
+	template_name = 'document/document_delete.html'
 	success_url = reverse_lazy('linkedhr:myuserprofile_without_pk')
 	success_message = " Deleted successfully !"
 	
@@ -57,7 +57,7 @@ class  DocumentUpdate(SuccessMessageMixin, generic.UpdateView):
 	success_message = "Document was updated successfully"
 	form = DocumentForm()
 	fields = ['title', 'file', 'description'] 
-	template_name = 'document_update.html'
+	template_name = 'document/document_update.html'
 
 	def get_form(self):
 		return DocumentForm(**self.get_form_kwargs())	
@@ -96,7 +96,7 @@ class  DocumentUpdate(SuccessMessageMixin, generic.UpdateView):
 class DocumentCreateView(SuccessMessageMixin, CreateView):
 	model = Documents 
 	form = DocumentForm()
-	template_name = 'document_create.html'
+	template_name = 'document/document_create.html'
 	success_message = "Created successfully"
 
 	def dispatch(self, request, *args, **kwargs):	

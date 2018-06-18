@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django import forms
+from django.core.validators import validate_email
 from django.forms import ModelForm
 from linkedhr.models import UserProfile, Education, Experience, Company, Branch, City
 from datetime import date
@@ -53,7 +54,13 @@ class UserForm(forms.ModelForm):
 			else:
 				if len(pas) < MIN_LENGHT:
 					raise forms.ValidationError("password should have atleast 8 character")
-
+	def clean_email(self):
+		email = self.cleaned_data['email']
+		try:
+			mt = validate_email(email)
+		except:
+			return forms.ValidationError("Email is not in correct format")
+		return email
 
 class UserLoginForm(forms.ModelForm):
 	password = forms.CharField(widget = forms.PasswordInput)
@@ -110,7 +117,13 @@ class UserProfileForm(forms.ModelForm):
 		except (ValueError, TypeError):
 			raise forms.ValidationError('Please enter a valid phone number')
 		return phone_no
-	
+	def clean_email(self):
+		email = self.cleaned_data['email']
+		try:
+			mt = validate_email(email)
+		except:
+			return forms.ValidationError("Email is not in correct format")
+		return email
 	#def __init__(self, *args, **kwargs):
 		#super(UserProfileForm, self).__init__(*args, **kwargs)
 		#self.fields['city'].queryset = City.objects.all()
@@ -139,6 +152,13 @@ class CompanyForm(forms.ModelForm):
 		self.fields['is_branch'].widget.attrs['class']='checkbox'
 		self.fields['company_logo'].widget.attrs['type']='file'
 		self.fields['name'].label='Name(*)'
+	def clean_email(self):
+		email = self.cleaned_data['email']
+		try:
+			mt = validate_email(email)
+		except:
+			return forms.ValidationError("Email is not in correct format")
+		return email
 
 class BranchForm(forms.ModelForm):
 	#com_id = forms.ModelChoiceField(widget=forms.Select(attrs={'class':'form-control'}), queryset=None, required=True)
@@ -152,7 +172,13 @@ class BranchForm(forms.ModelForm):
 	class Meta: 
 		model = Branch
 		fields = ['name','location','address', 'web_site', 'email','phone_number', 'description']
-	
+	def clean_email(self):
+		email = self.cleaned_data['email']
+		try:
+			mt = validate_email(email)
+		except:
+			return forms.ValidationError("Email is not in correct format")
+		return email
 	#def __init__(self, *args, **kwargs):
 		#super(BranchForm, self).__init__(*args, **kwargs)
 		#self.fields['com_id'].queryset = Company.objects.all()	

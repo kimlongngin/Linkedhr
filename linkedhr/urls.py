@@ -11,8 +11,6 @@ urlpatterns = [
 
 	#url(r'^pdf/$', PDFTemplateView.as_view(), name='pdf'),
 
-
-
 	# /linkedhr/
 	url(r'^$', views.IndexView.as_view(), name='index'),
 	
@@ -75,7 +73,6 @@ urlpatterns = [
 
 	# /linkedhr/register/userprofile/company/branch 
 	url(r'^register/userprofile/company/branch/delete/(?P<pk>[0-9]+)/$', views.BranchDeleteView.as_view(), name='branch-delete'),
-
    
 	# /linkedhr/register/userprofile/company/1 
 	url(r'register/userprofile/company/(?P<pk>[0-9]+)/$', views.CompanyUpdateView.as_view(), name='company-update'),
@@ -83,9 +80,11 @@ urlpatterns = [
 	# /linkedhr/register/userprofile/company/1 
 	url(r'register/userprofile/company/delete/(?P<pk>[0-9]+)/$', views.CompanyDeleteView.as_view(), name='company-delete'),
 
-
 	# /linkedhr/register/userprofile/company/list_company
 	url(r'^register/userprofile/company/list_company/(?P<pk>[0-9]+)/$', views.ListCompanyView.as_view(), name='list_company'),
+
+	# /linkedhr/register/userprofile/skill
+	url(r'^register/userprofile/skill/$', views.SkillCreateView.as_view(), name='skill-create'),
 
 	# /linkedhr/login
 	#url(r'^login/$', auth_views.login, name='login'),

@@ -215,7 +215,7 @@ class Experience(models.Model):
 
 # Create model Skill category, has relationship with Skill in many-one
 class SkillList(models.Model):
-	title = models.CharField(max_length=100)
+	title = models.CharField(max_length=25)
 	description = models.TextField()
 	is_status = models.BooleanField(default=True)	
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
@@ -227,9 +227,9 @@ class SkillList(models.Model):
 
 # Skill has relationship with SkillList in one-many
 class Skill(models.Model):
-	user_id = models.IntegerField(default=0)
-	title = models.CharField(max_length=100)
-	skill_list = models.ForeignKey(SkillList, on_delete=models.CASCADE)
+	user_id = models.ForeignKey(User, related_name='user_skill', on_delete=models.CASCADE)
+	title = models.CharField(max_length=25)
+	#skill_list = models.ForeignKey(SkillList, on_delete=models.CASCADE, blank=True)
 	description = models.TextField()
 	is_status = models.BooleanField(default=True)
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False)

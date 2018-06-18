@@ -1,10 +1,14 @@
+.list_branch_first
+{
+	background-color: #eeeeee
+}
+.list_branch_second
+{
+	background-color: antiquewhite;
+	padding-top:5px;
+	padding-bottom: 5px;
+}
 
-.bs-callout-info {
-	border-left-color: #1b809e !important;
-}
-.bs-callout-danger {
-    border-left-color: #ce4844 !important;
-}
 .bs-callout {
 	/*padding: 20px; */
 	padding-top:10px;
@@ -17,59 +21,7 @@
 	border-left-width: 5px;
 	border-radius: 3px;
 }
-.userprofile{
-	width: 80%;
-	margin:auto;
-	position: table;
-	vertical-align: baseline
 
-}
-.user_profile{
-	width: 100%;
-	position: table;
-	margin: auto;
-	padding-left: 20px;
-	padding-right: 20px;
-	border: 1px solid gray;
-	padding-top :20px;
-	padding-bottom: 10px;
-	background: white;
-	color:rgba(0,0,0,.9);
-	margin-bottom: 10px;
-	border-radius: 3px 3px 3px 3px ;
-}
-.user_ed{
-	width: 100%;
-	position: table;
-	margin: auto;
-	padding-left: 20px;
-	padding-right: 20px;
-	border: 1px solid gray;
-	padding-top :10px;
-	padding-bottom: 10px;
-	background: white;
-	color:rgba(0,0,0,.9);
-	margin-bottom: 10px;
-	border-radius: 3px 3px 3px 3px ;
-}
-.user_ex{
-	width: 100%;
-	position: table;
-	margin-bottom: 50px;
-	padding-left: 20px;
-	padding-right: 20px;
-	padding-top :20px;
-	padding-bottom: 10px;
-	border: 1px solid black;
-	background: white;
-	color:rgba(0,0,0,.9);
-	border-radius: 3px 3px 3px 3px ;
-}
-.krotis_span:{
-	font-style: italic;
-	color: black;
-	font-weight: bold;
-}
 
 .navbar-toggle {
     position: relative;
@@ -106,4 +58,9 @@
  	font-weight: bold;
  	color:blue;
  }
-
+.bs-callout-info {
+	border-left-color: #1b809e !important;
+}
+.bs-callout-danger {
+    border-left-color: #ce4b45 !important;
+}

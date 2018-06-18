@@ -2,7 +2,14 @@
 
 {% block body %}
 	
-	
+	<style type="text/css">
+        .breadcrumb {
+            margin-bottom: 0px !important;
+            padding-bottom: 0px !important;
+
+        }
+
+    </style>
 
 	{% if user.is_authenticated %}
 		{% if data %}
@@ -42,17 +49,34 @@
 								 		
 
 								 		{% if i.is_branch == True %}
-											<h3> Branch </h3>
-											{% if i.branch_set.all.count > 0 %}
+											<div style="padding-bottom:5px;">
+                                                <span class="head_title glyphicon glyphicon-random"> Branch </span>
+                                            </div>
+
+                                            {% if i.branch_set.all.count > 0 %}
 										 		{% for j in i.branch_set.all  %}
-													<a style="color:black;" href="{% url 'linkedhr:branch-update' j.id %}"> <span class="glyphicon glyphicon-edit" aria-hidden=true> {{ j.name }} {{ j.location }}</span> 
-													</a> 
-													<br>
+
+                                                    <div>
+                                                        <span class="glyphicon glyphicon-ok" aria-hidden=true> {{ j.name }} </span>
+                                                        <ol class="breadcrumb">
+                                                            <li>
+                                                               <a href="{% url 'linkedhr:branch-update' j.id %}">
+                                                                   <span class="glyphicon glyphicon-edit" aria-hidden=true> Edit </span>
+                                                               </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="{% url 'linkedhr:branch-delete' j.id %}">
+                                                                    <span class="glyphicon glyphicon-trash"> Delete </span>
+                                                                </a>
+                                                            </li>
+                                                        </ol>
+                                                     </div>
+                                                   <hr class="mb-4">
 												{% endfor %}
 											{% else %}
 												<a href="{% url 'linkedhr:branch' i.id %}"> Add </a> 
 											{% endif %}
-											<hr class="mb-4">
+
 											<a href="{% url 'linkedhr:branch' i.id %}"> 
 												<span class="glyphicon glyphicon-plus" aria-hidden=true>													Add-new-branch
 												</span>
