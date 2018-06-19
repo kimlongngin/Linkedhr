@@ -2,32 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="41d63ab1-95b6-4312-bea7-27718d329c3f" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/linkedhr/templates/userprofile/detail(copied).html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/document/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/document/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/document/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/document/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/document/templates/document/document_create.html" beforeDir="false" afterPath="$PROJECT_DIR$/document/templates/document/document_create.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/document/templates/document/document_delete.html" beforeDir="false" afterPath="$PROJECT_DIR$/document/templates/document/document_delete.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/document/templates/document/document_update.html" beforeDir="false" afterPath="$PROJECT_DIR$/document/templates/document/document_update.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/experience/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/experience/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linkedhr/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/linkedhr/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linkedhr/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/linkedhr/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linkedhr/static/city/css/krotis.css" beforeDir="false" afterPath="$PROJECT_DIR$/linkedhr/static/city/css/krotis.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/linkedhr/static/city/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/linkedhr/static/city/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linkedhr/templates/branch/branch_create.html" beforeDir="false" afterPath="$PROJECT_DIR$/linkedhr/templates/branch/branch_create.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linkedhr/templates/branch/branch_delete.html" beforeDir="false" afterPath="$PROJECT_DIR$/linkedhr/templates/branch/branch_delete.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linkedhr/templates/branch/branch_update.html" beforeDir="false" afterPath="$PROJECT_DIR$/linkedhr/templates/branch/branch_update.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linkedhr/templates/branch/error_branch.html" beforeDir="false" afterPath="$PROJECT_DIR$/linkedhr/templates/branch/error_branch.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linkedhr/templates/company/company_create.html" beforeDir="false" afterPath="$PROJECT_DIR$/linkedhr/templates/company/company_create.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linkedhr/templates/company/company_delete.html" beforeDir="false" afterPath="$PROJECT_DIR$/linkedhr/templates/company/company_delete.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linkedhr/templates/company/company_update.html" beforeDir="false" afterPath="$PROJECT_DIR$/linkedhr/templates/company/company_update.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linkedhr/templates/company/error_company.html" beforeDir="false" afterPath="$PROJECT_DIR$/linkedhr/templates/company/error_company.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linkedhr/templates/company/list_company.html" beforeDir="false" afterPath="$PROJECT_DIR$/linkedhr/templates/company/list_company.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linkedhr/templates/experience/experience_create.html" beforeDir="false" afterPath="$PROJECT_DIR$/linkedhr/templates/experience/experience_create.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linkedhr/templates/experience/experience_delete.html" beforeDir="false" afterPath="$PROJECT_DIR$/linkedhr/templates/experience/experience_delete.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linkedhr/templates/experience/experience_update.html" beforeDir="false" afterPath="$PROJECT_DIR$/linkedhr/templates/experience/experience_update.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/linkedhr/templates/userprofile/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/linkedhr/templates/userprofile/detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/skill/templates/skill/skill_create.html" beforeDir="false" afterPath="$PROJECT_DIR$/skill/templates/skill/skill_create.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -41,12 +20,20 @@
       <file leaf-file-name="detail.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/linkedhr/templates/userprofile/detail.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="377">
-              <caret line="324" column="166" selection-start-line="324" selection-start-column="166" selection-end-line="324" selection-end-column="166" />
+            <state relative-caret-position="323">
+              <caret line="138" column="118" selection-start-line="138" selection-start-column="118" selection-end-line="138" selection-end-column="118" />
               <folding>
+                <element signature="n#div#1;n#!!top" />
+                <element signature="n#style#0;n#a#0;n#div#0;n#div#0;n#div#0;n#div#2;n#!!top" expanded="true" />
+                <element signature="n#div#3;n#!!top" />
+                <element signature="n#style#0;n#a#0;n#div#0;n#div#0;n#div#0;n#div#3;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#0;n#div#3;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#div#7;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+                <element signature="n#style#0;n#a#0;n#div#0;n#div#0;n#div#4;n#!!top" expanded="true" />
+                <element signature="n#div#10;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+                <element signature="n#p#0;n#div#10;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
               </folding>
             </state>
           </provider>
@@ -55,7 +42,7 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/linkedhr/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
+            <state relative-caret-position="915">
               <caret line="66" column="106" selection-start-line="66" selection-start-column="100" selection-end-line="66" selection-end-column="106" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
@@ -67,7 +54,7 @@
       <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/linkedhr/forms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="263">
+            <state relative-caret-position="3675">
               <caret line="251" column="42" selection-start-line="251" selection-start-column="42" selection-end-line="251" selection-end-column="42" />
               <folding>
                 <element signature="e#0#43#0" expanded="true" />
@@ -88,68 +75,8 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/linkedhr/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
+            <state relative-caret-position="15">
               <caret line="127" column="38" selection-start-line="127" selection-start-column="38" selection-end-line="127" selection-end-column="38" />
-              <folding>
-                <element signature="e#1#29#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="list_company.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/linkedhr/templates/company/list_company.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="482">
-              <caret line="80" column="56" selection-start-line="80" selection-start-column="56" selection-end-line="80" selection-end-column="56" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/linkedhr/static/city/css/style.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="443">
-              <caret line="33" column="17" selection-start-line="33" selection-start-column="17" selection-end-line="33" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/skill/forms.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" selection-start-line="16" selection-end-line="19" selection-end-column="41" />
-              <folding>
-                <element signature="e#0#43#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/document/forms.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
-              <folding>
-                <element signature="e#1#44#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/document/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="8" />
-              <folding>
-                <element signature="e#0#28#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -178,13 +105,13 @@
       <find>render</find>
       <find>email</find>
       <find>login</find>
-      <find>Experience</find>
       <find>head_title</find>
-      <find>Skill</find>
       <find>company</find>
       <find>Add-new</find>
       <find>Company</find>
       <find>Branch</find>
+      <find>Skill</find>
+      <find>Experience</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -193,7 +120,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/document/templates/document_update.html" />
         <option value="$PROJECT_DIR$/linkedhr/templates/city/city_form.html" />
         <option value="$PROJECT_DIR$/linkedhr/templates/city/registration_form.html" />
         <option value="$PROJECT_DIR$/linkedhr/templates/education/education_create.html" />
@@ -229,7 +155,6 @@
         <option value="$PROJECT_DIR$/document/forms.py" />
         <option value="$PROJECT_DIR$/linkedhr/static/city/css/krotis.css" />
         <option value="$PROJECT_DIR$/skill/templates/skill/skill_create.html" />
-        <option value="$PROJECT_DIR$/linkedhr/static/city/css/style.css" />
         <option value="$PROJECT_DIR$/company/forms.py" />
         <option value="$PROJECT_DIR$/linkedhr/templates/branch/branch_create.html" />
         <option value="$PROJECT_DIR$/linkedhr/templates/branch/branch_delete.html" />
@@ -243,6 +168,8 @@
         <option value="$PROJECT_DIR$/document/models.py" />
         <option value="$PROJECT_DIR$/linkedhr/models.py" />
         <option value="$PROJECT_DIR$/linkedhr/templates/company/list_company.html" />
+        <option value="$PROJECT_DIR$/linkedhr/templates/userprofile/detail(copied).html" />
+        <option value="$PROJECT_DIR$/linkedhr/static/city/css/style.css" />
         <option value="$PROJECT_DIR$/linkedhr/templates/userprofile/detail.html" />
       </list>
     </option>
@@ -256,10 +183,11 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="y" value="25" />
-    <option name="width" value="1366" />
-    <option name="height" value="743" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="x" value="10" />
+    <option name="y" value="164" />
+    <option name="width" value="1356" />
+    <option name="height" value="555" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -269,6 +197,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -287,11 +216,17 @@
               <item name="linkedhr" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="camjobs" type="b2602c69:ProjectViewProjectNode" />
+              <item name="camjobs" type="462c0819:PsiDirectoryNode" />
+              <item name="linkedhr" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="userprofile" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -300,6 +235,9 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/linkedhr/templates/userprofile" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/document/templates/document" />
       <recent name="$PROJECT_DIR$/skill/templates/skill" />
@@ -341,7 +279,7 @@
       <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3133236" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20131771" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" />
@@ -357,27 +295,27 @@
       <window_info anchor="bottom" id="Find" order="1" />
     </layout>
     <layout-to-restore>
-      <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24158126" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Python Console" order="9" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" id="Database" order="4" />
       <window_info anchor="bottom" id="Terminal" order="10" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="SciView" order="3" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Python Console" order="9" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info id="Favorites" order="2" side_tool="true" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -392,13 +330,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/skill/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/skill/templates/skill/sikll_update.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -434,9 +365,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="133" column="30" selection-start-line="133" selection-start-column="30" selection-end-line="133" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#63#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -486,9 +414,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="28" selection-start-line="28" selection-end-line="37" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#63#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -600,9 +525,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="40" selection-start-line="40" selection-end-line="40" />
-          <folding>
-            <element signature="e#0#63#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -620,16 +542,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/linkedhr/static/city/css/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="443">
-          <caret line="33" column="17" selection-start-line="33" selection-start-column="17" selection-end-line="33" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/company/forms.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/company/forms.py" />
     <entry file="file://$PROJECT_DIR$/linkedhr/templates/branch/branch_create.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -660,7 +573,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/skill/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
+        <state relative-caret-position="165">
           <caret line="16" selection-start-line="16" selection-end-line="19" selection-end-column="41" />
           <folding>
             <element signature="e#0#43#0" expanded="true" />
@@ -698,7 +611,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/document/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
+        <state relative-caret-position="180">
           <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
           <folding>
             <element signature="e#1#44#0" expanded="true" />
@@ -719,29 +632,16 @@
     <entry file="file://$PROJECT_DIR$/media/content/kimlongngin/ANS_2476.JPG">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/linkedhr/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="127" column="38" selection-start-line="127" selection-start-column="38" selection-end-line="127" selection-end-column="38" />
-          <folding>
-            <element signature="e#1#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/linkedhr/templates/company/list_company.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="482">
+        <state relative-caret-position="1200">
           <caret line="80" column="56" selection-start-line="80" selection-start-column="56" selection-end-line="80" selection-end-column="56" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/linkedhr/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
+        <state relative-caret-position="915">
           <caret line="66" column="106" selection-start-line="66" selection-start-column="100" selection-end-line="66" selection-end-column="106" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
@@ -751,7 +651,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/linkedhr/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
+        <state relative-caret-position="3675">
           <caret line="251" column="42" selection-start-line="251" selection-start-column="42" selection-end-line="251" selection-end-column="42" />
           <folding>
             <element signature="e#0#43#0" expanded="true" />
@@ -759,14 +659,43 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/linkedhr/templates/userprofile/detail(copied).html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="60" column="65" lean-forward="true" selection-start-line="60" selection-start-column="48" selection-end-line="60" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/linkedhr/static/city/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" column="4" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/linkedhr/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="127" column="38" selection-start-line="127" selection-start-column="38" selection-end-line="127" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/linkedhr/templates/userprofile/detail.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="324" column="166" selection-start-line="324" selection-start-column="166" selection-end-line="324" selection-end-column="166" />
+        <state relative-caret-position="323">
+          <caret line="138" column="118" selection-start-line="138" selection-start-column="118" selection-end-line="138" selection-end-column="118" />
           <folding>
+            <element signature="n#div#1;n#!!top" />
+            <element signature="n#style#0;n#a#0;n#div#0;n#div#0;n#div#0;n#div#2;n#!!top" expanded="true" />
+            <element signature="n#div#3;n#!!top" />
+            <element signature="n#style#0;n#a#0;n#div#0;n#div#0;n#div#0;n#div#3;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#3;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#5;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#div#7;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+            <element signature="n#style#0;n#a#0;n#div#0;n#div#0;n#div#4;n#!!top" expanded="true" />
+            <element signature="n#div#10;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+            <element signature="n#p#0;n#div#10;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
           </folding>
         </state>
       </provider>
