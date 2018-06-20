@@ -1,11 +1,11 @@
 from django.contrib.auth.models import User
 from django import forms
-from django.core.validators import validate_email
 from django.forms import ModelForm
 from linkedhr.models import UserProfile, Education, Experience, Company, Branch, City
 from datetime import date
 from django.shortcuts import render, get_object_or_404, Http404
-
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
 
 class EducationForm(forms.ModelForm):
@@ -102,7 +102,7 @@ class UserForm(forms.ModelForm):
 		try:
 			mt = validate_email(email)
 		except:
-			return forms.ValidationError("Email is not in correct format")
+			raise forms.ValidationError("Email is not in correct format")
 		return email
 
 class UserLoginForm(forms.ModelForm):
@@ -126,16 +126,18 @@ IS_RECRUITE = (
 
 class UserProfileForm(forms.ModelForm):
 
-	sex = forms.CharField(widget=forms.Select(attrs={'class':'form-control'}, choices=TITLE_CHOICES), required=True)
-	date_of_birth = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'yyyy-mm-dd'}), required=True)
-	country = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter country name'}), required=True)
-	city = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter city name'}), required=True)
+	sex = forms.CharField(widget=forms.Select(attrs={'class':'form-control'}, choices=TITLE_CHOICES), required=False)
+	date_of_birth = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'yyyy-mm-dd'}), required=False)
+	country = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter country name'}), required=False)
+	city = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter city name'}), required=False)
 	#city = forms.ModelMultipleChoiceField(queryset=None)
 	#city = forms.ModelChoiceField(widget=forms.Select(attrs={'class':'form-control'}), queryset=None, required=True)
 	nationality = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Kh'}), required=False)
-	email = forms.CharField(widget=forms.EmailInput(attrs={'class':'form-control', 'placeholder':'example@mail.com'}), required=True)
-	phone_number = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'85510123456'}), required=True)
-	zip_code = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'zip code'}), required=True)
+	email = forms.CharField(widget=forms.EmailInput(attrs={'class':'form-control', 'placeholder':'example@mail.com', 'type':'email'}), required=False)
+	#email = forms.CharField()
+	phone_number = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'85510123456'}), required=False)
+
+	zip_code = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'zip code'}), required=False)
 	description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'rows':"3"}), required=False)
 	present_address = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'rows':"3"}), required=False)
 	#is_recruit = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}), required=False)
@@ -145,27 +147,55 @@ class UserProfileForm(forms.ModelForm):
 		model = UserProfile
 		fields = ['sex', 'date_of_birth', 'country', 'city', 'nationality','email','phone_number','zip_code','present_address', 'description', 'is_recruit']
 	
+	def clean_sex(self):
+		if self.cleaned_data['sex'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['sex']
+	def clean_date_of_birth(self):
+		if self.cleaned_data['date_of_birth'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['date_of_birth']	
+	def clean_country(self):
+		if self.cleaned_data['country'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['country']	
+	def clean_city(self):
+		if self.cleaned_data['city'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['city']
+	
+	def clean_present_address(self):
+		if self.cleaned_data['present_address'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		return self.cleaned_data['present_address']
 	def clean_zip_code(self):
 		zipc = self.cleaned_data.get('zip_code', None)
+		if zipc.strip()=='':
+			raise forms.ValidationError('This field cannot be blank!')
 		try:
 			int(zipc)
 		except (ValueError, TypeError):
-			raise forms.ValidationError('Make sure that this field can input only number.')
+			raise forms.ValidationError('Make sure that this field can input only number!')
 		return zipc
 
 	def clean_phone_number(self):
 		phone_no = self.cleaned_data.get('phone_number', None)
+		if phone_no.strip()=='':
+			raise forms.ValidationError("This field cannot be blank!")
+
 		try:
 			int(phone_no)
 		except (ValueError, TypeError):
-			raise forms.ValidationError('Please enter a valid phone number')
+			raise forms.ValidationError('Please enter a valid phone number!')
 		return phone_no
 	def clean_email(self):
 		email = self.cleaned_data['email']
+		if email.strip()=='':
+			raise forms.ValidationError('This field cannot be blank!')
 		try:
 			mt = validate_email(email)
 		except:
-			return forms.ValidationError("Email is not in correct format")
+			raise forms.ValidationError("Email is not in correct format!")
 		return email
 	#def __init__(self, *args, **kwargs):
 		#super(UserProfileForm, self).__init__(*args, **kwargs)
@@ -175,34 +205,42 @@ class UserProfileForm(forms.ModelForm):
 class BranchForm(forms.ModelForm):
 	#com_id = forms.ModelChoiceField(widget=forms.Select(attrs={'class':'form-control'}), queryset=None, required=True)
 	name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter branch name'}), required=False)
-	location = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter location'}), required=False)
+	#location = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter location'}), required=False)
 	email = forms.CharField(widget=forms.EmailInput(attrs={'class':'form-control', 'placeholder':'example@mail.com'}), required=False)
-	phone_number = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'(86)10123456'}), required=False)
+	phone_number = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'010123456'}), required=False)
+	zip_code = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'855'}), required=False)
 	web_site=forms.CharField(widget=forms.TextInput(attrs={ 'class':'form-control', 'placeholder':'Enter website'}), required=False)
 	address = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'rows':"3"}), required=False)
 	description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'rows':"3"}), required=False)
 	class Meta: 
 		model = Branch
-		fields = ['name','location','address', 'web_site', 'email','phone_number', 'description']
+		fields = ['name','address', 'web_site', 'email','phone_number','zip_code', 'description']
 	def clean_name(self):
 		if self.cleaned_data['name'].strip() == '':
 			raise forms.ValidationError('This field cannot be blank!')
 		return self.cleaned_data['name']
-	def clean_location(self):
-		if self.cleaned_data['location'].strip() == '':
-			raise forms.ValidationError('This field cannot be blank!')
-		return self.cleaned_data['location']
-
+	
 	def clean_email(self):
+		email = self.cleaned_data['email']
 		if self.cleaned_data['email'].strip() == '':
 			raise forms.ValidationError('This field cannot be blank!')
-		return self.cleaned_data['email']
+		else:
+			try:
+				mt = validate_email(email)
+			except:
+				raise forms.ValidationError("Email is not in correct format!")
+			return email
 
 	def clean_phone_number(self):
-		if self.cleaned_data['phone_number'].strip() == '':
-			raise forms.ValidationError('This field cannot be blank!')
-		return self.cleaned_data['phone_number']
-
+		phone_no = self.cleaned_data.get('phone_number', None)
+		if phone_no.strip()=='':
+			raise forms.ValidationError("This field cannot be blank!")
+		try:
+			int(phone_no)
+		except (ValueError, TypeError):
+			raise forms.ValidationError("Please enter a valid phone number")
+		return phone_no
+    
 	def clean_web_site(self):
 		if self.cleaned_data['web_site'].strip() == '':
 			raise forms.ValidationError('This field cannot be blank!')
@@ -216,14 +254,19 @@ class BranchForm(forms.ModelForm):
 			raise forms.ValidationError('This field cannot be blank!')
 		return self.cleaned_data['description']
 
-
-	def clean_email(self):
-		email = self.cleaned_data['email']
+	def clean_zip_code(self):
+		zip_code = self.cleaned_data.get('zip_code', None)
+		if zip_code.strip()=='':
+			raise forms.ValidationError("This field cannot be blank!")
 		try:
-			mt = validate_email(email)
-		except:
-			return forms.ValidationError("Email is not in correct format")
-		return email
+			int(zip_code)
+		except (ValueError, TypeError):
+			raise forms.ValidationError('Please enter a valid zip code')
+		return zip_code
+
+
+	
+	
 	#def __init__(self, *args, **kwargs):
 		#super(BranchForm, self).__init__(*args, **kwargs)
 		#self.fields['com_id'].queryset = Company.objects.all()	
@@ -253,39 +296,58 @@ class CompanyForm(forms.ModelForm):
     address = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': "3"}), required=False)
     description = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': "3"}), required=False)
     phone_number = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '(86)10123456'}), required=False)
-    location = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter city name'}), required=False)
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '010123456'}), required=False)
+    zip_code = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '855'}), required=False)
     is_branch = forms.BooleanField(required=False)
 
     class Meta:
         model = Company
-        fields = ['name', 'company_logo', 'web_site', 'email', 'address', 'phone_number', 'location', 'is_branch', 'description']
+        fields = ['name', 'company_logo', 'web_site', 'email', 'address', 'phone_number', 'zip_code', 'is_branch', 'description']
 
-    def clean_phone_location(self):
-        if self.cleaned_data['location'].strip() == '':
-            raise forms.ValidationError('This field cannot be blank!')
-        return self.cleaned_data['location']
-
-    def clean_phone_location(self):
-        if self.cleaned_data['location'].strip() == '':
-            raise forms.ValidationError('This field cannot be blank!')
-        return self.cleaned_data['location']
 
     def clean_phone_number(self):
-        if self.cleaned_data['phone_number'].strip() == '':
+		phone_no = self.cleaned_data.get('phone_number', None)
+		if phone_no.strip()=='':
+			raise forms.ValidationError("This field cannot be blank!")
+		try:
+			int(phone_no)
+		except (ValueError, TypeError):
+			raise forms.ValidationError("Please enter a valid phone number")
+		return phone_no
+    
+        
+    def clean_zip_code(self):
+		zip_code = self.cleaned_data.get('zip_code', None)
+		if zip_code.strip()=='':
+			raise forms.ValidationError("This field cannot be blank!")
+		try:
+			int(zip_code)
+		except (ValueError, TypeError):
+			raise forms.ValidationError('Please enter a valid zip code')
+		return zip_code
+
+	
+    def clean_location(self):
+        if self.cleaned_data['location'].strip() == '':
             raise forms.ValidationError('This field cannot be blank!')
-        return self.cleaned_data['phone_number']
+        return self.cleaned_data['location']
 
     def clean_address(self):
         if self.cleaned_data['address'].strip() == '':
             raise forms.ValidationError('This field cannot be blank!')
         return self.cleaned_data['address']
-
-    def clean_email(self):
-        if self.cleaned_data['email'].strip() == '':
-            raise forms.ValidationError('This field cannot be blank!')
-        return self.cleaned_data['email']
+	
+	def clean_email(self):
+		email = self.cleaned_data['email']
+		if self.cleaned_data['email'].strip() == '':
+			raise forms.ValidationError('This field cannot be blank!')
+		else:
+			try:
+				mt = validate_email(email)
+			except:
+				raise forms.ValidationError("Email is not in correct format!")
+			return email
 
     def clean_name(self):
         if self.cleaned_data['name'].strip() == '':
@@ -300,13 +362,6 @@ class CompanyForm(forms.ModelForm):
         self.fields['company_logo'].widget.attrs['type'] = 'file'
         self.fields['name'].label = 'Name(*)'
 
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        try:
-            mt = validate_email(email)
-        except:
-            return forms.ValidationError("Email is not in correct format")
-        return email
 
 
 

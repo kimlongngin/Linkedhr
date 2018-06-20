@@ -10,26 +10,27 @@
 		<!-- <div class="container-fluid"> -->
 			<div class="align-items-center">
 				<div class="row">
-					<div class="col-md-12 order-md-12">
-						<div class="panel panel-default">
-							<div class="panel-body">							
-								<h4 class="mb-3">Create new account </h4> 
-									<form class="form-horizontal needs-validation" action="" method="post" enctype="multipart/form-data">
-							        
-										{% csrf_token %}
-										{% include 'city/form_template.html' %}
+						<div id="loginbox signup_div_wrapper" style="margin-top:10px;border: 0px solid red;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">         
+							    
+								    <div style="text-align: center;">
+								    	<img class="img-fluid mx-auto d-block mb-3" src="https://themes.getbootstrap.com/wp-content/themes/bootstrap-marketplace/assets/images/elements/bootstrap-logo.svg" alt="">
+								    </div>	
+								    <h1 class="mb-1 text-center">Sign up</h1>
+								    <p class="fs-14 text-gray text-center mb-5">Sign up for posting and finding job.</p>
+								<form class="form-horizontal needs-validation" action="" method="post" enctype="multipart/form-data">
+									
+									{% csrf_token %}
+									{% include 'accounts/registration_them_form.html' %}
 
-										<div class="form-group">
-											<div class="col-sm-offset-2 col-sm-10">
-												<button type="submit" class="btn btn-success"> Submit</button>
-											</div>
+									<div class="form-group">
+										<div>
+											<button type="submit" class="btn btn-register btn-brand btn-block btn-lg mb-4 mt-3"> Submit</button>
 										</div>
+									</div>
 
-									</form> 
-								
-							</div>
+								</form> 
+							<p class="text-gray-soft text-center small mb-2">By clicking "Sign up" you agree to our <a href="https://themes.getbootstrap.com/terms">Terms of Service</a>.</p>
 						</div>
-					</div>
 				</div>
 			</div>
 
@@ -38,4 +39,8 @@
 
 	{% endif %}
 	
+	
+
+
+
 {% endblock %}

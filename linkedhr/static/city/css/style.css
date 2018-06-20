@@ -10,7 +10,9 @@ body {
     color: #333333;
     background-color: #ffffff;
 }
-
+.navbar{
+    margin-bottom: 0px !important;
+}
 .nav > li > a:hover {
     color: #ffffff;
     background-color: transparent;

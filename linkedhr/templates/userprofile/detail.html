@@ -23,7 +23,7 @@
 		<div>
 			<div class="align-items-center">
 				<div class="row">
-					<div class="col-md-12 order-md-12">
+					<div class="col-md-12 order-md-12 col-xs-12">
 						<div class="panel panel-default">
 							<div class="panel-body">
 
@@ -32,8 +32,12 @@
 									      <p class="bg-success">{{ message }}</p>
 									    {% endfor %}
 								{% endif %}						
-								{% if user.is_authenticated %}Hello, {{ user.first_name }} {{ user.last_name }}.{% endif %}
-								{% if userprofile %}
+								<!--
+                                {% if user.is_authenticated %}
+                                    Hello, {{ user.first_name }} {{ user.last_name }}.
+                                {% endif %}
+								-->
+                                {% if userprofile %}
 									{% for j in userprofile.0 %}
 										{% if j.is_recruit == "2" %}
 												<div>
@@ -301,14 +305,13 @@
                                 <div>
                                     <ul>
                                         {% for i in userprofile.0 %}
-                                            <li> <span>Full Name :</span>{{ i.user_id.first_name }} {{ i.user_id.last_name }}</li>
-                                            <li> <span>Gender: </span>{{ i.sex }}</li>
-                                            <li> <span>Date of birth: </span>{{ i.date_of_birth }} </li>
-                                            <li> <span>Present Address: </span>{{ i.city }} </li>
+                                            <li> {{ i.sex }}.{{ i.user_id.first_name }} {{ i.user_id.last_name }}</li>
+                                            <li> <span>Birth at: </span>{{ i.date_of_birth }} </li>
                                             <li> <span>Email: </span>{{ i.email }} </li>
                                             <li> <span>Phone number: </span>{{ i.phone_number }} </li>
+                                            <li><span>Resent address: {{ i.present_address }}</span></li>
                                             {% if i.description %}
-                                            <li> <span>Description: </span>{{ i.description }} </li>
+                                                <li> <span>Description: </span>{{ i.description }} </li>
                                             {% endif %}
                                         {% endfor %}
                                     </ul>
@@ -336,8 +339,10 @@
                         {% if userprofile.1 %}
                             {% for i in userprofile.1 %}
                                 <div class="bs-callout bs-callout-info" id="callout-type-dl-truncate">
-                                    <h4> Name: {{ i.name }} </h4>
-
+                                    
+                                    <p class="com_title"> 
+                                        <a href="{% url 'linkedhr:list_company' i.id %}">{{ i.name }} </a>
+                                    </p>
                                     <p>
                                         <code>
                                             {% if i.is_branch == True %}
@@ -355,6 +360,13 @@
                                             {% endif %}
                                         </code>
                                     </p>
+                                    <div>
+                                        <p>{{ i.address }}</p>
+                                        <p> {{ i.web_site }}</p>
+                                        <p>{{ i.email }}</p>
+                                        <p> {{ i.phone_number }}</p>
+                                    </div>
+                                    
 
                                     {% if i.company_logo %}
                                         <a href="{% url 'linkedhr:list_company' i.id %}">

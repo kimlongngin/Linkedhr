@@ -90,23 +90,17 @@ urlpatterns = [
 
 	# /linkedhr/login
 	#url(r'^login/$', auth_views.login, name='login'),
-	url(r'^login/$', auth_views.login, name='login'),
-	
+	url(r'^login/$', auth_views.login, name='login'),	
 	#url(r'^logout/$', auth_views.logout, name = 'logout'),
 	url(r'^logout/$', views.auth_logout, name='auth_logout' ),
 	# /linkedhr/<city_id>
 	url(r'^(?P<pk>[0-9]+)/$', views.DetailView.as_view(), name='detail'),
-	
 	# /linkedhr/city/add
     url(r'city/add/$', views.CityCreate.as_view(), name='city-add'),
     # /linkedhr/city/2
     url(r'city/(?P<pk>[0-9]+)/$', views.CityUpdate.as_view(), name='city-update'),
-
 	# /linkedhr/city/2/delete
     url(r'city/(?P<pk>[0-9]+)/delete$', views.CityDelete.as_view(), name='city-delete'),
-
-   
-
 ]
 if settings.DEBUG:
 	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

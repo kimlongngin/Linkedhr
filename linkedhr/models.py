@@ -134,6 +134,7 @@ class Company(models.Model):
 
 	email = models.CharField(max_length=30)
 	phone_number = models.CharField(max_length=30)
+	zip_code = models.CharField(max_length=10, blank=False)
 	#location = models.OneToOneField(City, on_delete=models.CASCADE)
 	location = models.CharField(max_length=100)
 	address = models.CharField(max_length=150)
@@ -163,6 +164,7 @@ class Branch(models.Model):
 	address = models.CharField(max_length=150)
 	web_site = models.CharField(max_length=150)
 	email = models.EmailField(max_length=250)
+	zip_code = models.CharField(max_length=10, blank=False)
 	phone_number = models.CharField(max_length=50)
 	description = models.TextField()
 	is_status = models.BooleanField(default=True)
