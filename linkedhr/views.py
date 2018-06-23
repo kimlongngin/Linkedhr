@@ -25,6 +25,7 @@ from education.views import EducationView, EducationUpdate, EducationDeleteView
 from experience.views import ExperienceUpdate, ExperienceView, ExperienceDeleteView
 from document.views import DocumentCreateView, DocumentUpdate, DocumentDelete
 from skill.views import SkillCreateView, SkillDeleteView
+from recruitment.views import RecruitmentCreateView
 
 class PDFTdownloadView(View):
 
@@ -397,8 +398,6 @@ class  CityUpdate(UpdateView):
 class  CityDelete(DeleteView):
 	model = City 
 	success_url = reverse_lazy('linkedhr:index')
-
-
 
 # User Login from the browser for the end user 
 class UserLoginView(View):

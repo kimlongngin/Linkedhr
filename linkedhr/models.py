@@ -88,7 +88,7 @@ IS_RECRUITE = (
 )
 class UserProfile(models.Model):
 
-	user_id = models.OneToOneField(User, related_name='profile')
+	user_id = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
 	sex = models.CharField(max_length=3, choices=TITLE_CHOICES)
 	date_of_birth =  models.DateField(auto_now=False, default=date.today, blank=True)
 	country = models.CharField(max_length=150)
@@ -255,13 +255,11 @@ class Skill(models.Model):
 		ordering = ["-created", "-updated"]
 
 class Document(models.Model):
-	user_id = models.ForeignKey(UserProfile, related_name='user_document')
+	user_id = models.ForeignKey(UserProfile, related_name='user_document', on_delete=models.CASCADE)
 	name = models.CharField(max_length=100)
 	document = models.FileField()
 	description = models.TextField()
 	is_status = models.BooleanField(default=True)
-		
-
 
 # Job position for each companies 
 class Position(models.Model):
@@ -284,7 +282,7 @@ class JobType(models.Model):
 	created = models.DateTimeField(auto_now=True, auto_now_add=False)
 	is_status = models.BooleanField(default=True)
 	def __str__ (self):
-		return self.is_status
+		return self.name
 	class Meta:
 		ordering = ["-created", "-updated"]
 
@@ -302,20 +300,22 @@ class RecruitmentBranch(models.Model):
 
 # job has relationship with jobtype in OneToOne
 class Recruitment(models.Model):
-	user_id = models.IntegerField(default=0)
+	user_id = models.ForeignKey(User, related_name='user_recruitment', on_delete=models.CASCADE)
 	company = models.ForeignKey(Company, on_delete=models.CASCADE)
-	title = models.CharField(max_length=30)
+	title = models.CharField(max_length=30, blank=False)
 	position = models.ForeignKey(Position, on_delete=models.CASCADE)
-	Branch = models.ForeignKey(RecruitmentBranch, on_delete=models.CASCADE)
+	sub_position = models.CharField(max_length=30, blank=False)
+	branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
 	salary = models.CharField(max_length=30)
 	number_of_employee = models.IntegerField(default=0)
 	experience = models.CharField(max_length=30)
-	start_date =models.DateField(auto_now=False, default=date.today, blank=True)
-	due_date = models.DateField(auto_now=False, default=date.today, blank=True)
+	start_date =models.DateField(auto_now=False, default=date.today, blank=False)
+	due_date = models.DateField(auto_now=False, default=date.today, blank=False)
 	job_requirement = models.TextField()
 	email = models.EmailField(max_length=250)
 	phone_number = models.CharField(max_length=20)
 	address = models.CharField(max_length=150)
+	description = models.TextField(blank=False)
 	job_type = models.OneToOneField(
         JobType,
         on_delete=models.CASCADE,
@@ -326,7 +326,7 @@ class Recruitment(models.Model):
 	is_status = models.BooleanField(default=True)
 
 	def __str__ (self):
-		return self.is_status
+		return self.title
 	class Meta:
 		ordering = ["-created", "-updated"]
 

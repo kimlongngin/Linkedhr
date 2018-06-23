@@ -17,6 +17,7 @@ INSTALLED_APPS = (
     'document.apps.DocumentConfig',
     'experience.apps.ExperienceConfig',
     'education.apps.EducationConfig',
+    'recruitment.apps.RecruitmentConfig',
     'linkedhr.apps.LinkedHrConfig',
     'django.contrib.admin',
     'django.contrib.auth',

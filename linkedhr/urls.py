@@ -86,6 +86,15 @@ urlpatterns = [
 	# /linkedhr/register/userprofile/skill/delete/1
 	url(r'register/userprofile/skill/delete/(?P<pk>[0-9]+)/$', views.SkillDeleteView.as_view(), name='skill-delete'),
 
+	# ***************************************************
+	# *************** Block Job create  *****************
+	# *************************************************** 
+
+	# /linkedhr/userprofile/skill
+	url(r'^userprofile/recruitment/$', views.RecruitmentCreateView.as_view(), name='recruitment-create'),
+	
+
+
 
 
 	# /linkedhr/login

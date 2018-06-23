@@ -89,8 +89,6 @@ class UpdateBranchView(SuccessMessageMixin, UpdateView):
 		return redirect('linkedhr:myuserprofile_without_pk')
    
 
-
-
 # Create branch in case each company has their branch
 class BranchView(SuccessMessageMixin, generic.TemplateView):
 	model = Branch
@@ -99,8 +97,6 @@ class BranchView(SuccessMessageMixin, generic.TemplateView):
 
 	def dispatch(self, request, *args, **kwargs):
 		form = BranchForm()
-		
-
 		try:
 			com = Company.objects.get(id = self.kwargs['pk'], user_id= request.user.id, is_branch=True)
 			if request.user.is_authenticated():

@@ -37,3 +37,25 @@ body {
     color: #555555;
     font-weight: bold;
 }
+.model_add
+{
+float: right;
+padding: 3px 12px;
+background: #999;
+background-image: none;
+background-repeat: repeat;
+background-position-x: 0%;
+background-position-y: 0%;
+font-weight: 400;
+font-size: 11px;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+color: #fff;
+border-radius: 11px 11px 11px 11px;
+}
+
+.model_add:hover
+{
+    background-color: #7952B3;
+    color: #ffffff;
+}
