@@ -9,7 +9,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect 
 from django.contrib.auth import authenticate, logout, login
 from django.views.generic import View, TemplateView 
-from .models import City, UserProfile, Education, Stage, Experience, Branch, Company, ExperienceCheck, Skill
+from .models import City, UserProfile, Education, Stage, Experience, Branch, Company, ExperienceCheck, Skill, Recruitment
 from document.models import Documents
 from .forms import UserForm, UserLoginForm, UserProfileForm, CompanyForm
 from django.contrib.auth.views import login, logout
@@ -25,7 +25,7 @@ from education.views import EducationView, EducationUpdate, EducationDeleteView
 from experience.views import ExperienceUpdate, ExperienceView, ExperienceDeleteView
 from document.views import DocumentCreateView, DocumentUpdate, DocumentDelete
 from skill.views import SkillCreateView, SkillDeleteView
-from recruitment.views import RecruitmentCreateView
+from recruitment.views import RecruitmentCreateView, RecruitmentUpdateView
 
 class PDFTdownloadView(View):
 
@@ -354,8 +354,9 @@ class UserProfileDetailTwoView(generic.ListView):
 	 			
 	 			for i in userprofile_data:
 	 				if i.is_recruit=="1":
-	 					company_data = Company.objects.filter(user_id=self.request.user.id)
-	 					userprofile = userprofile_data,company_data
+	 					company_data = Company.objects.filter(user_id=self.request.user.id, is_status=True)
+						upd = Recruitment.objects.filter(user_id = self.request.user.id, is_status=True)
+	 					userprofile = userprofile_data,company_data, upd
 	 					return userprofile
 	 				else: 
 			 			data_education = Education.objects.filter(user_id=self.request.user.id, is_status=True).order_by('-graduation_at', '-start_education_at')

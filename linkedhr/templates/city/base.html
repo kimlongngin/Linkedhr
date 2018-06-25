@@ -56,17 +56,14 @@
 				</form> -->
 				
 				{% if user.is_authenticated %}
-				
-					{% for i in user.userprofile_set.all %}
-					    Sex: {{ i.sex }}
-					{% endfor %}
-
-				  	<ul class="nav navbar-nav navbar-right">
-						<li class="">
-							<a href="{% url 'linkedhr:recruitment-create' %}">
-								<span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span>
-							</a>
-						</li>
+					<ul class="nav navbar-nav navbar-right">
+						{% if user.profile.is_recruit == "1" %}
+							<li class="">
+								<a href="{% url 'linkedhr:recruitment-create' %}">
+									<span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span>
+								</a>
+							</li>
+						{% endif %}
 						<li class="">
 							<a href="{% url 'linkedhr:myuserprofile_without_pk' %}">
 								<span class="glyphicon glyphicon glyphicon-user" aria-hidden=true> {{ user.username }} </span>

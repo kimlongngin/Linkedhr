@@ -90,12 +90,11 @@ urlpatterns = [
 	# *************** Block Job create  *****************
 	# *************************************************** 
 
-	# /linkedhr/userprofile/skill
+	# /linkedhr/userprofile/recruitment
 	url(r'^userprofile/recruitment/$', views.RecruitmentCreateView.as_view(), name='recruitment-create'),
-	
 
-
-
+	# /linkedhr/userprofile/recruitment/1
+	url(r'^userprofile/recruitment/(?P<pk>[0-9]+)/$', views.RecruitmentUpdateView.as_view(), name='recruitment-update'),
 
 	# /linkedhr/login
 	#url(r'^login/$', auth_views.login, name='login'),

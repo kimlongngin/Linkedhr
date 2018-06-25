@@ -7,8 +7,6 @@ from django.conf import settings
 import os
 from django.core.exceptions import ValidationError
 
-
-
 def upload_location(instance, filename):
 	filebase, extension = filename.split(".")
 	return "%s/%s.%s" %(instance.id, instance.id, extension)
@@ -72,8 +70,6 @@ class Stage(models.Model):
 
 	class Meta:
 		ordering = ["-created", "-updated"]
-
-
 
 # Userprofile has two basic by one is recruitor and other one is job_applyer 
 TITLE_CHOICES = (
@@ -316,7 +312,7 @@ class Recruitment(models.Model):
 	phone_number = models.CharField(max_length=20)
 	address = models.CharField(max_length=150)
 	description = models.TextField(blank=False)
-	job_type = models.OneToOneField(
+	job_type = models.ForeignKey(
         JobType,
         on_delete=models.CASCADE,
         related_name='jobtype_of',
@@ -324,7 +320,7 @@ class Recruitment(models.Model):
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 	created = models.DateTimeField(auto_now=True, auto_now_add=False)
 	is_status = models.BooleanField(default=True)
-
+	count_update = models.IntegerField(default=0)
 	def __str__ (self):
 		return self.title
 	class Meta:

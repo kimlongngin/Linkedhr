@@ -47,7 +47,7 @@ class DocumentDelete(SuccessMessageMixin, generic.DeleteView):
 				return redirect('linkedhr:login')  
 		except Documents.DoesNotExist:
 			#raise Http404("Please check user log in !") 
-			return render(request, "error.html")
+			return render(request, "document/error.html")
 
 
 
@@ -67,7 +67,7 @@ class  DocumentUpdate(SuccessMessageMixin, generic.UpdateView):
 			if request.user.is_authenticated():
 				objDocs = Documents.objects.filter(id=self.kwargs['pk'], user=request.user.id, is_status=True)
 				if objDocs.count()<=0:
-					return render(request, "error.html")
+					return render(request, "document/error.html")
 				return super(self.__class__, self).dispatch(request, *args, **kwargs)	
 			else:
 				return redirect('linkedhr:login')  
@@ -80,7 +80,7 @@ class  DocumentUpdate(SuccessMessageMixin, generic.UpdateView):
 			#objCom = Company.objects.filter(id = self.kwargs['pk'], user_id=request.user.id, is_branch=True, is_status=True)
 			objDocs = Documents.objects.filter(id=self.kwargs['pk'], user=request.user.id, is_status=True)
 			if objDocs.count()<=0:
-				return render(request, "error.html")
+				return render(request, "document/error.html")
 			self.object = self.get_object()
 			return super(DocumentUpdate, self).get(request, *args, **kwargs)	
 		else:
@@ -107,7 +107,7 @@ class DocumentCreateView(SuccessMessageMixin, CreateView):
 					if i.is_recruit=='2':
 						return super(self.__class__, self).dispatch(request, *args, **kwargs)	
 					else:
-						return render(request, 'error.html')
+						return render(request, 'document/error.html')
 			else:
 				raise Http404("Please check user log in !") 
 		else:
@@ -145,7 +145,7 @@ class DocumentCreateView(SuccessMessageMixin, CreateView):
 						args = {'form':form}
 						return render(request, self.template_name, args)
 					else:
-						return render(request, 'error.html')
+						return render(request, 'document/error.html')
 			else:
 				return redirect('linkedhr:userprofile')
 

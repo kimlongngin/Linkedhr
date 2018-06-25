@@ -325,8 +325,8 @@
                     <!-- ******************************* -->
                    
                     <div class ="row">
-                        <div class="col-xs-12 col-md-8"><span class="head_title glyphicon glyphicon-modal-window"> Company  </span>
-                            <a  href="{% url 'linkedhr:company' %}" style="margin-left: 20px;" class="model_add">
+                        <div class="col-xs-12 col-md-12"><span class="head_title glyphicon glyphicon-modal-window"> Company  </span>
+                            <a  href="{% url 'linkedhr:company' %}" style="margin-left: 20px;" class="model_add" style="float: right;">
                                 <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span>
                             </a>
                         </div>
@@ -378,11 +378,6 @@
 
                                     <div  style="text-align: right;">
                                         <ol class="breadcrumb">
-                                            <!-- <li>
-                                               <a href="{% url 'linkedhr:company' %}">
-                                                   <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span>
-                                               </a>
-                                            </li> -->
                                             <li>
                                                <a href="{% url 'linkedhr:company-update' i.id %}">
                                                    <span class="glyphicon glyphicon-edit" aria-hidden=true> Edit </span>
@@ -403,6 +398,47 @@
                         {% else %}
                             <a href="{% url 'linkedhr:company' %}" > <span class="glyphicon glyphicon-plus" aria-hidden=true> Add-Company</span></a>
                         {% endif %}
+
+
+                    <!-- Recruitment -->
+                        <div class ="row">
+                            <div class="col-xs-12 col-md-12"><span class="head_title glyphicon glyphicon-modal-window"> Recruitment  </span>
+                                <a  href="{% url 'linkedhr:recruitment-create' %}" style="margin-left: 20px;" class="model_add" style="float: right;">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span>
+                                </a>
+                            </div>
+
+                        </div>
+
+                        {% if userprofile.2.count > 0 %}
+                            {% for i in userprofile.2 %}
+                                <div class="bs-callout bs-callout-info" id="callout-type-dl-truncate">
+
+                                    <p class="com_title">
+                                        <a href="{% url 'linkedhr:recruitment-update' i.id %}">{{ i.title }} </a>
+                                    </p>
+
+
+                                    <div  style="text-align: right;">
+                                        <ol class="breadcrumb">
+                                            <li>
+                                               <a href="{% url 'linkedhr:recruitment-update' i.id %}">
+                                                   <span class="glyphicon glyphicon-edit" aria-hidden=true> Edit </span>
+                                               </a>
+                                            </li>
+
+                                            </li>
+                                            </ol>
+                                    </div>
+
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <a href="{% url 'linkedhr:company' %}" > <span class="glyphicon glyphicon-plus" aria-hidden=true> Add-Company</span></a>
+                        {% endif %}
+
+
+
                 {% endif %}
             {% endfor %}
         {% else %}
