@@ -29,6 +29,7 @@ from recruitment.views import RecruitmentCreateView, RecruitmentUpdateView
 
 class PDFTdownloadView(View):
 
+	@method_decorator(login_required(''))
 	def get(self, request, *args, **kwargs):
 		if self.request.user.is_authenticated():
 			try:
@@ -58,6 +59,7 @@ class PDFTemplateView(View):
     template='userprofile/template.html'
     context= {'title': 'Hello World!'}
 
+    @method_decorator(login_required(''))
     def get(self, request, *args, **kwargs):
 		if self.request.user.is_authenticated():
 			try:
@@ -95,14 +97,12 @@ class  CompanyDeleteView(SuccessMessageMixin, DeleteView):
 	success_message = " Deleted successfully !"
 	template_name ="company/company_delete.html"
 
+	@method_decorator(login_required(''))
 	def dispatch(self, request, *args, **kwargs):
 		form = CompanyForm()
 		try:
 			com = Company.objects.get(pk = self.kwargs['pk'], user_id= request.user.id)
-			if request.user.is_authenticated():
-				return super(self.__class__, self).dispatch(request, *args, **kwargs)	
-			else:
-				return redirect('linkedhr:login')  
+			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
 		except Company.DoesNotExist:
 			raise Http404("You don't have permission to edit other user data !!!")
 
@@ -111,6 +111,7 @@ class ListCompanyView(generic.ListView):
 	#context_object_name = 'all_companies'
 	paginate_by = 10
 
+	@method_decorator(login_required(''))
 	def get(self, request, *args, **kwargs):
 		#print(self.kwargs['pk'])
 		if request.user.is_authenticated():
@@ -141,6 +142,7 @@ class  CompanyUpdateView(SuccessMessageMixin, UpdateView):
 	#success_url = reverse_lazy('linkedhr:company-update')
 	success_message = "updated successfully"
 
+	@method_decorator(login_required(''))
 	def dispatch(self, request, *args, **kwargs):
 		form = CompanyForm()
 		try:
@@ -155,6 +157,7 @@ class  CompanyUpdateView(SuccessMessageMixin, UpdateView):
 	def get_form(self):
 		return CompanyForm(**self.get_form_kwargs())
 
+	@method_decorator(login_required(''))
 	def get(self, request, *args, **kwargs):
 		self.object = self.get_object()
 		return super(CompanyUpdateView, self).get(request, *args, **kwargs)
@@ -171,12 +174,15 @@ class CompanyView(TemplateView):
 	template_name = 'company/company_create.html'
 	success_message ="Created successfully !"
 	#success_message = "company created successfully"
+
+	@method_decorator(login_required(''))
 	def dispatch(self, request, *args, **kwargs):
 		if request.user.is_authenticated():
 			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
 		else:
 			return redirect('linkedhr:login')
 
+	@method_decorator(login_required(''))		
 	def get(self, request, *args, **kwargs):
 		form = CompanyForm()
 		company = Company.objects.filter(user_id = request.user.id)
@@ -195,6 +201,7 @@ class CompanyView(TemplateView):
 		else:
 			return redirect('linkedhr:login')
 	
+	@method_decorator(login_required(''))
 	def post(self, request):
 		form = CompanyForm(request.POST, request.FILES)
 		if request.user.is_authenticated():
@@ -250,6 +257,7 @@ class UserProfileUpdate(SuccessMessageMixin, generic.UpdateView):
 	success_message = "Userprofile was updated successfully"
 	fields = ['sex', 'date_of_birth', 'country','city', 'nationality', 'email', 'phone_number', 'is_recruit', 'present_address','description']
 	
+	@method_decorator(login_required(''))
 	def dispatch(self, request, *args, **kwargs):
 		form = UserProfileForm()
 		try:
@@ -264,6 +272,7 @@ class UserProfileUpdate(SuccessMessageMixin, generic.UpdateView):
 	def get_form(self):
 		return UserProfileForm(**self.get_form_kwargs())
 
+	@method_decorator(login_required(''))
 	def get_object(self, queryset=None):
 		form= UserProfileForm()
 		try:
@@ -287,12 +296,14 @@ class UserProfileView(SuccessMessageMixin, TemplateView):
 	template_name = 'userprofile/user_create.html'
 	success_message = "User Profile was created successfully"
 	
+	@method_decorator(login_required(''))
 	def dispatch(self, request, *args, **kwargs):
 		if request.user.is_authenticated():
 			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
 		else:
 			return redirect('linkedhr:login')
 
+	@method_decorator(login_required(''))
 	def get(self, request, *args, **kwargs):
 		form = UserProfileForm()
 		if request.user.is_authenticated():
@@ -305,6 +316,7 @@ class UserProfileView(SuccessMessageMixin, TemplateView):
 		else:
 			return redirect('linkedhr:login')
 
+	@method_decorator(login_required(''))
 	def post(self, request):
 		form = UserProfileForm(request.POST)
 		if request.user.is_authenticated():
@@ -340,13 +352,14 @@ class UserProfileDetailTwoView(generic.ListView):
 	context_object_name = 'userprofile'
 	template_name =  'userprofile/detail.html'
 	
-
+	@method_decorator(login_required(''))
 	def dispatch(self, request, *args, **kwargs):
 		if request.user.is_authenticated():
 			return super(self.__class__, self).dispatch(request, *args, **kwargs)	
 		else:
 			return redirect('linkedhr:login')  
 
+	@method_decorator(login_required(''))
 	def get_queryset(self):
 		if self.request.user.is_authenticated():
 			try:
@@ -403,11 +416,11 @@ class  CityDelete(DeleteView):
 # User Login from the browser for the end user 
 class UserLoginView(View):
 	form_class = UserLoginForm
-	#template_name = 'userprofile/user_login.html'
 	template_name = 'registration/login.html'
-
-	# display blank form
+	
 	def get(self, request):
+		redirect_to = request.REQUEST.get('next', '')
+		print("Redirect To="+ redirect_to)
 		form = self.form_class(None)
 		return render(request, self.template_name, {'form':form})	
 		
@@ -424,8 +437,11 @@ class UserLoginView(View):
 			if user is not None: 
 				if user.is_active: 
 					login(self.request, user)
+					#return redirect('linkedhr:index')
+					if redirect_to !="": 
+						return HttpResponseRedirect(redirect_to)  
 					return redirect('linkedhr:index')
-					#return HttpResponseRedirect(redirect_to)  
+
 		return render(request, self.template_name, {'form':form})
 
 

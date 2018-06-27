@@ -30,7 +30,7 @@ class RecruitmentUpdateView(SuccessMessageMixin, generic.UpdateView):
     def get_form(self):
         return RecruitmentForm(self.request.user.id, **self.get_form_kwargs())
 
-    @method_decorator(login_required)
+    @method_decorator(login_required(''))
     def dispatch(self, request, *args, **kwargs):
         chUpd = get_object_or_404(Recruitment, id = self.kwargs['pk'], is_status=True)
         #chUpd = Recruitment.objects .get(id = self.kwargs['pk'], is_status=True)

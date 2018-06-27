@@ -29,6 +29,7 @@ class  EducationUpdate(SuccessMessageMixin, generic.UpdateView):
 	def get_form(self):
 		return EducationForm(**self.get_form_kwargs())	
 
+	@method_decorator(login_required(''))
 	def dispatch(self, request, *args, **kwargs):
 		try:
 			if request.user.is_authenticated():
@@ -41,6 +42,7 @@ class  EducationUpdate(SuccessMessageMixin, generic.UpdateView):
 		except Education.DoesNotExist:
 			raise Http404("You don't have permission to update this branch !") 
 
+	@method_decorator(login_required(''))
 	def get(self, request, *args, **kwargs):
 		form = EducationForm()
 		if request.user.is_authenticated():
@@ -67,17 +69,7 @@ class  EducationDeleteView(SuccessMessageMixin, generic.DeleteView):
 	success_message = " Deleted successfully !"
 	template_name ="education/education_delete.html"
 
-	def get(self, request, *args, **kwargs):
-		if request.user.is_authenticated():
-			objEdu = Education.objects.filter(id=self.kwargs['pk'], user_id=request.user.id, is_status=True)
-			if objEdu.count()<=0:
-				return render(request, "error_education_experience.html")
-			self.object = self.get_object()
-			return super(EducationDeleteView, self).get(request, *args, **kwargs)	
-			
-		else:
-			return redirect('linkedhr:login') 
-    
+	@method_decorator(login_required(''))
 	def dispatch(self, request, *args, **kwargs):
 		try:
 			#Br = get_object_or_404(Branch, id = self.kwargs['pk'], is_status=True)
@@ -90,12 +82,24 @@ class  EducationDeleteView(SuccessMessageMixin, generic.DeleteView):
 			raise Http404("Please check user log in !") 
 
 
+	@method_decorator(login_required(''))
+	def get(self, request, *args, **kwargs):
+		if request.user.is_authenticated():
+			objEdu = Education.objects.filter(id=self.kwargs['pk'], user_id=request.user.id, is_status=True)
+			if objEdu.count()<=0:
+				return render(request, "error_education_experience.html")
+			self.object = self.get_object()
+			return super(EducationDeleteView, self).get(request, *args, **kwargs)	
+			
+		else:
+			return redirect('linkedhr:login') 
+    
 class EducationView(SuccessMessageMixin, generic.TemplateView):
 	model = Education 
 	form = EducationForm()
 	template_name ="education/education_create.html"
 
-
+	@method_decorator(login_required(''))
 	def dispatch(self, request, *args, **kwargs):
 		try:
 			userprofiledata = UserProfile.objects.get(user_id = request.user.id, is_status=True)
@@ -106,6 +110,7 @@ class EducationView(SuccessMessageMixin, generic.TemplateView):
 		except UserProfile.DoesNotExist:
 			raise Http404("Please check user login !") 
 
+	@method_decorator(login_required(''))
 	def get(self, request):
 		form = EducationForm()
 		if request.user.is_authenticated():
@@ -127,6 +132,7 @@ class EducationView(SuccessMessageMixin, generic.TemplateView):
 		else:
 			return redirect('linkedhr:login')
 
+	@method_decorator(login_required(''))
 	def post(self, request):
 		form = EducationForm(request.POST)
 		if request.user.is_authenticated():

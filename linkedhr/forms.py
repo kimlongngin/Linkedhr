@@ -106,11 +106,13 @@ class UserForm(forms.ModelForm):
 		return email
 
 class UserLoginForm(forms.ModelForm):
+	password = forms.CharField(widget = forms.TextInput)
 	password = forms.CharField(widget = forms.PasswordInput)
 
 	class Meta: 
 		model = User
 		fields =['username', 'password']
+
 
 TITLE_CHOICES = (
 	('', '-------------------'),

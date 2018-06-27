@@ -98,6 +98,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Absolute path to the media directory
+LOGIN_URL = '/linkedhr/login/'
 LOGIN_REDIRECT_URL = '/linkedhr'
 
 #LOGIN_REDIRECT_URL = '/'

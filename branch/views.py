@@ -25,17 +25,7 @@ class  BranchDeleteView(SuccessMessageMixin, DeleteView):
 	success_message = " Deleted successfully !"
 	template_name ="branch/branch_delete.html"
 
-	def get(self, request, *args, **kwargs):
-		if request.user.is_authenticated():
-			objCom = Company.objects.filter(branch__id=self.kwargs['pk'], user_id=request.user.id, is_branch=True, is_status=True)
-			if objCom.count()<=0:
-				return render(request, "branch/error_branch.html", {'arg':self.kwargs['pk']})
-			self.object = self.get_object()
-			return super(BranchDeleteView, self).get(request, *args, **kwargs)	
-			
-		else:
-			return redirect('linkedhr:login') 
-    
+	@method_decorator(login_required(''))
 	def dispatch(self, request, *args, **kwargs):
 		try:
 			#Br = get_object_or_404(Branch, id = self.kwargs['pk'], is_status=True)
@@ -47,6 +37,20 @@ class  BranchDeleteView(SuccessMessageMixin, DeleteView):
 		except Company.DoesNotExist:
 			raise Http404("You don't have permission to delete this branch !") 
 
+	
+	@method_decorator(login_required(''))
+	def get(self, request, *args, **kwargs):
+		if request.user.is_authenticated():
+			objCom = Company.objects.filter(branch__id=self.kwargs['pk'], user_id=request.user.id, is_branch=True, is_status=True)
+			if objCom.count()<=0:
+				return render(request, "branch/error_branch.html", {'arg':self.kwargs['pk']})
+			self.object = self.get_object()
+			return super(BranchDeleteView, self).get(request, *args, **kwargs)	
+			
+		else:
+			return redirect('linkedhr:login') 
+    
+
 class UpdateBranchView(SuccessMessageMixin, UpdateView):
 	model = Branch 
 	form = BranchForm()
@@ -57,6 +61,7 @@ class UpdateBranchView(SuccessMessageMixin, UpdateView):
 	def get_form(self):
 		return BranchForm(**self.get_form_kwargs())
 
+	@method_decorator(login_required(''))
 	def dispatch(self, request, *args, **kwargs):
 		try:
 			#Br = Branch.objects.get(id = self.kwargs['pk'], is_status)
@@ -70,6 +75,7 @@ class UpdateBranchView(SuccessMessageMixin, UpdateView):
 		except Company.DoesNotExist:
 			raise Http404("You don't have permission to update this branch !") 
 
+	@method_decorator(login_required(''))
 	def get(self, request, *args, **kwargs):
 		if request.user.is_authenticated():
 			#objCom = Company.objects.filter(id = self.kwargs['pk'], user_id=request.user.id, is_branch=True, is_status=True)
@@ -78,7 +84,6 @@ class UpdateBranchView(SuccessMessageMixin, UpdateView):
 				return render(request, "branch/error_branch.html", {'arg':self.kwargs['pk']})
 			self.object = self.get_object()
 			return super(UpdateBranchView, self).get(request, *args, **kwargs)	
-			
 		else:
 			return redirect('linkedhr:login')  
 		
@@ -95,6 +100,7 @@ class BranchView(SuccessMessageMixin, generic.TemplateView):
 	template_name = 'branch/branch_create.html'
 	fields = ['name', 'location',  'address', 'web_site', 'email', 'phone_number', 'description'] 
 
+	@method_decorator(login_required(''))
 	def dispatch(self, request, *args, **kwargs):
 		form = BranchForm()
 		try:
@@ -107,6 +113,7 @@ class BranchView(SuccessMessageMixin, generic.TemplateView):
 			#raise Http404("You don't have permission to create branch !")
 			return render(request, "branch/error_branch.html", {'arg':self.kwargs['pk']})
 	
+	@method_decorator(login_required(''))
 	def get(self, request, pk):
 		form = BranchForm()
 		if request.user.is_authenticated():
@@ -129,6 +136,7 @@ class BranchView(SuccessMessageMixin, generic.TemplateView):
 		else:
 			return redirect('linkedhr:login')
 
+	@method_decorator(login_required(''))
 	def post(self, request, pk):
 		form = BranchForm(request.POST)
 		if request.user.is_authenticated():

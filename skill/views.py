@@ -39,6 +39,7 @@ class SkillDeleteView(SuccessMessageMixin, generic.DeleteView):
         else:
             raise Http404("Please check user log in !")
 
+    @method_decorator(login_required(''))        
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated():
             objSkill = Skill.objects.filter(id=self.kwargs['pk'], user_id=request.user.id, is_status=True)
@@ -72,6 +73,7 @@ class SkillUpdateView(SuccessMessageMixin, UpdateView):
         else:
             raise Http404("Please check user log in !")
 
+    @method_decorator(login_required(''))
     def get(self, request):
         form = SkillForm()
         if request.user.is_authenticated():
@@ -113,6 +115,7 @@ class SkillCreateView(SuccessMessageMixin, CreateView):
         else:
             raise Http404("Please check user log in !")
  
+    @method_decorator(login_required(''))
     def get(self, request):
         form = SkillForm()
         if request.user.is_authenticated():

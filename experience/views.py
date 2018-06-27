@@ -25,6 +25,7 @@ class ExperienceDeleteView(SuccessMessageMixin, DeleteView):
 	success_message = " Deleted successfully !"
 	template_name ="experience/experience_delete.html"
 
+	@method_decorator(login_required(''))
 	def get(self, request, *args, **kwargs):
 		if request.user.is_authenticated():
 			objEx= Experience.objects.filter(id=self.kwargs['pk'], user_id=request.user.id, is_status=True)
@@ -35,6 +36,7 @@ class ExperienceDeleteView(SuccessMessageMixin, DeleteView):
 		else:
 			return redirect('linkedhr:login') 
 
+	@method_decorator(login_required(''))
 	def dispatch(self, request, *args, **kwargs):	
 		if request.user.is_authenticated():
 			userprofiledata= UserProfile.objects.filter(user_id = request.user.id)
@@ -59,6 +61,7 @@ class  ExperienceUpdate(SuccessMessageMixin, UpdateView):
 	def get_form(self):
 		return ExperienceForm(**self.get_form_kwargs())
 
+	@method_decorator(login_required(''))
 	def dispatch(self, request, *args, **kwargs):	
 		form = ExperienceForm()	
 		if request.user.is_authenticated():
@@ -74,6 +77,7 @@ class  ExperienceUpdate(SuccessMessageMixin, UpdateView):
 		else:
 			return redirect('linkedhr:login') 
 
+	@method_decorator(login_required(''))
 	def get(self, request, *args, **kwargs):
 		form = ExperienceForm()
 		if request.user.is_authenticated():			
@@ -92,6 +96,7 @@ class ExperienceView(SuccessMessageMixin, TemplateView):
 	form = ExperienceForm()
 	template_name ="experience/experience_create.html"
 	
+	@method_decorator(login_required(''))
 	def dispatch(self, request, *args, **kwargs):
 		if request.user.is_authenticated():
 			userprofiledata= UserProfile.objects.filter(user_id = request.user.id)
@@ -104,7 +109,9 @@ class ExperienceView(SuccessMessageMixin, TemplateView):
 			else:
 				return redirect('linkedhr:userprofile')
 		else:
-			return redirect('linkedhr:login')  
+			return redirect('linkedhr:login')
+
+	@method_decorator(login_required(''))		
 	def get(self, request):
 		form = ExperienceForm()
 		if request.user.is_authenticated():	
@@ -119,6 +126,8 @@ class ExperienceView(SuccessMessageMixin, TemplateView):
 				return redirect('linkedhr:userprofile')
 		else:
 			return redirect('linkedhr:login')
+
+	@method_decorator(login_required(''))
 	def post(self, request):
 		form = ExperienceForm(request.POST)
 		if request.user.is_authenticated():

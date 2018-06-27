@@ -26,17 +26,8 @@ class DocumentDelete(SuccessMessageMixin, generic.DeleteView):
 	success_url = reverse_lazy('linkedhr:myuserprofile_without_pk')
 	success_message = " Deleted successfully !"
 	
-	def get(self, request, *args, **kwargs):
-		if request.user.is_authenticated():
-			objEdu = Documents.objects.filter(id=self.kwargs['pk'], user=request.user.id, is_status=True)
-			if objEdu.count()<=0:
-				return render(request, "error.html")
-			self.object = self.get_object()
-			return super(DocumentDelete, self).get(request, *args, **kwargs)	
-			
-		else:
-			return redirect('linkedhr:login') 
-    
+	
+	@method_decorator(login_required(''))
 	def dispatch(self, request, *args, **kwargs):
 		try:
 			#Br = get_object_or_404(Branch, id = self.kwargs['pk'], is_status=True)
@@ -50,6 +41,20 @@ class DocumentDelete(SuccessMessageMixin, generic.DeleteView):
 			return render(request, "document/error.html")
 
 
+	@method_decorator(login_required(''))
+	def get(self, request, *args, **kwargs):
+		if request.user.is_authenticated():
+			objEdu = Documents.objects.filter(id=self.kwargs['pk'], user=request.user.id, is_status=True)
+			if objEdu.count()<=0:
+				return render(request, "error.html")
+			self.object = self.get_object()
+			return super(DocumentDelete, self).get(request, *args, **kwargs)	
+			
+		else:
+			return redirect('linkedhr:login') 
+    
+    
+
 
 # This view is for update the view of the Education
 class  DocumentUpdate(SuccessMessageMixin, generic.UpdateView):
@@ -62,6 +67,7 @@ class  DocumentUpdate(SuccessMessageMixin, generic.UpdateView):
 	def get_form(self):
 		return DocumentForm(**self.get_form_kwargs())	
 
+	@method_decorator(login_required(''))
 	def dispatch(self, request, *args, **kwargs):
 		try:
 			if request.user.is_authenticated():
@@ -74,6 +80,7 @@ class  DocumentUpdate(SuccessMessageMixin, generic.UpdateView):
 		except Documents.DoesNotExist:
 			raise Http404("You don't have permission to update this branch !") 
 
+	@method_decorator(login_required(''))
 	def get(self, request, *args, **kwargs):
 		form = DocumentForm()
 		if request.user.is_authenticated():
@@ -99,6 +106,7 @@ class DocumentCreateView(SuccessMessageMixin, CreateView):
 	template_name = 'document/document_create.html'
 	success_message = "Created successfully"
 
+	@method_decorator(login_required(''))
 	def dispatch(self, request, *args, **kwargs):	
 		if request.user.is_authenticated():
 			userprofiledata= UserProfile.objects.filter(user_id = request.user.id)
@@ -112,6 +120,8 @@ class DocumentCreateView(SuccessMessageMixin, CreateView):
 				raise Http404("Please check user log in !") 
 		else:
 			return redirect('linkedhr:login')
+
+	@method_decorator(login_required(''))
 	def get(self, request):
 		form = DocumentForm()
 		if request.user.is_authenticated():	
@@ -127,6 +137,7 @@ class DocumentCreateView(SuccessMessageMixin, CreateView):
 		else:
 			return redirect('linkedhr:login')
 
+	@method_decorator(login_required(''))
 	def post(self, request):
 		form = DocumentForm(request.POST, request.FILES)
 		if request.user.is_authenticated():
