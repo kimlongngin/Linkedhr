@@ -1,0 +1,53 @@
+{% extends 'city/base.html' %}
+{% load staticfiles %}
+{% block title %} Customer chat {% endblock %}
+{% block city_active %} Active {% endblock %}
+
+{% block body %}
+	
+	{% if user.is_authenticated %}
+
+		<!-- <div class="container"> -->
+		<!--<div class="container-fluid"> -->
+		<div>	
+			<div class="align-items-center">
+				<div class="row">
+					<div class="col-md-12 order-md-12">
+						<div class="panel panel-default">
+							<div class="panel-body">	
+								{% if messages %}
+								    {% for message in messages %}
+								      <p class="bg-success success_text">{{ message }}</p>
+								    {% endfor %}
+								{% endif %}	
+
+                                <h1 class="mb-3">{{ username }} </h1>
+                                <div id="messageCanvas" name="messageCanvas"></div>
+
+								<hr class="mb-4">
+								<form class="form-horizontal needs-validation" action="{% url 'linkedhr:chat' %}" method="post" enctype="multipart/form-data" id="Chatform" >
+									{% csrf_token %}
+									<input type="hidden" name="username" value ="{{username}}" placeholder="Enter your name">
+									<input class="form-control" type="text" name="usermsg" placeholder="Enter your text here">
+
+									<hr/>
+                                    <button type="submit" class="btn"> send</button>
+
+								</form> 
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% else %}
+		<div>
+			<a href="{% url 'linkedhr:login'%} " >>>Login </a>
+		</div>
+	{% endif %}
+
+{% endblock %}
+{% block plugin %}
+	<script  type="text/javascript" src="{% static 'city/js/chat.js' %}"> </script>
+{% endblock %}

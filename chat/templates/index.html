@@ -1,0 +1,49 @@
+{% extends 'city/base.html' %}
+{% block title %} Chat {% endblock %}
+{% block city_active %} Active {% endblock %}
+
+{% block body %}
+	
+	{% if user.is_authenticated %}
+
+		<!-- <div class="container"> -->
+		<!--<div class="container-fluid"> -->
+		<div>	
+			<div class="align-items-center">
+				<div class="row">
+					<div class="col-md-12 order-md-12">
+						<div class="panel panel-default">
+							<div class="panel-body">	
+								{% if messages %}
+								    {% for message in messages %}
+								      <p class="bg-success success_text">{{ message }}</p>
+								    {% endfor %}
+								{% endif %}	
+
+								<h4 class="mb-3">Chat room </h4>
+								<hr class="mb-4">
+								<form method="post"  id="Chatform" class="form-horizontal needs-validation" action="{% url 'linkedhr:chat' %}" enctype="multipart/form-data" >
+						        
+									{% csrf_token %}
+									
+									<input  class="form-control" type="text" name="username" placeholder="Enter your name">
+
+                                    <hr>
+
+									<button type="submit" class="btn"> Enter</button>
+
+								</form> 
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% else %}
+		<div>
+			<a href="{% url 'linkedhr:login'%} " >>>Login </a>
+		</div>
+	{% endif %}
+
+{% endblock %}

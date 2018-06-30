@@ -11,6 +11,9 @@ urlpatterns = [
 
 	#url(r'^pdf/$', PDFTemplateView.as_view(), name='pdf'),
 
+	url(r'^chatindex/$', views.home, name='chatindex'),
+	url(r'^chat/$', views.chat, name='chat'),
+
 	# /linkedhr/
 	url(r'^$', views.IndexView.as_view(), name='index'),
 	

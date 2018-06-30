@@ -25,6 +25,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'chat.apps.ChatConfig',
+    'channels' ,
     
     
     #'rest_framework',
@@ -103,3 +105,10 @@ LOGIN_REDIRECT_URL = '/linkedhr'
 
 #LOGIN_REDIRECT_URL = '/'
 #LOGOUT_REDIRECT_URL = '/'
+
+CHANNEL_LAYERS = {
+    "default" :{
+        "BACKEND":"asgiref.inmemory.ChannelLayer" ,
+        "ROUTING":"chat.routing.channel_routing" ,
+    }
+}

@@ -26,6 +26,7 @@ from experience.views import ExperienceUpdate, ExperienceView, ExperienceDeleteV
 from document.views import DocumentCreateView, DocumentUpdate, DocumentDelete
 from skill.views import SkillCreateView, SkillDeleteView
 from recruitment.views import RecruitmentCreateView, RecruitmentUpdateView
+from chat.views import home, chat
 
 class PDFTdownloadView(View):
 
@@ -272,7 +273,7 @@ class UserProfileUpdate(SuccessMessageMixin, generic.UpdateView):
 	def get_form(self):
 		return UserProfileForm(**self.get_form_kwargs())
 
-	@method_decorator(login_required(''))
+	
 	def get_object(self, queryset=None):
 		form= UserProfileForm()
 		try:
@@ -359,7 +360,6 @@ class UserProfileDetailTwoView(generic.ListView):
 		else:
 			return redirect('linkedhr:login')  
 
-	@method_decorator(login_required(''))
 	def get_queryset(self):
 		if self.request.user.is_authenticated():
 			try:

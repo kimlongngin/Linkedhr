@@ -96,3 +96,7 @@
 .bs-callout-danger {
     border-left-color: #ce4b45 !important;
 }
+
+.coding{
+	border-bottom: 1px dashed #ccc;
+}
