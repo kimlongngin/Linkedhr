@@ -11,9 +11,11 @@ urlpatterns = [
 
 	#url(r'^pdf/$', PDFTemplateView.as_view(), name='pdf'),
 
-	url(r'^chatindex/$', views.home, name='chatindex'),
-	url(r'^chat/$', views.chat, name='chat'),
+	url(r'^chatroom/$', views.home, name='chatroom'),
 
+	url(r'^chat/$', views.chat, name='chat'),
+	
+	url(r'^ichat/(?P<pk>[0-9]+)/$', views.ichat, name='ichat'),
 	# /linkedhr/
 	url(r'^$', views.IndexView.as_view(), name='index'),
 	
@@ -111,7 +113,7 @@ urlpatterns = [
     # /linkedhr/city/2
     url(r'city/(?P<pk>[0-9]+)/$', views.CityUpdate.as_view(), name='city-update'),
 	# /linkedhr/city/2/delete
-    url(r'city/(?P<pk>[0-9]+)/delete$', views.CityDelete.as_view(), name='city-delete'),
+    url(r'city/(?P<pk>[0-9]+)/delete/$', views.CityDelete.as_view(), name='city-delete'),
 ]
 if settings.DEBUG:
 	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -14,6 +14,7 @@ urlpatterns = [
 
 	url(r'^$', views.home, name='chatindex'),
 	url(r'^chat/$', views.chat, name='chat'),
+	url(r'^ichat/(?P<pk>[0-9]+)/$', views.ichat, name='ichat'),
 
 ]
 if settings.DEBUG:

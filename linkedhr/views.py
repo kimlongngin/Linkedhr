@@ -26,8 +26,8 @@ from experience.views import ExperienceUpdate, ExperienceView, ExperienceDeleteV
 from document.views import DocumentCreateView, DocumentUpdate, DocumentDelete
 from skill.views import SkillCreateView, SkillDeleteView
 from recruitment.views import RecruitmentCreateView, RecruitmentUpdateView
-from chat.views import home, chat
-
+#from chat.views import home, chat
+from chat.views import home, chat, ichat
 class PDFTdownloadView(View):
 
 	@method_decorator(login_required(''))

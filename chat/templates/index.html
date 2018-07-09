@@ -14,26 +14,38 @@
 					<div class="col-md-12 order-md-12">
 						<div class="panel panel-default">
 							<div class="panel-body">	
+								<p class="bg-success success_text"></p>
 								{% if messages %}
 								    {% for message in messages %}
 								      <p class="bg-success success_text">{{ message }}</p>
 								    {% endfor %}
+								
 								{% endif %}	
 
 								<h4 class="mb-3">Chat room </h4>
 								<hr class="mb-4">
+								
 								<form method="post"  id="Chatform" class="form-horizontal needs-validation" action="{% url 'linkedhr:chat' %}" enctype="multipart/form-data" >
 						        
 									{% csrf_token %}
 									
-									<input  class="form-control" type="text" name="username" placeholder="Enter your name">
-
-                                    <hr>
-
-									<button type="submit" class="btn"> Enter</button>
-
+									<input  class="form-control" type="text" name="username" placeholder="Enter your name" value = "{{ user.username }}">
+									<br/>
+									<button type="submit" class="btn" > Start to chat</button> 
 								</form> 
-
+								
+								{% if user.is_superuser == True %}
+									{% for i in room %}
+										<a href="{% url 'linkedhr:ichat' i.label %}"> 
+											{{ i.name }}
+										</a>
+									{% endfor %}
+								{% else %}
+									<a href="{% url 'linkedhr:ichat' user.id %}"> 
+										Chat
+									</a>
+								{% endif %}	
+								
 							</div>
 						</div>
 					</div>

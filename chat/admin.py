@@ -3,4 +3,9 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 
-# Register your models here.
+from .models import Room, Message, RoomUser
+# admin.site.site_header='Linkedhr administration'
+
+admin.site.register(Room)
+admin.site.register(RoomUser)
+admin.site.register(Message)

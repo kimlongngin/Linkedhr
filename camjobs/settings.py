@@ -112,3 +112,13 @@ CHANNEL_LAYERS = {
         "ROUTING":"chat.routing.channel_routing" ,
     }
 }
+
+#CHANNEL_LAYERS = {
+    #"default": {
+        #"BACKEND": "asgi_redis.RedisChannelLayer",
+        #"CONFIG": {
+            #"hosts": [("redis-server-name", 6379)],
+        #},
+        #"ROUTING": "chat.routing.channel_routing",
+    #},
+#}

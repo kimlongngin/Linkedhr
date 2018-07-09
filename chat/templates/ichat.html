@@ -15,15 +15,10 @@
 					<div class="col-md-12 order-md-12">
 						<div class="panel panel-default">
 							<div class="panel-body">	
-								{% if messages %}
-								    {% for message in messages %}
-								      <p class="bg-success success_text">{{ message }}</p>
-								    {% endfor %}
-								{% endif %}	
-
+								
 
                                 <h1 class="mb-3">{{ user.username }} </h1>
-                                {% if messages1 %}
+                                {% if messages1.count > 0 %}
                                 	{%  for i in messages1 %}
                                 		<!-- <h5 style='color:blue;'> {{ i.username }} </h5> -->
 	                                	<div id="messageCanvas" name="messageCanvas">
@@ -31,9 +26,9 @@
 	                                	</div>
                                 	{% endfor %}
                                 {% else %}
-                                	<div id="messageCanvas" name="messageCanvas"></div>
+                                	<div id="messageCanvas" name="messageCanvas">No data</div>
                                 {% endif %}
-								<hr class="mb-4">
+                                <hr class="mb-4">
 								<form class="form-horizontal needs-validation" action="{% url 'linkedhr:chat' %}" method="post" enctype="multipart/form-data" id="Chatform" >
 									{% csrf_token %}
 									<input type="hidden" name="username" value ={{user.username}} placeholder="Enter your name">
