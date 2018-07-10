@@ -8,11 +8,14 @@ from django.core.urlresolvers import reverse_lazy
 from .models import Room, RoomUser, Message
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login, logout
+from django.views.generic import View, TemplateView 
 import random
 import string
 from django.db import transaction
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.contrib import messages
+import json
 
 def home(request):
     title = "my chat room"
@@ -34,7 +37,8 @@ def trackingMessageRoom(chk_user, user_name, pk):
 	try:
 		# filter data from message which by room label clause 
 		room = Room.objects.get(label=pk)
-		message = reversed(room.messages.filter().order_by('-timestamp')[:10])
+		#message = reversed(room.messages.filter().order_by('-timestamp')[:10])
+		message = room.messages.filter().order_by('timestamp')[:10]
 		# context data will use at ichat.html
 	except Room.DoesNotExist:
 		# create new room when room is empty
@@ -50,11 +54,63 @@ def getallroomchat():
 	room = Room.objects.filter(is_status = True)
 	return room
 
+
+class ichat1(View):
+	template_name = 'ichat.html'
+	context = {}
+	room = {}
+
+	def get(self, request, *args, **kwargs):
+		# Call functions function for checking message and room
+		
+		if request.user.is_superuser == True:
+			# room_label = pk
+			room_label = self.kwargs['pk']
+			user_name = request.user.username
+			chk_user=True
+			message = trackingMessageRoom(chk_user, user_name, room_label)
+		
+			# Protect from other user use owner chat.
+			if str(request.user.id) == str(room_label):
+				chk_user=False
+				message = trackingMessageRoom(chk_user, user_name, room_label)
+			else:
+				raise Http404("No room chat.")
+			# return HttpResponseRedirect(reverse('chatroom'))
+			context = {'messages1': message}
+		#return HttpResponseRedirect(reverse('chatroom'))
+		# return HttpResponse(template.render(context,request))
+		return render(request, self.template_name)	
+
+	def post(self, request):
+		form = self.form_class(request.POST)
+		if form.is_valid():
+			# Call functions function for checking message and room			
+			if request.user.is_superuser == True:
+				chk_user=True
+				message = trackingMessageRoom(chk_user, user_name, room_label)
+			else:
+				# Protect from other user use owner chat.
+				if str(request.user.id) == str(room_label):
+					chk_user=False
+					message = trackingMessageRoom(chk_user, user_name, room_label)
+				else:
+					raise Http404("No room chat.")
+
+			user_id = request.user.id
+			username = request.user.username
+			print("ID :"+str(user_id))
+		return render(request, self.template_name, {'form':form})
+		#return render(request, 'ichat.html', {'messages1': messages, "username":username, "userid":user_id})
+		#return render(request, 'chat.html', {'messages1': message, "title":"Title", "username":username, "userid":user_id})
+
+
 # We are taking the id of user to be a chat-room. 
 # First, This chat can use with admin
 # Second, This chat can use with the recruitor with seeker  
 def ichat(request, pk):
-	template = loader.get_template('ichat.html')
+	# template = loader.get_template('ichat.html')
+	template = 'ichat.html'
 	context = {}
 	room = {}
 	if request.user.is_authenticated():			
@@ -62,6 +118,9 @@ def ichat(request, pk):
 		room_label = pk
 		user_name = request.user.username
 		# Start to check data from form with post condition
+		#form = self.form_class(request.POST)
+		#if form.is_valid():
+		
 		if request.method !="POST":
 			# Call functions function for checking message and room
 			if request.user.is_superuser == True:
@@ -76,9 +135,12 @@ def ichat(request, pk):
 					raise Http404("No room chat.")
 			# return HttpResponseRedirect(reverse('chatroom'))
 			context = {'messages1': message}
-			return HttpResponse(template.render(context,request))
+			#return HttpResponseRedirect(reverse('chatroom'))
+			# return HttpResponse(template.render(context,request))
+			return render(request, template, context)
+		
 		else:
-
+			usermsg= request.POST['usermsg']
 			# Call functions function for checking message and room			
 			if request.user.is_superuser == True:
 				chk_user=True
@@ -121,9 +183,9 @@ def chat(request, *args, **kwargs):
 	        return HttpResponseRedirect(reverse('chatroom'))
 	    	#return HttpResponse(template.render(context,request))
 	    else:
+	    	# data = json.loads(request.message['text'])
 	    	user_id = request.user.id
 	    	username = request.user.username
-	    	
 	    	return render(request, 'chat.html', {"username":username, "userid":user_id})
 	    	#return render(request, 'chat.html', {'messages1': messages, "title":title, "username":username, "userid":user_id})
 	else:

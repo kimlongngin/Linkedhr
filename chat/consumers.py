@@ -6,6 +6,7 @@ from django.contrib.auth.views import login, logout
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 import json
+from chat.views import home, chat, ichat
 
 # Connect
 @channel_session
@@ -22,24 +23,27 @@ def ws_message(message, *args, **kwargs):
 	#arrsup_user = []
 	#for i in superuser:
 		#arrsup_user= [i.id]
-	
 	#sup_user= arrsup_user[0]
+	
 	data = json.loads(message['text'])
-	#user_id = data["userid"]
-	#label = 'chat-'+str(user_id)+'-'+str(sup_user)
-	#room = Room.objects.get(label=label)
+	room_id = data["room_id"]
+	user_id = data["userid"]
 	
-	# Add pair of user and admin to array.
-	#arrusrs = [user_id, sup_user]
-	#if room:
-		#Message.objects.create(room=room, message=data["usermsg"])
-		#Group('chat').send({'text':message.content['text']})
-	#else:
-		#new_room = Room.objects.create(name="TextField"+ label, label=label)
-		#Message.objects.create(room=new_room, message=data["usermsg"])
-		#Group('chat').send({'text':message.content['text']})
+	try:		
+		user = User.objects.get(id=user_id)
+	except User.DoesNotExist:
+		raise Http404("Error user connection.")
+
+	try:
+		room = Room.objects.get(label=room_id)
+		Message.objects.create(user = user, room=room, message=data["usermsg"])
+		Group('chat').send({'text':message.content['text']})
+	except Room.DoesNotExist:
+		new_room = Room.objects.create(name="TextField"+ room_id, label=room_id)
+		Message.objects.create(user = user, room=new_room, message=data["usermsg"])
+		Group('chat').send({'text':message.content['text']})
 	
-	Group('chat').send({'text':message.content['text']})
+	#Group('chat').send({'text':message.content['text']})
 #disconnect
 @channel_session
 def ws_disconnect(message):

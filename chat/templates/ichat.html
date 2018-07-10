@@ -22,6 +22,7 @@
                                 	{%  for i in messages1 %}
                                 		<!-- <h5 style='color:blue;'> {{ i.username }} </h5> -->
 	                                	<div id="messageCanvas" name="messageCanvas">
+	                                		<h5 style='color:blue;'> {{ i.user }} </h5>
 	                                		[{{ i.timestamp }}]: {{ i.message }}
 	                                	</div>
                                 	{% endfor %}
@@ -29,13 +30,16 @@
                                 	<div id="messageCanvas" name="messageCanvas">No data</div>
                                 {% endif %}
                                 <hr class="mb-4">
-								<form class="form-horizontal needs-validation" action="{% url 'linkedhr:chat' %}" method="post" enctype="multipart/form-data" id="Chatform" >
+								
+								<form class="form-horizontal needs-validation" action="" method="post" enctype="multipart/form-data" id="Chatform">
+						        
 									{% csrf_token %}
+									{% include 'city/form_template.html' %}
+
 									<input type="hidden" name="username" value ={{user.username}} placeholder="Enter your name">
 									<input type="hidden" name="userid" value ={{user.id}} placeholder="Enter your name">
 									<input class="form-control" type="text" name="usermsg" placeholder="Enter your text here">
-
-									<hr/>
+									<br/>
                                     <button type="submit" class="btn"> send</button>
 
 								</form> 

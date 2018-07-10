@@ -16,6 +16,8 @@ urlpatterns = [
 	url(r'^chat/$', views.chat, name='chat'),
 	
 	url(r'^ichat/(?P<pk>[0-9]+)/$', views.ichat, name='ichat'),
+	
+	#url(r'^ichat/(?P<pk>[0-9]+)/$', views.ichat.as_view(), name='ichat'),
 	# /linkedhr/
 	url(r'^$', views.IndexView.as_view(), name='index'),
 	
