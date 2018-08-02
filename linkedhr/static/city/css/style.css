@@ -59,3 +59,42 @@ border-radius: 11px 11px 11px 11px;
     background-color: #7952B3;
     color: #ffffff;
 }
+
+.recruitor_title {
+    color: red;
+    font-weight: bold;
+    font-size: 35px;
+}
+
+.dash_box 
+{
+    max-height: 200px;
+    height: 200px;
+    border: 0px solid gray;
+    padding-top: 85px;
+    border-radius: 5px;
+    background-color: #7952B3;
+    background-image: -moz-linear-gradient(90deg, #3f5efb 0%, #fc466b 100%);
+    background-image: -webkit-linear-gradient(90deg, #3f5efb 0%, #fc466b 100%);
+    background-image: -ms-linear-gradient(90deg, #3f5efb 0%, #fc466b 100%);
+    color: white !important;    
+    margin-top: 10px; 
+}
+.dash_box a 
+{
+    color : white !important;
+    margin: auto;
+
+} 
+
+.a_dashborad
+{
+    text-align: center;
+    color: #FFFFFF;
+    font-size: 25px;
+    text-decoration: none;
+}
+.a_dashborad a
+{
+ text-decoration: none !important;   
+}

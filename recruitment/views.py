@@ -18,6 +18,52 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.contrib.auth.models import User
 
+class RecruitmentHomeView(TemplateView):
+    model = Recruitment
+    form_class = RecruitmentForm
+    template_name = 'recruitment_home.html'
+    #success_message = "company created successfully"
+
+    @method_decorator(login_required(''))
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated():
+            return super(self.__class__, self).dispatch(request, *args, **kwargs)   
+        else:
+            return redirect('linkedhr:login')
+ 
+class RecruitmentPostView(TemplateView):
+    model = Recruitment
+    form_class = RecruitmentForm
+    template_name = 'recruitment_post.html'
+    #success_message = "company created successfully"
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        # Br = get_object_or_404(Branch, id = self.kwargs['pk'], is_status=True)
+        userprofile_data = UserProfile.objects.filter(user_id=self.request.user.id, is_status=True)
+        for i in userprofile_data:
+            if userprofile_data.count() > 0:
+                if i.is_recruit == "1":
+                    return super(self.__class__, self).dispatch(request, *args, **kwargs)
+                else:
+                    return render(request, "document/error.html")
+            else:
+                return render(request, "document/error.html")
+
+    @method_decorator(login_required)
+    def get(self, request, *args, **kwargs):
+        form = RecruitmentForm(request.user.id)
+        userprofile_data = UserProfile.objects.filter(user_id=self.request.user.id, is_status=True)
+        if userprofile_data.count() > 0:
+            for i in userprofile_data:
+                if i.is_recruit == "1":
+                    posting_data = Recruitment.objects.filter(user_id=self.request.user.id, is_status=True)
+                    return render(request, self.template_name, {'form': form, 'posting_data':posting_data})
+                else:
+                    return render(request, "document/error.html")
+        else:
+                return render(request, "document/error.html")   
+    
 
 class RecruitmentUpdateView(SuccessMessageMixin, generic.UpdateView):
     model = Recruitment
@@ -54,7 +100,6 @@ class RecruitmentUpdateView(SuccessMessageMixin, generic.UpdateView):
         # chUpd = Recruitment.objects .get(id = self.kwargs['pk'], is_status=True)
         if chUpd.count_update > 0:
             return render(request, "update_error.html")
-
 
         userprofile_data = UserProfile.objects.filter(user_id=self.request.user.id, is_status=True)
         if userprofile_data.count() > 0:

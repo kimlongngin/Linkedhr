@@ -1,0 +1,64 @@
+{% extends 'city/base.html' %}
+{% block title %} dashborad {% endblock %}
+{% block city_active %} Active {% endblock %}
+
+{% block body %}
+	
+	{% if user.is_authenticated %}
+
+		<!-- <div class="container"> -->
+		<!--<div class="container-fluid"> -->
+		<div>	
+			<div class="align-items-center">
+				<div class="row">
+					<div class="col-md-12 order-md-12">
+						<div class="panel panel-default">
+							<div class="panel-body">	
+								{% if messages %}
+								    {% for message in messages %}
+								      <p class="bg-success success_text">{{ message }}</p>
+								    {% endfor %}
+								{% endif %}	
+
+								<p class="recruitor_title"> Adminstration </p>
+								<hr class="mb-4">
+									
+								<div class="row">
+									<div class="col-md-4 col-sm-6 a_dashborad">
+										<a href="{% url 'linkedhr:recruitment-post' %}">
+											<div class="dash_box">
+										 		Posting
+											</div>
+										</a>
+									</div>
+									<div class="col-md-4 col-sm-6 a_dashborad">
+										<a href="{% url 'linkedhr:recruitment-create' %}">
+									 		<div class="dash_box">
+										 		Interested list
+											</div>
+										</a>
+									</div>
+									<div class="col-md-4 col-sm-6 a_dashborad">
+										<a href="{% url 'linkedhr:recruitment-create' %}">
+											<div class="dash_box">
+										 		Recruitor
+											</div>
+										</a>
+									</div>
+
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% else %}
+		<div>
+			<a href="{% url 'linkedhr:login'%} " >>>Login </a>
+		</div>
+	{% endif %}
+
+{% endblock %}

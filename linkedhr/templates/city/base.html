@@ -10,15 +10,12 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>	
 	<link rel="stylesheet"  href="{% static 'city/css/style.css' %}"/>
 	<link rel="stylesheet"  href="{% static 'city/css/krotis.css' %}"/>
 	<link rel="stylesheet"  href="{% static 'city/css/pralis.css' %}"/>
 	<link rel="stylesheet"  href="{% static 'city/css/login.css' %}"/>
-    
-
 
     <title>{% block title %}{% endblock %}</title>
 </head>
@@ -63,10 +60,11 @@
 					<ul class="nav navbar-nav navbar-right">
 						{% if user.profile.is_recruit == "1" %}
 							<li class="">
-								<a href="{% url 'linkedhr:recruitment-create' %}">
-									<span class="glyphicon glyphicon-plus" aria-hidden=true> Add </span>
+								<a href="{% url 'linkedhr:recruitment-home' %}">
+									<span class="glyphicon glyphicon-plus" aria-hidden=true> Recruitment </span>
 								</a>
 							</li>
+							
 						{% endif %}
 						<li class="">
 							<a href="{% url 'linkedhr:myuserprofile_without_pk' %}">

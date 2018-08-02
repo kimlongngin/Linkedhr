@@ -1,0 +1,80 @@
+{% extends 'city/base.html' %}
+{% block title %} dashborad {% endblock %}
+{% block city_active %} Active {% endblock %}
+
+{% block body %}
+	
+	{% if user.is_authenticated %}
+
+		<!-- <div class="container"> -->
+		<!--<div class="container-fluid"> -->
+		<div>	
+			<div class="align-items-center">
+				<div class="row">
+					<div class="col-md-12 order-md-12">
+						<div class="panel panel-default">
+							<div class="panel-body">	
+								{% if messages %}
+								    {% for message in messages %}
+								      <p class="bg-success success_text">{{ message }}</p>
+								    {% endfor %}
+								{% endif %}	
+
+								<p class="recruitor_title"> Jobs list </p>
+								<!-- <hr class="mb-4"> -->
+								<table class="table table-bordered"> 
+									<thead> 
+										<tr> 
+											<th>#</th> 
+											<th>Title</th> 
+											<th>Position</th> 
+											<th>Address</th> 
+											<th>Date</th>
+										</tr> 
+									</thead> 
+
+									<tbody> 
+
+										{% if posting_data %}
+											{% for i in posting_data %}
+														
+												<a href="#">
+													<tr>
+														<th scope="row"> {{ i.id }} </th>
+														<td> {{ i.title }} </td>
+														<td> {{ i.position }} </td>
+														<td> {{ i.address }} </td>
+														<td> {{ i.created }} </td>
+													</tr>
+												</a>
+												
+											{% endfor %}
+										{% else %}
+											<h1> No jobs recruited !!!</h1>
+										{% endif %}		
+									</tbody>
+								</table>	
+								
+								<div class="row">
+									<div class="col-md-4 col-sm-6">
+										<a href="{% url 'linkedhr:recruitment-create' %}">
+											
+										</a>
+									</div>
+									
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% else %}
+		<div>
+			<a href="{% url 'linkedhr:login'%} " >>>Login </a>
+		</div>
+	{% endif %}
+
+{% endblock %}
