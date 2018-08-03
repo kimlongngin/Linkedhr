@@ -18,6 +18,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.contrib.auth.models import User
 
+
 class RecruitmentHomeView(TemplateView):
     model = Recruitment
     form_class = RecruitmentForm
@@ -31,13 +32,13 @@ class RecruitmentHomeView(TemplateView):
         else:
             return redirect('linkedhr:login')
  
-class RecruitmentPostView(TemplateView):
-    model = Recruitment
-    form_class = RecruitmentForm
+class RecruitmentPostView(generic.ListView):
     template_name = 'recruitment_post.html'
-    #success_message = "company created successfully"
+    context_object_name = 'posting_data'
+    paginate_by = 10
 
-    @method_decorator(login_required)
+
+    @method_decorator(login_required(''))
     def dispatch(self, request, *args, **kwargs):
         # Br = get_object_or_404(Branch, id = self.kwargs['pk'], is_status=True)
         userprofile_data = UserProfile.objects.filter(user_id=self.request.user.id, is_status=True)
@@ -50,19 +51,34 @@ class RecruitmentPostView(TemplateView):
             else:
                 return render(request, "document/error.html")
 
-    @method_decorator(login_required)
-    def get(self, request, *args, **kwargs):
-        form = RecruitmentForm(request.user.id)
-        userprofile_data = UserProfile.objects.filter(user_id=self.request.user.id, is_status=True)
-        if userprofile_data.count() > 0:
-            for i in userprofile_data:
-                if i.is_recruit == "1":
-                    posting_data = Recruitment.objects.filter(user_id=self.request.user.id, is_status=True)
-                    return render(request, self.template_name, {'form': form, 'posting_data':posting_data})
-                else:
-                    return render(request, "document/error.html")
+    #@method_decorator(login_required(''))          
+    def get_queryset(self):
+        if self.request.user.is_authenticated():
+            userprofile_data = UserProfile.objects.filter(user_id=self.request.user.id, is_status=True)
+            if userprofile_data.count() > 0:
+                for i in userprofile_data:
+                    if i.is_recruit == "1":
+                        posting_data = Recruitment.objects.filter(user_id=self.request.user.id, is_status=True)
+                        return posting_data
+                        #render(request, self.template_name, {'posting_data':posting_data})
+                    else:
+                        return render(request, "document/error.html")
+            else:
+                    return render(request, "document/error.html")           
         else:
-                return render(request, "document/error.html")   
+            return redirect('linkedhr:login')          
+    #@method_decorator(login_required(''))
+    #def get(self, request, *args, **kwargs):
+        #userprofile_data = UserProfile.objects.filter(user_id=self.request.user.id, is_status=True)
+        #if userprofile_data.count() > 0:
+            #for i in userprofile_data:
+                #if i.is_recruit == "1":
+                    #posting_data = Recruitment.objects.filter(user_id=self.request.user.id, is_status=True)
+                    #return render(request, self.template_name, {'posting_data':posting_data})
+                #else:
+                    #return render(request, "document/error.html")
+        #else:
+                #return render(request, "document/error.html")   
     
 
 class RecruitmentUpdateView(SuccessMessageMixin, generic.UpdateView):
@@ -93,7 +109,7 @@ class RecruitmentUpdateView(SuccessMessageMixin, generic.UpdateView):
             else:
                 return render(request, "document/error.html")
 
-    @method_decorator(login_required)
+    @method_decorator(login_required(''))
     def get(self, request, *args, **kwargs):
         form = RecruitmentForm(request.user.id)
         chUpd = get_object_or_404(Recruitment, id=self.kwargs['pk'], is_status=True)
@@ -124,7 +140,7 @@ class RecruitmentCreateView(SuccessMessageMixin, generic.CreateView):
     form_class = RecruitmentForm
     template_name = 'recruiment_create.html'
 
-    @method_decorator(login_required)
+    @method_decorator(login_required(''))
     def dispatch(self, request, *args, **kwargs):
         # Br = get_object_or_404(Branch, id = self.kwargs['pk'], is_status=True)
         userprofile_data = UserProfile.objects.filter(user_id=self.request.user.id, is_status=True)
@@ -137,7 +153,7 @@ class RecruitmentCreateView(SuccessMessageMixin, generic.CreateView):
             else:
                 return render(request, "document/error.html")
 
-    @method_decorator(login_required)
+    @method_decorator(login_required(''))
     def get(self, request, *args, **kwargs):
         form = RecruitmentForm(request.user.id)
         userprofile_data = UserProfile.objects.filter(user_id=self.request.user.id, is_status=True)
@@ -150,7 +166,7 @@ class RecruitmentCreateView(SuccessMessageMixin, generic.CreateView):
         else:
                 return render(request, "document/error.html")
 
-    @method_decorator(login_required)
+    @method_decorator(login_required(''))
     def post(self, request):
         form = RecruitmentForm(self.request.user, request.POST)
         userprofiledata = UserProfile.objects.filter(user_id=request.user.id)

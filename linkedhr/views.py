@@ -110,7 +110,7 @@ class  CompanyDeleteView(SuccessMessageMixin, DeleteView):
 class ListCompanyView(generic.ListView):
 	template_name =  'company/list_company.html'
 	#context_object_name = 'all_companies'
-	paginate_by = 10
+	paginate_by = 2
 
 	@method_decorator(login_required(''))
 	def get(self, request, *args, **kwargs):

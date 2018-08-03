@@ -1,5 +1,5 @@
 {% extends 'city/base.html' %}
-{% block title %} dashborad {% endblock %}
+{% block title %} job list {% endblock %}
 {% block city_active %} Active {% endblock %}
 
 {% block body %}
@@ -22,25 +22,23 @@
 
 								<p class="recruitor_title"> Jobs list </p>
 								<!-- <hr class="mb-4"> -->
-								<table class="table table-bordered"> 
-									<thead> 
-										<tr> 
-											<th>#</th> 
-											<th>Title</th> 
-											<th>Position</th> 
-											<th>Address</th> 
-											<th>Date</th>
-										</tr> 
-									</thead> 
-
-									<tbody> 
-
-										{% if posting_data %}
+								{% if posting_data %}
+									<table class="table table-bordered"> 
+										<thead> 
+											<tr> 
+												<th>#</th> 
+												<th>Title</th> 
+												<th>Position</th> 
+												<th>Address</th> 
+												<th>Recruitment date</th>
+											</tr> 
+										</thead> 
+										<tbody> 
 											{% for i in posting_data %}
 														
 												<a href="#">
 													<tr>
-														<th scope="row"> {{ i.id }} </th>
+														<th scope="row"> <a href = "#">{{ forloop.counter }} </a></th>
 														<td> {{ i.title }} </td>
 														<td> {{ i.position }} </td>
 														<td> {{ i.address }} </td>
@@ -49,21 +47,36 @@
 												</a>
 												
 											{% endfor %}
-										{% else %}
-											<h1> No jobs recruited !!!</h1>
-										{% endif %}		
-									</tbody>
-								</table>	
-								
-								<div class="row">
-									<div class="col-md-4 col-sm-6">
-										<a href="{% url 'linkedhr:recruitment-create' %}">
 											
-										</a>
-									</div>
-									
-								</div>
+										</tbody>
+									</table>	
+								
 
+									{% if is_paginated %}
+										<ul class="pagination">
+										{% if page_obj.has_previous %}
+										    <li>
+										        <span><a href="?page={{ page_obj.previous_page_number }}">Previous</a></span>
+										    </li>
+										{% endif %}
+										    <li class="">
+										        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
+										    </li>
+										{% if page_obj.has_next %}
+										    <li>
+										        <span><a href="?page={{ page_obj.next_page_number }}">Next</a></span>
+										    </li>
+										{% endif %}
+										</ul>
+
+									{% else %}
+										    <h3>Your File Exam</h3>
+										    <p>File not yet available</p>
+									{% endif %}
+
+								{% else %}
+									<h1> No jobs recruited !!!</h1>
+								{% endif %}	
 
 							</div>
 						</div>
