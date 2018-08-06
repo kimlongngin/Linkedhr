@@ -23,14 +23,20 @@
 								<p class="recruitor_title"> Jobs list </p>
 								<!-- <hr class="mb-4"> -->
 								{% if posting_data %}
-									<table class="table table-bordered"> 
+									<table class="table table-bordered tablesorter"  id="myTable"> 
 										<thead> 
 											<tr> 
 												<th>#</th> 
-												<th>Title</th> 
-												<th>Position</th> 
-												<th>Address</th> 
-												<th>Recruitment date</th>
+												<th><a href="?order_by=title"> Title </a></th> 
+												<th><a href="?order_by=position">Position </a></th> 
+												<th><a href="?order_by=address">Address </a></th> 
+												<th><a href="?order_by=company">Company </a></th>
+												<th><a href="?order_by=date_created">Recruitment date </a></th> 
+												<!-- <th> Title </th> 
+												<th>Position </th> 
+												<th>Address </th> 
+												<th>Company </th>
+												<th>Recruitment date</th> -->
 											</tr> 
 										</thead> 
 										<tbody> 
@@ -42,6 +48,7 @@
 														<td> {{ i.title }} </td>
 														<td> {{ i.position }} </td>
 														<td> {{ i.address }} </td>
+														<td> {{ i.company }} </td>
 														<td> {{ i.created }} </td>
 													</tr>
 												</a>
@@ -89,5 +96,13 @@
 			<a href="{% url 'linkedhr:login'%} " >>>Login </a>
 		</div>
 	{% endif %}
+
+<script type="text/javascript">
+	$(document).ready(function() 
+    { 
+        $("#myTable").tablesorter( {sortList: [[0,0], [1,0]]} ); 
+    }); 
+  
+</script>
 
 {% endblock %}

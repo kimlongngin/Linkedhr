@@ -55,10 +55,20 @@ class RecruitmentPostView(generic.ListView):
     def get_queryset(self):
         if self.request.user.is_authenticated():
             userprofile_data = UserProfile.objects.filter(user_id=self.request.user.id, is_status=True)
+            order_by = self.request.GET.get('order_by')
+            if order_by =="" or order_by==None:
+                order_by ="-created"
+            else:
+                if order_by == "date_created":
+                    order_by = "-created"
+                else:
+                    order_by = order_by
+            print(order_by)
             if userprofile_data.count() > 0:
                 for i in userprofile_data:
                     if i.is_recruit == "1":
-                        posting_data = Recruitment.objects.filter(user_id=self.request.user.id, is_status=True)
+                        # posting_data = Recruitment.objects.filter(user_id=self.request.user.id, is_status=True).order_by('-created')
+                        posting_data = Recruitment.objects.filter(user_id=self.request.user.id, is_status=True).order_by(order_by)
                         return posting_data
                         #render(request, self.template_name, {'posting_data':posting_data})
                     else:
