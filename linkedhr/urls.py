@@ -20,6 +20,8 @@ urlpatterns = [
 	#url(r'^ichat/(?P<pk>[0-9]+)/$', views.ichat.as_view(), name='ichat'),
 	# /linkedhr/
 	url(r'^$', views.IndexView.as_view(), name='index'),
+
+	url(r'^home/$', views.HomeView.as_view(), name='home'),
 	
 	# /linkedhr/register
 	url(r'^register/$', views.UserFormView.as_view(), name='register'),

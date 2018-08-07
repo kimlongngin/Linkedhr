@@ -1,0 +1,50 @@
+{% extends 'city/base.html' %}
+{% block title %} jobs list {% endblock %}
+{% block city_active %} Active {% endblock %}
+
+{% block body %}
+
+	<!-- <div class="container"> -->
+	<!--<div class="container-fluid"> -->
+	<div>	
+		<div class="align-items-center">
+			<div class="row">
+				<div class="col-md-12 order-md-12">
+					<div class="panel panel-default">
+						<div class="panel-body">	
+							<h4 class="mb-3">Find jobs</h4>
+							{% if job_list %} 
+								<table class="table table-bordered">
+									<thead>
+										<th> Position </th>
+										<th> Company </th>
+										<th> Country </th>
+										<th> Location </th>
+										<th> Close date </th>
+									</thead>
+									<tbody>
+										{% for i in job_list  %}
+											
+												<tr>
+													
+													<td> <a href="#">{{ i.title }} </a></td>
+													<td> <a href="#"> {{ i.company }} </a> </td>
+													<td> {{ i.address }} </td>
+													<td> {{ i.address }} </td>
+													<td> {{ i.created }} </td>
+													
+												</tr>
+																	
+										{% endfor %}
+									</tbody>
+								</table>
+							{% endif %}
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

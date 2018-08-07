@@ -19,6 +19,15 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 
 
+class HomeView(generic.ListView):
+    template_name =  'index.html'
+    context_object_name = 'job_list'
+    paginate_by = 50
+    def get_queryset(self):
+        data =  Recruitment.objects.all()
+        return data
+
+
 class RecruitmentHomeView(TemplateView):
     model = Recruitment
     form_class = RecruitmentForm

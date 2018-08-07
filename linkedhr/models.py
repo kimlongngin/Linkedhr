@@ -335,6 +335,18 @@ class Apply(models.Model):
 	created = models.DateTimeField(auto_now=True, auto_now_add=False)
 	is_status = models.BooleanField(default=True)
 	def __str__ (self):
-		return self.is_status
+		return self.position
+	class Meta:
+		ordering = ["-created", "-updated"]
+
+class JobPackage(models.Model):
+	title = models.CharField(max_length=30)
+	description = models.TextField()
+	created = models.DateTimeField(auto_now=True, auto_now_add=False)
+	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+	is_status = models.BooleanField(default=True)
+	def __str__(self):
+		return self.title
+
 	class Meta:
 		ordering = ["-created", "-updated"]

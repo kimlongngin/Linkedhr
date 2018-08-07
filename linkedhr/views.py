@@ -25,7 +25,7 @@ from education.views import EducationView, EducationUpdate, EducationDeleteView
 from experience.views import ExperienceUpdate, ExperienceView, ExperienceDeleteView
 from document.views import DocumentCreateView, DocumentUpdate, DocumentDelete
 from skill.views import SkillCreateView, SkillDeleteView
-from recruitment.views import RecruitmentCreateView, RecruitmentUpdateView, RecruitmentHomeView, RecruitmentPostView
+from recruitment.views import HomeView, RecruitmentCreateView, RecruitmentUpdateView, RecruitmentHomeView, RecruitmentPostView
 #from chat.views import home, chat
 from chat.views import home, chat, ichat
 class PDFTdownloadView(View):
