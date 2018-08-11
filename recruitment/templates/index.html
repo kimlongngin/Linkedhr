@@ -13,7 +13,22 @@
 					<div class="panel panel-default">
 						<div class="panel-body">	
 							<h4 class="mb-3">Find jobs</h4>
-							{% if job_list %} 
+							
+							{% if job_list.2 %}
+								{% for i in job_list.2 %}
+									<!-- <a href="?package={{ i.id }}">{{ i.name }}</a> -->
+									<a href="{% url 'linkedhr:detail' i.id %} " > {{ i.name }} </a>
+								{% endfor %}
+							{% endif %}
+
+							{% if job_list.1 %}
+								{% for i in job_list.1 %}
+									<!-- <a href="?type= {{ i.id }}"> {{ i.title }} </a> -->
+									<a href="{% url 'linkedhr:detail' i.id %} " > {{ i.title }} </a>
+								{% endfor %}
+							{% endif %}
+
+							{% if job_list.0 %} 
 								<table class="table table-bordered">
 									<thead>
 										<th> Position </th>
@@ -23,18 +38,14 @@
 										<th> Close date </th>
 									</thead>
 									<tbody>
-										{% for i in job_list  %}
-											
+										{% for i in job_list.0  %}
 												<tr>
-													
 													<td> <a href="#">{{ i.title }} </a></td>
 													<td> <a href="#"> {{ i.company }} </a> </td>
 													<td> {{ i.address }} </td>
 													<td> {{ i.address }} </td>
 													<td> {{ i.created }} </td>
-													
 												</tr>
-																	
 										{% endfor %}
 									</tbody>
 								</table>

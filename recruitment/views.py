@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, logout, login
 from django.views.generic import View, TemplateView
-from linkedhr.models import Recruitment, UserProfile
+from linkedhr.models import Recruitment, UserProfile, JobPackage, JobType
 
 from .forms import RecruitmentForm
 #from linkedhr.forms import ExperienceForm
@@ -23,9 +23,13 @@ class HomeView(generic.ListView):
     template_name =  'index.html'
     context_object_name = 'job_list'
     paginate_by = 50
+
     def get_queryset(self):
         data =  Recruitment.objects.all()
-        return data
+        jobpackage = JobPackage.objects.all()
+        jobtype = JobType.objects.all()
+        all_data = data, jobpackage, jobtype
+        return all_data
 
 
 class RecruitmentHomeView(TemplateView):
@@ -104,7 +108,7 @@ class RecruitmentUpdateView(SuccessMessageMixin, generic.UpdateView):
     model = Recruitment
     form_class = RecruitmentForm
     template_name = 'recruitment_update.html'
-    fields = ['company', 'branch', 'title', 'position', 'sub_position', 'salary', 'number_of_employee',
+    fields = ['company', 'job_package','branch', 'title', 'position', 'sub_position', 'salary', 'number_of_employee',
               'experience', 'start_date', 'due_date', 'email', 'phone_number', 'address', 'description']
     success_message = "Recruitment was updated successfully"
 
@@ -198,6 +202,7 @@ class RecruitmentCreateView(SuccessMessageMixin, generic.CreateView):
                         recruitment.user_id = request.user
                         recruitment.save()
                         company = form.cleaned_data['company']
+                        job_package = form.cleaned_data['job_package']
                         branch = form.cleaned_data['branch']
                         position = form.cleaned_data['position']
                         title = form.cleaned_data['title']

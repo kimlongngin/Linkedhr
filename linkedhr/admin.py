@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Stage, Apply, Recruitment, Education, RecruitmentBranch, JobType, City, District, Villege, Position, UserProfile, Company, Branch, SkillList, Skill, Experience
+from .models import JobPackage, Stage, Apply, Recruitment, Education, RecruitmentBranch, JobType, City, District, Villege, Position, UserProfile, Company, Branch, SkillList, Skill, Experience
 # admin.site.site_header='Linkedhr administration'
 
 admin.site.register(City)
@@ -19,4 +19,5 @@ admin.site.register(RecruitmentBranch)
 admin.site.register(Recruitment)
 admin.site.register(Apply)
 admin.site.register(Stage)
+admin.site.register(JobPackage)
 

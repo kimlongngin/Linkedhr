@@ -294,6 +294,18 @@ class RecruitmentBranch(models.Model):
 	class Meta:
 		ordering = ["-created", "-updated"]
 
+class JobPackage(models.Model):
+	title = models.CharField(max_length=30)
+	description = models.TextField()
+	created = models.DateTimeField(auto_now=True, auto_now_add=False)
+	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+	is_status = models.BooleanField(default=True)
+	def __str__(self):
+		return self.title
+
+	class Meta:
+		ordering = ["-created", "-updated"]
+
 # job has relationship with jobtype in OneToOne
 class Recruitment(models.Model):
 	user_id = models.ForeignKey(User, related_name='user_recruitment', on_delete=models.CASCADE)
@@ -302,6 +314,7 @@ class Recruitment(models.Model):
 	position = models.ForeignKey(Position, on_delete=models.CASCADE)
 	sub_position = models.CharField(max_length=30, blank=False)
 	branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+	job_package  = models.ForeignKey(JobPackage, related_name='jobpackage_recruitment', on_delete=models.CASCADE)
 	salary = models.CharField(max_length=30)
 	number_of_employee = models.IntegerField(default=0)
 	experience = models.CharField(max_length=30)
@@ -339,14 +352,3 @@ class Apply(models.Model):
 	class Meta:
 		ordering = ["-created", "-updated"]
 
-class JobPackage(models.Model):
-	title = models.CharField(max_length=30)
-	description = models.TextField()
-	created = models.DateTimeField(auto_now=True, auto_now_add=False)
-	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
-	is_status = models.BooleanField(default=True)
-	def __str__(self):
-		return self.title
-
-	class Meta:
-		ordering = ["-created", "-updated"]

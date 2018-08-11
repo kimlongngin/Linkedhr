@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django import forms
 from django.forms import ModelForm
-from linkedhr.models import Recruitment, Company, Branch, Position, JobType
+from linkedhr.models import Recruitment, Company, Branch, Position, JobType, JobPackage
 from datetime import date
 from django.shortcuts import render, get_object_or_404, Http404
 from django.core.validators import validate_email
@@ -10,6 +10,10 @@ from django.contrib.auth import authenticate, logout, login
 
 class RecruitmentForm(forms.ModelForm):
     company = forms.ModelChoiceField(
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        queryset=None, required=False)
+
+    job_package = forms.ModelChoiceField(
         widget=forms.Select(attrs={'class': 'form-control'}),
         queryset=None, required=False)
 
@@ -128,6 +132,11 @@ class RecruitmentForm(forms.ModelForm):
             return self.cleaned_data['company']
         raise forms.ValidationError('This field cannot be blank!')
 
+    def clean_job_package(self):
+        if self['job_package'].value() !='':
+            return self.cleaned_data['job_package']
+        raise forms.ValidationError('This field cannot be blank!')    
+
     def clean_branch(self):
         if self['branch'].value() != '':
             return self.cleaned_data['branch']
@@ -160,6 +169,7 @@ class RecruitmentForm(forms.ModelForm):
         super(RecruitmentForm, self).__init__(*args, **kwargs)
         self.fields['company'].queryset = Company.objects.filter(user_id = user)
         self.fields['branch'].queryset = Branch.objects.all()
+        self.fields['job_package'].queryset = JobPackage.objects.all()
         self.fields['position'].queryset = Position.objects.all()
         self.fields['job_type'].queryset = JobType.objects.all()
 
